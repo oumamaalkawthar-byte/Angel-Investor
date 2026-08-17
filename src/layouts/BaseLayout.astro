@@ -10,6 +10,10 @@ interface Props {
 }
 
 const { title, description = 'Angel investor backing early-stage startups.' } = Astro.props;
+
+// Safety default: stays noindex everywhere (local, staging, any host) until
+// PUBLIC_ALLOW_INDEXING=true is explicitly set for the real production deploy.
+const allowIndexing = import.meta.env.PUBLIC_ALLOW_INDEXING === 'true';
 ---
 
 <!doctype html>
@@ -18,6 +22,7 @@ const { title, description = 'Angel investor backing early-stage startups.' } = 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    {!allowIndexing && <meta name="robots" content="noindex, nofollow" />}
     <title>{title} | Angel Investor</title>
     <ClientRouter />
   </head>
