@@ -1,11 +1,8 @@
 # Template for the `deploy` branch's .cpanel.yml — NOT used on `main`.
 # The deploy script (scripts/deploy-dist.sh) copies this into the deploy
-# branch automatically. Edit the DEPLOYPATH line below once you know your
-# cPanel username and the subdomain's actual document root (cPanel shows
-# this when you create the subdomain — usually ~/new.angelinvestor.pk or
-# ~/public_html/new.angelinvestor.pk depending on how it was created).
+# branch automatically on every run.
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/CPANEL_USERNAME/new.angelinvestor.pk/
+    - export DEPLOYPATH=/home/akuedu/public_html/new.angelinvestor.pk/
     - /bin/cp -R * $DEPLOYPATH
