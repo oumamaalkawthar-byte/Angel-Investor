@@ -1,22 +1,38 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const inputClass =
+  'w-full rounded-lg border border-line/60 bg-white/[0.03] px-4 py-3 text-paper placeholder:text-paper/30 outline-none transition-colors focus:border-accent';
+const labelClass = 'text-sm text-paper/70';
 ---
 
-<BaseLayout title="Contact">
-  <h1>Contact</h1>
-  <form method="post">
-    <label>
-      Name
-      <input type="text" name="name" required />
-    </label>
-    <label>
-      Email
-      <input type="email" name="email" required />
-    </label>
-    <label>
-      Message
-      <textarea name="message" required></textarea>
-    </label>
-    <button type="submit">Send</button>
-  </form>
+<BaseLayout title="Contact" description="Get in touch.">
+  <section class="px-6 py-28">
+    <div class="mx-auto max-w-2xl">
+      <p data-reveal class="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-accent">Contact</p>
+      <h1 data-reveal class="font-display text-4xl font-semibold sm:text-5xl">Get in Touch</h1>
+
+      <form method="post" data-reveal class="mt-12 space-y-6">
+        <label class={`flex flex-col gap-2 ${labelClass}`}>
+          Name
+          <input type="text" name="name" required class={inputClass} />
+        </label>
+        <label class={`flex flex-col gap-2 ${labelClass}`}>
+          Email
+          <input type="email" name="email" required class={inputClass} />
+        </label>
+        <label class={`flex flex-col gap-2 ${labelClass}`}>
+          Message
+          <textarea name="message" required rows="5" class={inputClass}></textarea>
+        </label>
+        <button
+          type="submit"
+          data-magnetic
+          class="inline-block rounded-full bg-cta px-8 py-4 font-medium text-ink transition-shadow hover:shadow-[0_0_40px_-8px_var(--color-cta)]"
+        >
+          Send Message
+        </button>
+      </form>
+    </div>
+  </section>
 </BaseLayout>

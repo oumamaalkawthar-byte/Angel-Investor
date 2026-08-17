@@ -7,14 +7,22 @@ const posts = (await getCollection('blog')).sort(
 );
 ---
 
-<BaseLayout title="Blog">
-  <h1>Blog</h1>
-  <ul>
-    {posts.map((post) => (
-      <li>
-        <a href={`/blog/${post.id}`}>{post.data.title}</a>
-        <p>{post.data.description}</p>
-      </li>
-    ))}
-  </ul>
+<BaseLayout title="Blog" description="Insights on founders, funding, and building early.">
+  <section class="px-6 py-28">
+    <div class="mx-auto max-w-4xl">
+      <p data-reveal class="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-accent">Blog</p>
+      <h1 data-reveal class="font-display text-4xl font-semibold sm:text-5xl">Insights</h1>
+      <div class="mt-16 divide-y divide-line/60">
+        {posts.map((post) => (
+          <a href={`/blog/${post.id}`} data-reveal class="block py-8">
+            <p class="font-mono text-xs text-paper/40">{post.data.pubDate.toDateString()}</p>
+            <p class="mt-2 font-display text-2xl font-semibold transition-colors hover:text-accent">
+              {post.data.title}
+            </p>
+            <p class="mt-2 text-paper/60">{post.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
 </BaseLayout>

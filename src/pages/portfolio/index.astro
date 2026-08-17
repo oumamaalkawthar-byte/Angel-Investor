@@ -5,15 +5,29 @@ import { getCollection } from 'astro:content';
 const companies = await getCollection('portfolio');
 ---
 
-<BaseLayout title="Portfolio">
-  <h1>Portfolio</h1>
-  <ul>
-    {companies.map((company) => (
-      <li>
-        <a href={`/portfolio/${company.id}`}>{company.data.company}</a>
-        <span>{company.data.industry}</span>
-        <span>{company.data.stage}</span>
-      </li>
-    ))}
-  </ul>
+<BaseLayout title="Portfolio" description="Companies we've backed.">
+  <section class="px-6 py-28">
+    <div class="mx-auto max-w-6xl">
+      <p data-reveal class="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-accent">Portfolio</p>
+      <h1 data-reveal class="font-display text-4xl font-semibold sm:text-5xl">
+        Companies we've backed.
+      </h1>
+      <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {companies.map((company) => (
+          <a
+            href={`/portfolio/${company.id}`}
+            data-reveal
+            class="group block rounded-2xl border border-line/60 bg-white/[0.02] p-8 transition-colors hover:border-accent/50"
+          >
+            <p class="font-display text-xl font-semibold">{company.data.company}</p>
+            <p class="mt-2 text-sm text-paper/50">{company.data.industry} &middot; {company.data.stage}</p>
+            <p class="mt-4 text-sm text-paper/70">{company.data.summary}</p>
+            <span class="mt-6 inline-block text-sm text-accent opacity-0 transition-opacity group-hover:opacity-100">
+              Read more &rarr;
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
 </BaseLayout>

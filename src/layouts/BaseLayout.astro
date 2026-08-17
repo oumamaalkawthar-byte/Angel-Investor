@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
@@ -18,12 +19,14 @@ const { title, description = 'Angel investor backing early-stage startups.' } = 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title} | Angel Investor</title>
+    <ClientRouter />
   </head>
-  <body>
+  <body class="bg-ink font-body text-paper antialiased selection:bg-accent selection:text-paper">
     <Header />
-    <main>
+    <main class="pt-20">
       <slot />
     </main>
     <Footer />
+    <script src="../scripts/motion.ts"></script>
   </body>
 </html>

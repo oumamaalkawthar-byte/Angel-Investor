@@ -15,8 +15,15 @@ const { Content } = await render(company);
 ---
 
 <BaseLayout title={company.data.company}>
-  <h1>{company.data.company}</h1>
-  <p>{company.data.industry} &middot; {company.data.stage}</p>
-  <p>{company.data.summary}</p>
-  <Content />
+  <article class="px-6 py-28">
+    <div class="mx-auto max-w-3xl">
+      <a href="/portfolio" class="text-sm text-accent transition-colors hover:text-paper">&larr; Portfolio</a>
+      <h1 class="mt-6 font-display text-4xl font-semibold sm:text-5xl">{company.data.company}</h1>
+      <p class="mt-3 font-mono text-sm text-paper/50">{company.data.industry} &middot; {company.data.stage}</p>
+      <p class="mt-6 text-lg text-paper/70">{company.data.summary}</p>
+      <div class="mt-10 space-y-4 text-paper/80 [&_a]:text-accent [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:text-paper">
+        <Content />
+      </div>
+    </div>
+  </article>
 </BaseLayout>
