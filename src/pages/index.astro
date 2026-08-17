@@ -1,17 +1,28 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
 
+const portfolio = await getCollection('portfolio');
+const featured = portfolio.filter((p) => p.data.featured);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Home">
+  <section class="hero">
+    <h1>Backing bold founders from day one.</h1>
+    <p>We invest in early-stage startups with exceptional teams and big ideas.</p>
+    <a href="/apply">Apply for Funding</a>
+  </section>
+
+  <section class="stats">
+    <h2>By the Numbers</h2>
+  </section>
+
+  <section class="featured-portfolio">
+    <h2>Featured Portfolio</h2>
+    <ul>
+      {featured.map((company) => (
+        <li><a href={`/portfolio/${company.id}`}>{company.data.company}</a></li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

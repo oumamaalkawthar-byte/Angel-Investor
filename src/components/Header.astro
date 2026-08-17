@@ -1,0 +1,22 @@
+---
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Portfolio', href: '/portfolio' },
+  { label: 'Team', href: '/team' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Apply', href: '/apply' },
+  { label: 'Contact', href: '/contact' },
+];
+---
+
+<header>
+  <nav>
+    <a href="/" class="brand">Angel Investor</a>
+    <ul>
+      {navItems.map((item) => (
+        <li><a href={item.href}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+</header>

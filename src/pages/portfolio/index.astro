@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const companies = await getCollection('portfolio');
+---
+
+<BaseLayout title="Portfolio">
+  <h1>Portfolio</h1>
+  <ul>
+    {companies.map((company) => (
+      <li>
+        <a href={`/portfolio/${company.id}`}>{company.data.company}</a>
+        <span>{company.data.industry}</span>
+        <span>{company.data.stage}</span>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const team = [
+  // { name: 'Name', role: 'Role', bio: '' },
+];
+---
+
+<BaseLayout title="Team">
+  <h1>Team</h1>
+  <ul>
+    {team.map((member) => (
+      <li>
+        <h2>{member.name}</h2>
+        <p>{member.role}</p>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>
