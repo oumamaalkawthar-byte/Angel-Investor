@@ -1,0 +1,92 @@
+---
+const instruments = [
+  { symbol: 'PSX:KSE100', label: 'KSE 100 Index' },
+  { symbol: 'PSX:OGDC', label: 'OGDC' },
+  { symbol: 'PSX:HBL', label: 'HBL' },
+  { symbol: 'PSX:LUCK', label: 'Lucky Cement' },
+  { symbol: 'PSX:ENGROH', label: 'Engro Holdings' },
+  { symbol: 'PSX:PPL', label: 'PPL' },
+];
+
+const tvUrl = (symbol: string) => `https://www.tradingview.com/symbols/${symbol.replace(':', '-')}/`;
+const loop = [...instruments, ...instruments];
+---
+
+<section class="border-y border-line/60 bg-white/[0.02] py-8">
+  <div class="mb-5 flex items-center justify-between px-6">
+    <p class="font-mono text-xs uppercase tracking-[0.3em] text-accent">Market Pulse &middot; PSX</p>
+    <a href="/market-insights" class="text-xs text-paper/50 transition-colors hover:text-paper">
+      Full market insights &rarr;
+    </a>
+  </div>
+
+  <div class="group relative overflow-hidden">
+    <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-ink to-transparent"></div>
+    <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-ink to-transparent"></div>
+
+    <div class="flex w-max animate-market-marquee gap-4 px-6 group-hover:[animation-play-state:paused]">
+      {loop.map((item) => (
+        <a
+          href={tvUrl(item.symbol)}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex flex-shrink-0 items-center gap-3 rounded-xl border border-line/60 bg-ink px-5 py-3 transition-colors hover:border-accent/50"
+        >
+          <svg width="34" height="20" viewBox="0 0 34 20" fill="none" class="text-accent">
+            <path
+              d="M1 16 L7 10 L12 13 L18 5 L23 9 L33 1"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="animate-pulse-line"
+              pathLength="1"
+            />
+          </svg>
+          <span>
+            <span class="block font-mono text-[10px] uppercase tracking-wide text-paper/40">{item.symbol}</span>
+            <span class="block text-sm font-medium text-paper">{item.label}</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes market-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .animate-market-marquee {
+    animation: market-marquee 32s linear infinite;
+  }
+
+  @keyframes pulse-line {
+    0%,
+    100% {
+      stroke-dashoffset: 1;
+    }
+    50% {
+      stroke-dashoffset: 0;
+    }
+  }
+  .animate-pulse-line {
+    stroke-dasharray: 1;
+    animation: pulse-line 2.4s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-market-marquee {
+      animation: none;
+    }
+    .animate-pulse-line {
+      animation: none;
+      stroke-dashoffset: 0;
+    }
+  }
+</style>
