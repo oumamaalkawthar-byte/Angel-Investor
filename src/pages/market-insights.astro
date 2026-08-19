@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MarketSnapshotCard from '../components/MarketSnapshotCard.astro';
+
+const instruments = [
+  { symbol: 'PSX:KSE100', label: 'KSE 100 Index', description: 'The benchmark index tracking the 100 largest companies on the Pakistan Stock Exchange.' },
+  { symbol: 'PSX:OGDC', label: 'Oil & Gas Development Co.', description: 'Pakistan\'s largest E&P company and a KSE-100 heavyweight.' },
+  { symbol: 'PSX:HBL', label: 'Habib Bank Limited', description: 'One of Pakistan\'s largest commercial banks by assets.' },
+  { symbol: 'PSX:LUCK', label: 'Lucky Cement', description: 'Pakistan\'s leading cement producer and exporter.' },
+  { symbol: 'PSX:ENGROH', label: 'Engro Holdings Limited', description: 'Diversified conglomerate spanning fertilizer, energy, and food.' },
+  { symbol: 'PSX:PPL', label: 'Pakistan Petroleum Ltd.', description: 'Major exploration and production company in the energy sector.' },
+];
+---
+
+<BaseLayout title="Market Insights" description="Track Pakistan Stock Exchange (PSX) and KSE-100 index trends.">
+  <section class="px-6 py-28">
+    <div class="mx-auto max-w-6xl">
+      <p data-reveal class="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-accent">Market Insights</p>
+      <h1 data-reveal class="font-display text-4xl font-semibold sm:text-5xl">How the market is moving.</h1>
+      <p data-reveal class="mt-4 max-w-2xl text-paper/60">
+        Context for founders raising capital and investors sizing up the local market — live
+        KSE-100 index and key PSX-listed companies, powered by TradingView.
+      </p>
+
+      <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {instruments.map((item) => <MarketSnapshotCard {...item} />)}
+      </div>
+
+      <p data-reveal class="mt-12 text-xs text-paper/40">
+        Live charts open on TradingView. Market data is provided by TradingView and PSX and is for
+        informational purposes only — not investment advice.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
