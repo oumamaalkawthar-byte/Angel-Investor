@@ -23,11 +23,11 @@ const TEAM_FACTOR: Record<string, number> = {
 };
 
 const MARKET_FACTOR: Record<string, number> = {
-  'Under PKR 30B': 0.8,
-  'PKR 30B – 150B': 0.9,
-  'PKR 150B – 300B': 1.0,
-  'PKR 300B – 1.5T': 1.1,
-  'PKR 1.5T+': 1.2,
+  'Under PKR 1B': 0.8,
+  'PKR 1B – 10B': 0.9,
+  'PKR 10B – 50B': 1.0,
+  'PKR 50B – 200B': 1.1,
+  'PKR 200B+': 1.2,
 };
 
 const BERKUS_FACTORS = [
@@ -102,7 +102,7 @@ function initCalculator() {
     const stage = (data.get('stage') as string) || 'Early Revenue';
     const sector = (data.get('sector') as string) || 'Other';
     const teamSize = (data.get('team_size') as string) || '2–5';
-    const marketSize = (data.get('market_size') as string) || 'PKR 150B – 300B';
+    const marketSize = (data.get('market_size') as string) || 'PKR 10B – 50B';
 
     const teamFactor = TEAM_FACTOR[teamSize] ?? 1.0;
     const marketFactor = MARKET_FACTOR[marketSize] ?? 1.0;
@@ -241,26 +241,38 @@ function renderDivergingBars(root: HTMLElement, rows: { label: string; deltaPerc
   if (!container) return;
 
   const maxAbs = Math.max(...rows.map((r) => Math.abs(r.deltaPercent)), 1);
+  // Past this width the bar reaches too close to the row-label column for an
+  // outside label to fit without colliding — flip the value label inside the
+  // bar itself instead of clipping or overlapping it.
+  const INSIDE_THRESHOLD = 32;
 
   container.innerHTML = rows
     .map((row) => {
-      const pct = (Math.abs(row.deltaPercent) / maxAbs) * 50; // half-width max per side
+      const pct = Math.max((Math.abs(row.deltaPercent) / maxAbs) * 50, 4); // half-width max per side, floored so tiny deltas stay visible
       const isPositive = row.deltaPercent >= 0;
       const color = isPositive ? STATUS_GOOD : STATUS_BAD;
       const sign = isPositive ? '+' : '−';
+      const valueText = `${sign}${Math.abs(row.deltaPercent).toFixed(0)}%`;
       const barStyle = isPositive
         ? `left:50%; width:${pct}%; border-radius:0 4px 4px 0;`
         : `right:50%; width:${pct}%; border-radius:4px 0 0 4px;`;
-      const labelSide = isPositive ? 'left' : 'right';
-      const labelStyle =
-        labelSide === 'left' ? `left:calc(50% + ${pct}% + 8px);` : `right:calc(50% + ${pct}% + 8px);`;
+
+      const insideLabel =
+        pct >= INSIDE_THRESHOLD
+          ? `<span class="absolute inset-y-0 flex items-center ${isPositive ? 'right-0 pr-2' : 'left-0 pl-2'} font-mono text-[11px] font-semibold text-ink/90">${valueText}</span>`
+          : '';
+      const outsideLabel =
+        pct >= INSIDE_THRESHOLD
+          ? ''
+          : `<span class="absolute top-1/2 -translate-y-1/2 whitespace-nowrap font-mono text-xs text-paper" style="${isPositive ? `left:calc(50% + ${pct}% + 8px);` : `right:calc(50% + ${pct}% + 8px);`}">${valueText}</span>`;
+
       return `
-        <div class="relative flex h-8 items-center">
+        <div class="relative flex h-9 items-center">
           <span class="absolute left-0 w-24 flex-shrink-0 text-xs text-paper/60">${row.label}</span>
-          <div class="relative ml-24 h-2 flex-1">
+          <div class="relative ml-24 h-5 flex-1">
             <div class="absolute inset-y-0 left-1/2 w-px bg-paper/20"></div>
-            <div class="absolute inset-y-0" style="${barStyle} background:${color}"></div>
-            <span class="absolute top-1/2 -translate-y-1/2 whitespace-nowrap font-mono text-xs text-paper" style="${labelStyle}">${sign}${Math.abs(row.deltaPercent).toFixed(0)}%</span>
+            <div class="absolute inset-y-0" style="${barStyle} background:${color}">${insideLabel}</div>
+            ${outsideLabel}
           </div>
         </div>`;
     })
