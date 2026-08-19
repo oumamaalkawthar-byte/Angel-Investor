@@ -118,6 +118,28 @@ function initLineDraw() {
   });
 }
 
+function initBlobReveal() {
+  gsap.utils.toArray<HTMLElement>('[data-blob-reveal]').forEach((el) => {
+    const tween = gsap.fromTo(
+      el,
+      { autoAlpha: 0, scale: 0.55, rotate: -6 },
+      {
+        autoAlpha: 1,
+        scale: 1,
+        rotate: 0,
+        duration: 1.2,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 80%',
+          toggleActions: 'play none none reverse',
+        },
+      }
+    );
+    if (tween.scrollTrigger) ownTriggers.push(tween.scrollTrigger);
+  });
+}
+
 function initAll() {
   ownTriggers.forEach((trigger) => trigger.kill());
   ownTriggers = [];
@@ -133,6 +155,7 @@ function initAll() {
   initCounters();
   initMagnetic();
   initLineDraw();
+  initBlobReveal();
 }
 
 document.addEventListener('astro:page-load', initAll);

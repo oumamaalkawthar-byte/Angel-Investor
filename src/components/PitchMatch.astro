@@ -1,0 +1,49 @@
+---
+const inputs = [
+  { label: 'Pitch deck', hint: 'Problem, market, traction' },
+  { label: 'Funding ask', hint: 'Amount and use of funds' },
+  { label: 'Founding team', hint: 'Who’s building it' },
+];
+---
+
+<section class="border-t border-line/60 bg-white/[0.02] px-6 py-28">
+  <div class="mx-auto max-w-6xl">
+    <div data-reveal class="mb-16 max-w-xl">
+      <p class="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-accent">What We Look At</p>
+      <h2 class="font-display text-3xl font-semibold sm:text-4xl">One pitch, matched to the right investors.</h2>
+    </div>
+
+    <div class="relative rounded-3xl border border-line/60 bg-ink p-8 sm:p-12" data-reveal>
+      <div class="relative grid items-center gap-10 md:grid-cols-[1fr_auto_1fr]">
+        <!-- Inputs -->
+        <div class="space-y-4">
+          {inputs.map((input) => (
+            <div class="rounded-xl border border-line/60 bg-white/[0.02] px-5 py-4">
+              <p class="text-sm font-medium text-paper">{input.label}</p>
+              <p class="mt-1 text-xs text-paper/40">{input.hint}</p>
+            </div>
+          ))}
+        </div>
+
+        <!-- Connector lines (desktop only) -->
+        <svg
+          viewBox="0 0 120 220"
+          class="hidden h-56 w-24 md:block"
+          fill="none"
+          preserveAspectRatio="none"
+        >
+          <path d="M0 30 C 60 30, 60 110, 120 110" stroke="var(--color-accent)" stroke-width="1.5" opacity="0.5" />
+          <path d="M0 110 L 120 110" stroke="var(--color-accent)" stroke-width="1.5" opacity="0.5" />
+          <path d="M0 190 C 60 190, 60 110, 120 110" stroke="var(--color-accent)" stroke-width="1.5" opacity="0.5" />
+        </svg>
+
+        <!-- Output -->
+        <div class="rounded-xl border border-accent/40 bg-accent/10 px-6 py-8 text-center">
+          <p class="font-mono text-[10px] uppercase tracking-widest text-accent">Output</p>
+          <p class="mt-2 font-display text-xl font-semibold text-paper">Matched Investors</p>
+          <p class="mt-2 text-sm text-paper/50">Term sheet in as little as two weeks</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

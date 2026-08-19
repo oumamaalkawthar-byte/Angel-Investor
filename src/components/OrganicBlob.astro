@@ -1,0 +1,27 @@
+---
+interface Props {
+  class?: string;
+  flip?: boolean;
+}
+const { class: className = '', flip = false } = Astro.props;
+---
+
+<div
+  data-blob-reveal
+  aria-hidden="true"
+  class={`pointer-events-none ${className}`}
+  style={flip ? 'transform: scaleX(-1)' : undefined}
+>
+  <svg viewBox="0 0 220 140" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-full w-full">
+    <path
+      d="M8 118C24 96 20 66 44 48C68 30 104 42 128 24C152 6 168 -10 196 8C224 26 214 62 190 82C166 102 142 92 118 108C94 124 66 138 40 130C20 124 -4 134 8 118Z"
+      fill="url(#blob-gradient)"
+    />
+    <defs>
+      <linearGradient id="blob-gradient" x1="0" y1="0" x2="220" y2="140" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="var(--color-cta)" />
+        <stop offset="100%" stop-color="var(--color-accent-dim)" />
+      </linearGradient>
+    </defs>
+  </svg>
+</div>
