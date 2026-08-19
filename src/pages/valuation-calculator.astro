@@ -118,8 +118,19 @@ const berkusFactors = [
         <p data-method-note class="mt-6 text-sm text-paper/60"></p>
 
         <div class="mt-8 rounded-2xl border border-line/60 bg-white/[0.02] p-6">
-          <p class="mb-3 text-sm font-medium text-paper">How this was calculated</p>
-          <div data-breakdown-list></div>
+          <p class="mb-4 text-sm font-medium text-paper">How this was calculated</p>
+
+          <div data-chart-stacked class="hidden">
+            <p class="mb-2 text-xs uppercase tracking-wide text-paper/40">Contribution by factor</p>
+            <div data-stacked-bar class="flex h-4 w-full overflow-hidden rounded-full bg-white/5"></div>
+            <div data-stacked-legend class="mt-4"></div>
+          </div>
+
+          <div data-chart-diverging class="hidden">
+            <p class="mb-4 text-xs uppercase tracking-wide text-paper/40">Adjustment vs. base multiple</p>
+            <div data-diverging-bars class="space-y-3"></div>
+            <div data-breakdown-list class="mt-6 border-t border-line/60 pt-2"></div>
+          </div>
         </div>
 
         <p class="mt-6 text-xs text-paper/40">
