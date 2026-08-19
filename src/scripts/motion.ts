@@ -6,6 +6,10 @@ gsap.registerPlugin(ScrollTrigger);
 const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Triggers created by this module only — kept separate so re-init never
+// kills ScrollTriggers created by other scripts (e.g. scroll-frame-sequence.ts).
+let ownTriggers: ScrollTrigger[] = [];
+
 function showEverythingStatically() {
   gsap.set('[data-reveal], [data-hero-fade], [data-hero-word]', { clearProps: 'all' });
   gsap.utils.toArray<HTMLElement>('[data-counter]').forEach((el) => {
@@ -17,7 +21,7 @@ function showEverythingStatically() {
 
 function initReveals() {
   gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
-    gsap.fromTo(
+    const tween = gsap.fromTo(
       el,
       { autoAlpha: 0, y: 32 },
       {
@@ -32,6 +36,7 @@ function initReveals() {
         },
       }
     );
+    if (tween.scrollTrigger) ownTriggers.push(tween.scrollTrigger);
   });
 }
 
@@ -59,7 +64,7 @@ function initCounters() {
     const target = Number(el.dataset.counter ?? '0');
     const suffix = el.dataset.counterSuffix ?? '';
     const counter = { value: 0 };
-    ScrollTrigger.create({
+    const trigger = ScrollTrigger.create({
       trigger: el,
       start: 'top 85%',
       once: true,
@@ -74,6 +79,7 @@ function initCounters() {
         });
       },
     });
+    ownTriggers.push(trigger);
   });
 }
 
@@ -98,7 +104,7 @@ function initLineDraw() {
   gsap.utils.toArray<SVGPathElement>('[data-line-draw]').forEach((path) => {
     const length = path.getTotalLength();
     gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
-    gsap.to(path, {
+    const tween = gsap.to(path, {
       strokeDashoffset: 0,
       duration: 1.4,
       ease: 'power2.inOut',
@@ -108,11 +114,13 @@ function initLineDraw() {
         toggleActions: 'play none none reverse',
       },
     });
+    if (tween.scrollTrigger) ownTriggers.push(tween.scrollTrigger);
   });
 }
 
 function initAll() {
-  ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+  ownTriggers.forEach((trigger) => trigger.kill());
+  ownTriggers = [];
   gsap.killTweensOf('[data-reveal], [data-hero-fade], [data-hero-word], [data-magnetic]');
 
   if (prefersReducedMotion()) {

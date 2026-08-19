@@ -1,0 +1,33 @@
+---
+interface Props {
+  framePath: string; // e.g. "/frames/network/frame-{n}.jpg"
+  frameCount: number;
+  eyebrow?: string;
+  caption?: string;
+  heightVh?: number;
+}
+
+const { framePath, frameCount, eyebrow, caption, heightVh = 400 } = Astro.props;
+---
+
+<section data-frame-scroll data-frame-path={framePath} data-frame-count={frameCount} class="relative" style={`height: ${heightVh}vh`}>
+  <div class="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden bg-ink">
+    <canvas data-frame-canvas class="h-full w-full"></canvas>
+    {(eyebrow || caption) && (
+      <div class="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+        <div data-frame-caption class="opacity-0">
+          {eyebrow && (
+            <p class="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-accent">{eyebrow}</p>
+          )}
+          {caption && (
+            <p class="max-w-2xl font-display text-3xl font-semibold leading-tight text-paper sm:text-5xl">
+              {caption}
+            </p>
+          )}
+        </div>
+      </div>
+    )}
+  </div>
+</section>
+
+<script src="../scripts/scroll-frame-sequence.ts"></script>

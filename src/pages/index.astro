@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GradientBlob from '../components/GradientBlob.astro';
 import Icon from '../components/Icon.astro';
+import ScrollFrameSequence from '../components/ScrollFrameSequence.astro';
 import { getCollection } from 'astro:content';
 
 const portfolio = await getCollection('portfolio');
@@ -72,6 +73,13 @@ const steps = [
       ))}
     </div>
   </section>
+
+  <ScrollFrameSequence
+    framePath="/frames/network/frame-{n}.jpg"
+    frameCount={90}
+    eyebrow="Our Network"
+    caption="Every deal starts with the right connection."
+  />
 
   <section class="px-6 py-28">
     <div class="mx-auto max-w-6xl">
