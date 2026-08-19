@@ -1,0 +1,41 @@
+---
+interface Option {
+  value: string;
+  title: string;
+  desc: string;
+}
+
+interface Props {
+  label: string;
+  name: string;
+  options: Option[];
+  required?: boolean;
+}
+
+const { label, name, options, required = false } = Astro.props;
+---
+
+<div class="field" data-radio-group={name}>
+  <label class="mb-2 block text-sm font-medium text-paper/80">
+    {label} {required && <span class="text-cta">*</span>}
+  </label>
+  <input type="hidden" name={name} data-radio-value required={required} />
+  <div class="grid gap-3 sm:grid-cols-3">
+    {options.map((opt) => (
+      <button
+        type="button"
+        data-radio-card
+        data-value={opt.value}
+        class="group flex items-start gap-2.5 rounded-xl border border-line/60 bg-white/[0.02] p-4 text-left transition-colors data-[on=true]:border-accent data-[on=true]:bg-accent/10"
+      >
+        <span class="mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full border border-line/60 group-data-[on=true]:border-accent">
+          <span class="hidden h-2 w-2 rounded-full bg-accent group-data-[on=true]:block"></span>
+        </span>
+        <span>
+          <span class="block text-sm font-medium text-paper">{opt.title}</span>
+          <span class="mt-0.5 block text-xs text-paper/50">{opt.desc}</span>
+        </span>
+      </button>
+    ))}
+  </div>
+</div>

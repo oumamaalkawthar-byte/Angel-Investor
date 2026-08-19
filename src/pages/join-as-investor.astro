@@ -1,0 +1,125 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FormField from '../components/form/FormField.astro';
+import ChipGroup from '../components/form/ChipGroup.astro';
+import RadioCardGroup from '../components/form/RadioCardGroup.astro';
+import CheckLine from '../components/form/CheckLine.astro';
+
+const cities = ['Karachi', 'Lahore', 'Islamabad', 'Rawalpindi', 'Faisalabad', 'Peshawar', 'Multan', 'Overseas', 'Other'];
+const sectors = ['FinTech', 'HealthTech', 'EdTech', 'AgriTech', 'E-commerce', 'SaaS', 'CleanTech', 'Logistics', 'DeepTech / AI', 'Any sector'];
+const ticketSizes = ['Under PKR 1M', 'PKR 1M – 2.5M', 'PKR 2.5M – 10M', 'PKR 10M – 25M', 'PKR 25M+'];
+const stagePreferences = ['Idea / MVP', 'Early revenue', 'Growth', 'Any'];
+
+const experienceOptions = [
+  { value: 'First-time', title: 'First-time', desc: 'New to startup investing' },
+  { value: 'Some deals', title: 'Some deals', desc: '1–5 investments made' },
+  { value: 'Experienced', title: 'Experienced', desc: '5+ investments / fund' },
+];
+---
+
+<BaseLayout title="Join as Investor" description="Invest in pre-screened Pakistani startups — Angel Investor by SISL, backed by Al-Kawthar University.">
+  <section class="px-6 py-16" data-investor-form-root>
+    <div class="mx-auto max-w-6xl">
+      <div data-form-view class="grid gap-8 lg:grid-cols-[320px_1fr]">
+        <!-- RAIL -->
+        <aside class="lg:sticky lg:top-28 lg:self-start">
+          <p class="font-mono text-xs uppercase tracking-[0.3em] text-accent">Invest</p>
+          <h1 class="mt-3 font-display text-2xl font-semibold leading-tight">Invest in pre-screened Pakistani startups</h1>
+          <p class="mt-3 text-sm text-paper/60">
+            Every startup you meet has passed SISL's screening and mentorship pipeline. You evaluate,
+            negotiate, and close directly with founders.
+          </p>
+
+          <div class="mt-8 rounded-xl border border-line/60 bg-white/[0.02] p-4 text-xs text-paper/50">
+            <p class="mb-2 font-mono uppercase tracking-wide text-paper/70">What you get</p>
+            <p>Curated deal-flow, not open listings</p>
+            <p class="mt-1">Private pitch events</p>
+            <p class="mt-1">Ethical / Halal-screened businesses</p>
+          </div>
+
+          <div class="mt-4 rounded-xl border border-dashed border-line/60 p-4 text-xs text-paper/50">
+            <p class="mb-2 font-mono uppercase tracking-wide text-paper/70">Process</p>
+            Apply → Short verification call (15 min) → Investor onboarding → Invitations to pitch events
+          </div>
+        </aside>
+
+        <!-- FORM -->
+        <div>
+          <h2 class="font-display text-xl font-semibold">Investor application</h2>
+          <p class="mt-1 text-sm text-paper/50">Takes about 5 minutes. All information is confidential.</p>
+
+          <form class="mt-6">
+            <p class="mb-4 font-mono text-xs uppercase tracking-wide text-accent">1 · Contact</p>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <FormField label="Full name" name="investor_name" required />
+              <FormField label="Email" name="investor_email" type="email" required />
+              <FormField label="Phone / WhatsApp" name="investor_phone" type="tel" required />
+              <FormField label="City" name="investor_city" type="select" required options={cities} />
+              <FormField label="Company / organization" name="investor_org" small="(optional)" />
+              <FormField label="LinkedIn profile" name="investor_linkedin" type="url" small="(strongly recommended)" placeholder="https://linkedin.com/in/…" />
+            </div>
+
+            <p class="mb-4 mt-8 font-mono text-xs uppercase tracking-wide text-accent">2 · Investment preferences</p>
+            <ChipGroup label="Sectors of interest" name="sectors_of_interest" options={sectors} required small="· select all that apply" />
+            <div class="mt-5 grid gap-5 sm:grid-cols-2">
+              <FormField label="Typical ticket size" name="ticket_size" type="select" required options={ticketSizes} />
+              <FormField label="Preferred stage" name="preferred_stage" type="select" required options={stagePreferences} />
+            </div>
+            <div class="mt-5">
+              <RadioCardGroup label="Angel investing experience" name="experience" options={experienceOptions} required />
+            </div>
+            <div class="mt-5">
+              <FormField
+                label="How do you want to add value beyond capital?"
+                name="value_add"
+                type="textarea"
+                rows={3}
+                small="(optional — mentorship, network, industry expertise)"
+              />
+            </div>
+
+            <p class="mb-4 mt-8 font-mono text-xs uppercase tracking-wide text-accent">3 · Declarations</p>
+            <div class="space-y-2.5">
+              <CheckLine
+                name="declaration_confidentiality"
+                required
+                title="Confidentiality agreement"
+                desc="I will keep all startup data (financials, IP, plans) strictly confidential."
+              />
+              <CheckLine
+                name="declaration_source_of_funds"
+                required
+                title="Source-of-funds declaration"
+                desc="I confirm the funds I intend to invest are from legitimate, lawful sources."
+              />
+            </div>
+
+            <div class="mt-8 flex flex-col-reverse items-start gap-4 border-t border-line/60 pt-6 sm:flex-row sm:items-center sm:justify-between">
+              <p class="font-mono text-xs text-paper/40">● Confidential — reviewed only by SISL</p>
+              <button type="submit" data-magnetic class="rounded-full bg-cta px-8 py-3.5 text-sm font-medium text-ink transition-shadow hover:shadow-[0_0_40px_-8px_var(--color-cta)]">
+                Submit Application
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- SUCCESS VIEW -->
+      <div data-success-view class="hidden">
+        <div class="mx-auto max-w-xl rounded-2xl border border-line/60 bg-white/[0.02] p-10 text-center">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-accent/50 bg-accent/10 text-2xl text-accent">✓</div>
+          <h2 class="mt-5 font-display text-2xl font-semibold">Application received</h2>
+          <p class="mt-3 text-sm text-paper/60">
+            Reference no. <span data-ref-number class="font-mono text-paper"></span> · Confirmation email sent.
+            A member of our team will reach out within 5–7 working days to schedule a short verification call.
+          </p>
+          <a href="/" class="mt-6 inline-block rounded-full border border-paper/20 px-6 py-3 text-sm font-medium text-paper transition-colors hover:border-paper/50">
+            Back to home
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="../scripts/investor-form.ts"></script>
+</BaseLayout>

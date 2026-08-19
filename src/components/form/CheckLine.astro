@@ -1,0 +1,22 @@
+---
+interface Props {
+  name: string;
+  title: string;
+  desc: string;
+  link?: { label: string; href: string };
+  required?: boolean;
+}
+
+const { name, title, desc, link, required = false } = Astro.props;
+---
+
+<label class="mb-2.5 flex cursor-pointer items-start gap-3 rounded-xl border border-line/60 bg-white/[0.02] p-4 transition-colors hover:border-paper/30">
+  <input type="checkbox" name={name} required={required} class="mt-0.5 h-4 w-4 flex-shrink-0 accent-accent" />
+  <span>
+    <span class="block text-sm font-medium text-paper">{title}</span>
+    <span class="mt-0.5 block text-xs text-paper/50">
+      {desc}
+      {link && <> <a href={link.href} class="text-accent underline">{link.label}</a></>}
+    </span>
+  </span>
+</label>

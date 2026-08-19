@@ -1,0 +1,48 @@
+---
+interface Props {
+  label: string;
+  name: string;
+  type?: 'text' | 'email' | 'tel' | 'url' | 'textarea' | 'select';
+  placeholder?: string;
+  required?: boolean;
+  hint?: string;
+  small?: string;
+  options?: string[];
+  rows?: number;
+  maxlength?: number;
+}
+
+const {
+  label,
+  name,
+  type = 'text',
+  placeholder,
+  required = false,
+  hint,
+  small,
+  options,
+  rows = 4,
+  maxlength,
+} = Astro.props;
+
+const inputClass =
+  'w-full rounded-lg border border-line/60 bg-white/[0.03] px-4 py-3 text-sm text-paper placeholder:text-paper/30 outline-none transition-colors focus:border-accent';
+---
+
+<div class="field">
+  <label for={name} class="mb-2 block text-sm font-medium text-paper/80">
+    {label} {required && <span class="text-cta">*</span>}
+    {small && <span class="ml-1 font-normal text-paper/40">{small}</span>}
+  </label>
+  {type === 'textarea' ? (
+    <textarea id={name} name={name} required={required} rows={rows} placeholder={placeholder} maxlength={maxlength} class={inputClass}></textarea>
+  ) : type === 'select' ? (
+    <select id={name} name={name} required={required} class={`${inputClass} appearance-none`}>
+      <option value="" selected disabled>{placeholder ?? 'Select...'}</option>
+      {options?.map((opt) => <option value={opt}>{opt}</option>)}
+    </select>
+  ) : (
+    <input id={name} name={name} type={type} required={required} placeholder={placeholder} maxlength={maxlength} class={inputClass} />
+  )}
+  {hint && <p class="mt-1.5 text-xs text-paper/40">{hint}</p>}
+</div>

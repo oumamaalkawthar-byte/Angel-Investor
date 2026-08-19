@@ -1,0 +1,30 @@
+---
+interface Props {
+  label: string;
+  name: string;
+  options: string[];
+  small?: string;
+  required?: boolean;
+}
+
+const { label, name, options, small, required = false } = Astro.props;
+---
+
+<div class="field" data-chip-group={name}>
+  <label class="mb-2 block text-sm font-medium text-paper/80">
+    {label} {required && <span class="text-cta">*</span>}
+    {small && <span class="ml-1 font-normal text-paper/40">{small}</span>}
+  </label>
+  <input type="hidden" name={name} data-chip-value required={required} />
+  <div class="flex flex-wrap gap-2">
+    {options.map((opt) => (
+      <button
+        type="button"
+        data-chip
+        class="rounded-full border border-line/60 px-4 py-2 text-sm text-paper/60 transition-colors data-[on=true]:border-accent data-[on=true]:bg-accent/15 data-[on=true]:text-paper"
+      >
+        {opt}
+      </button>
+    ))}
+  </div>
+</div>
