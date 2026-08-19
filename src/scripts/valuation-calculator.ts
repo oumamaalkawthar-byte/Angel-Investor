@@ -23,11 +23,11 @@ const TEAM_FACTOR: Record<string, number> = {
 };
 
 const MARKET_FACTOR: Record<string, number> = {
-  'Under $100M': 0.8,
-  '$100M – $500M': 0.9,
-  '$500M – $1B': 1.0,
-  '$1B – $5B': 1.1,
-  '$5B+': 1.2,
+  'Under PKR 30B': 0.8,
+  'PKR 30B – 150B': 0.9,
+  'PKR 150B – 300B': 1.0,
+  'PKR 300B – 1.5T': 1.1,
+  'PKR 1.5T+': 1.2,
 };
 
 const BERKUS_FACTORS = [
@@ -102,7 +102,7 @@ function initCalculator() {
     const stage = (data.get('stage') as string) || 'Early Revenue';
     const sector = (data.get('sector') as string) || 'Other';
     const teamSize = (data.get('team_size') as string) || '2–5';
-    const marketSize = (data.get('market_size') as string) || '$500M – $1B';
+    const marketSize = (data.get('market_size') as string) || 'PKR 150B – 300B';
 
     const teamFactor = TEAM_FACTOR[teamSize] ?? 1.0;
     const marketFactor = MARKET_FACTOR[marketSize] ?? 1.0;

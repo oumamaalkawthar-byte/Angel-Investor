@@ -23,6 +23,7 @@
 
 @layer base {
   html {
+    color-scheme: dark;
     background-color: var(--color-ink);
     color: var(--color-paper);
     font-family: var(--font-body);

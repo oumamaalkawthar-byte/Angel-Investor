@@ -37,10 +37,35 @@ const inputClass =
   {type === 'textarea' ? (
     <textarea id={name} name={name} required={required} rows={rows} placeholder={placeholder} maxlength={maxlength} class={inputClass}></textarea>
   ) : type === 'select' ? (
-    <select id={name} name={name} required={required} class={`${inputClass} appearance-none`}>
-      <option value="" selected disabled>{placeholder ?? 'Select...'}</option>
-      {options?.map((opt) => <option value={opt}>{opt}</option>)}
-    </select>
+    <div class="relative" data-select-root>
+      <button
+        type="button"
+        data-select-trigger
+        aria-expanded="false"
+        class={`${inputClass} flex w-full items-center justify-between gap-2 text-left`}
+      >
+        <span data-select-label class="truncate text-paper/30">{placeholder ?? 'Select...'}</span>
+        <svg data-select-chevron class="h-4 w-4 flex-shrink-0 text-paper/40 transition-transform" viewBox="0 0 20 20" fill="none">
+          <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <select id={name} name={name} required={required} tabindex="-1" aria-hidden="true" data-select-native class="sr-only">
+        <option value="" selected disabled>{placeholder ?? 'Select...'}</option>
+        {options?.map((opt) => <option value={opt}>{opt}</option>)}
+      </select>
+      <div data-select-panel role="listbox" class="hidden absolute z-30 mt-2 max-h-64 w-full overflow-auto rounded-lg border border-line/60 bg-[#0d1220] p-1.5 shadow-2xl shadow-black/40">
+        {options?.map((opt) => (
+          <button
+            type="button"
+            data-select-option={opt}
+            role="option"
+            class="block w-full rounded-md px-3 py-2.5 text-left text-sm text-paper/80 transition-colors hover:bg-white/[0.06] data-[active=true]:bg-accent/15 data-[active=true]:text-paper"
+          >
+            {opt}
+          </button>
+        ))}
+      </div>
+    </div>
   ) : (
     <input id={name} name={name} type={type} required={required} placeholder={placeholder} maxlength={maxlength} class={inputClass} />
   )}
