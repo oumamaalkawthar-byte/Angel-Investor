@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const sections = [
+  {
+    title: 'Acceptance of Terms',
+    body: 'By accessing or using this website, submitting a startup application, or registering as an investor, you agree to be bound by these Terms and Conditions.',
+  },
+  {
+    title: 'No Guarantee of Funding or Investment',
+    body: 'Submitting an application or joining our platform does not guarantee selection, mentorship, funding, investment, or business success. Final investment decisions depend on investor interest, independent due diligence, and evaluation.',
+  },
+  {
+    title: 'Not Financial Advice',
+    body: 'Content on this website is provided for general informational purposes only and does not constitute financial, legal, or investment advice. You should seek independent professional advice before making investment decisions.',
+  },
+  {
+    title: 'Accuracy of Information',
+    body: 'Applicants and investors are responsible for ensuring that the information they submit is accurate, complete, and kept up to date.',
+  },
+  {
+    title: 'Intellectual Property',
+    body: 'All content on this website, including text, graphics, and logos, is the property of Angel Investor or its licensors and may not be reproduced without permission.',
+  },
+  {
+    title: 'Limitation of Liability',
+    body: 'We are not liable for any direct, indirect, or consequential loss arising from the use of this website or reliance on any information provided through it, to the fullest extent permitted by law.',
+  },
+  {
+    title: 'Third-Party Links',
+    body: 'Our website may contain links to third-party websites or platforms. We are not responsible for the content, accuracy, or practices of external websites.',
+  },
+  {
+    title: 'Governing Law',
+    body: 'These Terms and Conditions are governed by the laws of Pakistan, and any disputes shall be subject to the exclusive jurisdiction of the courts of Pakistan.',
+  },
+  {
+    title: 'Changes to These Terms',
+    body: 'We may update these Terms and Conditions from time to time. Continued use of the website after changes are posted constitutes acceptance of the revised terms.',
+  },
+  {
+    title: 'Contact Us',
+    body: 'For questions about these Terms and Conditions, please reach out through our Contact page.',
+  },
+];
+---
+
+<BaseLayout title="Terms and Conditions" description="The terms that govern use of our website and platform.">
+  <section class="px-6 py-28">
+    <div class="mx-auto max-w-3xl">
+      <p data-reveal class="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-accent">Legal</p>
+      <h1 data-reveal class="font-display text-4xl font-semibold sm:text-5xl">Terms and Conditions</h1>
+      <p data-reveal class="mt-6 text-paper/70">
+        Please read these terms carefully before using our website or submitting an application.
+      </p>
+
+      <div class="mt-14 space-y-10">
+        {sections.map((section) => (
+          <div data-reveal>
+            <h2 class="font-display text-xl font-semibold">{section.title}</h2>
+            <p class="mt-3 text-sm leading-relaxed text-paper/60">{section.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

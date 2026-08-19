@@ -29,6 +29,12 @@ const links = [
         ))}
       </ul>
     </div>
-    <p class="mt-12 font-mono text-xs text-paper/40">&copy; {year} Angel Investor. All rights reserved.</p>
+    <div class="mt-12 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <p class="font-mono text-xs text-paper/40">&copy; {year} Angel Investor. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="/privacy-policy" class="text-xs text-paper/40 transition-colors hover:text-paper/70">Privacy Policy</a>
+        <a href="/terms-and-conditions" class="text-xs text-paper/40 transition-colors hover:text-paper/70">Terms and Conditions</a>
+      </div>
+    </div>
   </div>
 </footer>
