@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GradientBlob from '../components/GradientBlob.astro';
-import Icon from '../components/Icon.astro';
 import ScrollFrameSequence from '../components/ScrollFrameSequence.astro';
 import StockMarket from '../components/StockMarket.astro';
+import ScrollySteps from '../components/ScrollySteps.astro';
+import EpisodeHighlights from '../components/EpisodeHighlights.astro';
 import { getCollection } from 'astro:content';
 
 const portfolio = await getCollection('portfolio');
@@ -16,12 +17,6 @@ const stats = [
   { value: 18, suffix: 'M+', prefix: '$', label: 'Capital Deployed' },
   { value: 250, suffix: 'K', prefix: '$', label: 'Average Check' },
   { value: 96, suffix: '%', label: 'Founder NPS' },
-];
-
-const steps = [
-  { title: 'Apply', icon: 'send' as const, copy: 'Share your pitch, deck, and traction in a five-minute form.' },
-  { title: 'Diligence', icon: 'search' as const, copy: 'We move fast — a focused call and reference check, not a black box.' },
-  { title: 'Funded', icon: 'rocket' as const, copy: 'Term sheet to wire, typically inside two weeks.' },
 ];
 ---
 
@@ -111,23 +106,9 @@ const steps = [
     </div>
   </section>
 
-  <section class="border-t border-line/60 bg-white/[0.02] px-6 py-28">
-    <div class="mx-auto max-w-6xl">
-      <h2 data-reveal class="mb-14 font-display text-3xl font-semibold sm:text-4xl">How It Works</h2>
-      <div class="grid gap-10 md:grid-cols-3">
-        {steps.map((step, i) => (
-          <div data-reveal>
-            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-accent/30 bg-accent/10 text-accent">
-              <Icon name={step.icon} class="h-6 w-6" />
-            </div>
-            <span class="mt-4 block font-mono text-sm text-accent">0{i + 1}</span>
-            <h3 class="mt-1 font-display text-xl font-semibold">{step.title}</h3>
-            <p class="mt-3 text-sm text-paper/60">{step.copy}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+  <EpisodeHighlights />
+
+  <ScrollySteps />
 
   <section class="px-6 py-28">
     <div data-reveal class="mx-auto flex max-w-4xl flex-col items-center gap-8 rounded-3xl border border-line/60 bg-gradient-to-br from-accent/15 to-cta/10 px-8 py-16 text-center">

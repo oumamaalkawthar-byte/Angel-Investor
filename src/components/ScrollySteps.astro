@@ -1,0 +1,98 @@
+---
+interface Step {
+  tag: string;
+  title: string;
+  copy: string;
+}
+
+const steps: Step[] = [
+  {
+    tag: 'Step 01',
+    title: 'Apply',
+    copy: 'Share your pitch, deck, and traction in a five-minute form — no cold intros needed.',
+  },
+  {
+    tag: 'Step 02',
+    title: 'Diligence',
+    copy: 'We move fast — a focused call and reference check, not a black box that goes quiet for months.',
+  },
+  {
+    tag: 'Step 03',
+    title: 'Funded',
+    copy: 'Term sheet to wire, typically inside two weeks. You keep building — we handle the paperwork.',
+  },
+];
+---
+
+<section class="border-t border-line/60 bg-white/[0.02] px-6 py-28" data-scrolly>
+  <div class="mx-auto max-w-6xl">
+    <h2 data-reveal class="mb-16 font-display text-3xl font-semibold sm:text-4xl">How It Works</h2>
+
+    <div class="grid gap-16 md:grid-cols-2 md:items-start">
+      <!-- Pinned visual mock, one per step -->
+      <div class="md:sticky md:top-24" data-scrolly-visual>
+        <div class="rounded-2xl border border-line/60 bg-ink p-6 shadow-2xl shadow-black/40">
+          <div class="mb-5 flex items-center gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-paper/15"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-paper/15"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-paper/15"></span>
+            <span class="ml-3 font-mono text-[10px] uppercase tracking-widest text-paper/30" data-scrolly-tag>Step 01</span>
+          </div>
+
+          <!-- Apply mock -->
+          <div data-scrolly-frame="0" class="space-y-3">
+            <div class="rounded-lg border border-line/60 bg-white/[0.02] px-4 py-3">
+              <p class="text-[10px] uppercase tracking-wide text-paper/30">Company name</p>
+              <p class="mt-1 text-sm text-paper">Fulflit</p>
+            </div>
+            <div class="rounded-lg border border-line/60 bg-white/[0.02] px-4 py-3">
+              <p class="text-[10px] uppercase tracking-wide text-paper/30">Funding ask</p>
+              <p class="mt-1 font-mono text-sm text-paper">PKR 14,000,000</p>
+            </div>
+            <div class="rounded-lg border border-accent/40 bg-accent/10 px-4 py-3 text-sm text-accent">
+              Pitch deck attached &middot; deck.pdf
+            </div>
+            <div class="rounded-full bg-cta px-4 py-2.5 text-center text-sm font-medium text-ink">Submit Application</div>
+          </div>
+
+          <!-- Diligence mock -->
+          <div data-scrolly-frame="1" class="hidden space-y-3">
+            {['Team verified', 'Pitch deck reviewed', 'Reference call scheduled', 'Traction confirmed'].map((item, i) => (
+              <div class="flex items-center gap-3 rounded-lg border border-line/60 bg-white/[0.02] px-4 py-3">
+                <span class:list={["flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-[10px]", i < 3 ? 'bg-accent text-ink' : 'border border-paper/20 text-transparent']}>
+                  &#10003;
+                </span>
+                <span class="text-sm text-paper/80">{item}</span>
+              </div>
+            ))}
+          </div>
+
+          <!-- Funded mock -->
+          <div data-scrolly-frame="2" class="hidden">
+            <div class="flex flex-col items-center gap-4 rounded-lg border border-accent/40 bg-accent/10 px-6 py-10 text-center">
+              <span class="flex h-14 w-14 items-center justify-center rounded-full bg-accent text-2xl text-ink">&#10003;</span>
+              <p class="font-display text-lg font-semibold text-paper">Term Sheet Signed</p>
+              <p class="font-mono text-sm text-accent">PKR 14,000,000 &middot; 12% equity</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step list -->
+      <div class="space-y-4">
+        {steps.map((step, i) => (
+          <div
+            data-scrolly-step={i}
+            class="rounded-2xl border border-line/60 px-6 py-6 transition-colors data-[active=true]:border-accent/50 data-[active=true]:bg-accent/5"
+          >
+            <span class="font-mono text-xs text-accent">{step.tag}</span>
+            <h3 class="mt-1 font-display text-xl font-semibold">{step.title}</h3>
+            <p class="mt-3 text-sm text-paper/60">{step.copy}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="../scripts/scrolly-steps.ts"></script>
