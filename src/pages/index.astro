@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import GradientBlob from '../components/GradientBlob.astro';
 import Icon from '../components/Icon.astro';
 import ScrollFrameSequence from '../components/ScrollFrameSequence.astro';
-import MarketPulse from '../components/MarketPulse.astro';
+import StockMarket from '../components/StockMarket.astro';
 import { getCollection } from 'astro:content';
 
 const portfolio = await getCollection('portfolio');
@@ -62,7 +62,7 @@ const steps = [
     </div>
   </section>
 
-  <MarketPulse />
+  <StockMarket />
 
   <section class="border-y border-line/60 bg-ink px-6 py-20">
     <div class="mx-auto grid max-w-6xl grid-cols-2 gap-10 md:grid-cols-4">

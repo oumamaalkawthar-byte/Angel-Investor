@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# runtime cache written by public/api/*.php on the live server
+public/api/cache/
