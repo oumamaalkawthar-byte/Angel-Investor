@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import GradientBlob from '../components/GradientBlob.astro';
 import OrganicBlob from '../components/OrganicBlob.astro';
 import ScrollFrameSequence from '../components/ScrollFrameSequence.astro';
 import StockMarket from '../components/StockMarket.astro';
@@ -21,19 +20,29 @@ const stats = [
   { value: 96, suffix: '%', label: 'Founder NPS' },
 ];
 
-// Kept to the top band and the far bottom-right corner — the hero video
-// now occupies the right-center column, so cards can't roam there anymore
-// without overlapping it.
 const explodeCards = [
-  { label: 'Ezee Insure', value: 'PKR 25M raised', pos: 'top-[8%] left-[4%]' },
-  { label: 'BlockLease', value: 'PKR 7M raised', pos: 'top-[8%] right-[4%]' },
-  { label: 'Founder NPS', value: '96%', pos: 'bottom-[4%] right-[4%]' },
+  { label: 'Ezee Insure', value: 'PKR 25M raised', pos: 'top-[12%] left-[4%]' },
+  { label: 'BlockLease', value: 'PKR 7M raised', pos: 'top-[12%] right-[4%]' },
+  { label: 'Companies Funded', value: '42+', pos: 'top-[38%] right-[3%]' },
+  { label: 'Capital Deployed', value: '$18M+', pos: 'top-[56%] right-[3%]' },
+  { label: 'Fulflit', value: '$50K raised', pos: 'bottom-[6%] right-[16%]' },
+  { label: 'Founder NPS', value: '96%', pos: 'bottom-[6%] right-[3%]' },
 ];
 ---
 
 <BaseLayout title="Home">
   <section class="relative flex min-h-[90vh] flex-col justify-center overflow-hidden px-6" data-hero-explode>
-    <GradientBlob />
+    <video
+      src="/video/hero-bts.mp4"
+      poster="/video/hero-bts-poster.jpg"
+      autoplay
+      muted
+      loop
+      playsinline
+      class="absolute inset-0 -z-10 h-full w-full object-cover"
+    ></video>
+    <div class="absolute inset-0 -z-10 bg-ink/70"></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/60 to-ink/20"></div>
 
     <div class="pointer-events-none absolute inset-0 z-0 hidden lg:block" aria-hidden="true">
       {explodeCards.map((card) => (
@@ -44,60 +53,41 @@ const explodeCards = [
       ))}
     </div>
 
-    <div class="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
-      <div class="w-full max-w-xl" data-hero-content>
-        <p data-hero-fade class="mb-6 font-mono text-xs uppercase tracking-[0.3em] text-accent">
-          Early-stage capital &middot; Hands-on partnership
-        </p>
-        <h1 class="font-display text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl">
-          {headline.split(' ').map((word) => (
-            <span class="inline-block overflow-hidden pb-2 align-bottom">
-              <span data-hero-word class="inline-block">{word}&nbsp;</span>
-            </span>
-          ))}
-        </h1>
-        <p data-hero-fade class="mt-8 text-lg text-paper/70">
-          We invest in early-stage startups with exceptional teams and big ideas —
-          writing the first check and staying hands-on through every round after.
-        </p>
-        <div data-hero-fade class="mt-10 flex flex-wrap items-center gap-4">
-          <a
-            href="/apply-as-startup"
-            data-magnetic
-            class="inline-block rounded-full bg-cta px-8 py-4 font-medium text-ink transition-shadow hover:shadow-[0_0_40px_-8px_var(--color-cta)]"
-          >
-            Apply as Startup
-          </a>
-          <a
-            href="/join-as-investor"
-            data-magnetic
-            class="inline-block rounded-full border border-paper/20 px-8 py-4 font-medium text-paper transition-colors hover:border-paper/50"
-          >
-            Join as Investor
-          </a>
-        </div>
-        <p data-hero-fade class="mt-16 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-paper/30">
-          <span class="inline-block h-4 w-px animate-pulse bg-paper/30"></span>
-          Scroll to explore
-        </p>
+    <div class="relative z-10 mx-auto w-full max-w-5xl" data-hero-content>
+      <p data-hero-fade class="mb-6 font-mono text-xs uppercase tracking-[0.3em] text-accent">
+        Early-stage capital &middot; Hands-on partnership
+      </p>
+      <h1 class="max-w-4xl font-display text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
+        {headline.split(' ').map((word) => (
+          <span class="inline-block overflow-hidden pb-2 align-bottom">
+            <span data-hero-word class="inline-block">{word}&nbsp;</span>
+          </span>
+        ))}
+      </h1>
+      <p data-hero-fade class="mt-8 max-w-xl text-lg text-paper/70">
+        We invest in early-stage startups with exceptional teams and big ideas —
+        writing the first check and staying hands-on through every round after.
+      </p>
+      <div data-hero-fade class="mt-10 flex flex-wrap items-center gap-4">
+        <a
+          href="/apply-as-startup"
+          data-magnetic
+          class="inline-block rounded-full bg-cta px-8 py-4 font-medium text-ink transition-shadow hover:shadow-[0_0_40px_-8px_var(--color-cta)]"
+        >
+          Apply as Startup
+        </a>
+        <a
+          href="/join-as-investor"
+          data-magnetic
+          class="inline-block rounded-full border border-paper/20 px-8 py-4 font-medium text-paper transition-colors hover:border-paper/50"
+        >
+          Join as Investor
+        </a>
       </div>
-
-      <div data-hero-fade class="w-56 flex-shrink-0 sm:w-64 lg:w-72">
-        <div class="relative aspect-[9/16] overflow-hidden rounded-2xl border border-line/60 shadow-2xl shadow-black/50">
-          <video
-            src="/video/hero-bts.mp4"
-            poster="/video/hero-bts-poster.jpg"
-            autoplay
-            muted
-            loop
-            playsinline
-            class="h-full w-full object-cover"
-          ></video>
-          <div class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent px-4 pb-4 pt-10">
-            <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-paper/70">Behind The Scenes</p>
-          </div>
-        </div>
-      </div>
+      <p data-hero-fade class="mt-16 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-paper/30">
+        <span class="inline-block h-4 w-px animate-pulse bg-paper/30"></span>
+        Scroll to explore
+      </p>
     </div>
   </section>
 
