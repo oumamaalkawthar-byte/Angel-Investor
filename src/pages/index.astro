@@ -32,6 +32,12 @@ const explodeCards = [
 
 <BaseLayout title="Home">
   <section class="relative flex min-h-[90vh] flex-col justify-center overflow-hidden px-6" data-hero-explode>
+    <img
+      src="/video/hero-bts-poster.jpg"
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 -z-30 h-full w-full scale-110 object-cover opacity-60 blur-3xl"
+    />
     <video
       src="/video/hero-bts.mp4"
       poster="/video/hero-bts-poster.jpg"
@@ -39,10 +45,10 @@ const explodeCards = [
       muted
       loop
       playsinline
-      class="absolute inset-0 -z-10 h-full w-full object-cover"
+      preload="auto"
+      class="absolute inset-0 -z-20 h-full w-full object-contain"
     ></video>
-    <div class="absolute inset-0 -z-10 bg-ink/70"></div>
-    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/60 to-ink/20"></div>
+    <div class="absolute inset-0 -z-10 bg-ink/35"></div>
 
     <div class="pointer-events-none absolute inset-0 z-0 hidden lg:block" aria-hidden="true">
       {explodeCards.map((card) => (
