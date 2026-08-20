@@ -10,10 +10,10 @@
 
 @theme {
   --color-ink: #0a0e17;
-  --color-paper: #f5f3ee;
-  --color-accent: #e8a33d;
-  --color-accent-dim: #b87f2c;
-  --color-cta: #f2a93b;
+  --color-paper: #ffffff;
+  --color-accent: #4f5dff;
+  --color-accent-dim: #3a45c9;
+  --color-cta: #6c63ff;
   --color-line: #1e2436;
 
   --font-display: "Space Grotesk", ui-sans-serif, sans-serif;
