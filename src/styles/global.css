@@ -11,9 +11,9 @@
 @theme {
   --color-ink: #0a0e17;
   --color-paper: #ffffff;
-  --color-accent: #4f5dff;
-  --color-accent-dim: #3a45c9;
-  --color-cta: #6c63ff;
+  --color-accent: #fcbd17;
+  --color-accent-dim: #bd8e11;
+  --color-cta: #fcbd17;
   --color-line: #1e2436;
 
   --font-display: "Space Grotesk", ui-sans-serif, sans-serif;
