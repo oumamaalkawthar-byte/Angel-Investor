@@ -14,7 +14,11 @@ function initSequence(section: HTMLElement) {
 
   const frameCount = parseInt(section.dataset.frameCount ?? '0', 10);
   const framePath = section.dataset.framePath ?? '';
-  const caption = section.querySelector<HTMLElement>('[data-frame-caption]');
+  const captions = Array.from(section.querySelectorAll<HTMLElement>('[data-frame-caption]')).map((el) => ({
+    el,
+    from: parseFloat(el.dataset.from ?? '0'),
+    to: parseFloat(el.dataset.to ?? '1'),
+  }));
   if (!frameCount || !framePath) return;
 
   const frameSrc = (i: number) => framePath.replace('{n}', String(i + 1).padStart(4, '0'));
@@ -75,10 +79,10 @@ function initSequence(section: HTMLElement) {
     onUpdate: (self) => {
       currentIndex = Math.min(frameCount - 1, Math.floor(self.progress * frameCount));
       drawFrame(currentIndex);
-      if (caption) {
-        const visible = self.progress > 0.12 && self.progress < 0.88;
-        gsap.to(caption, { autoAlpha: visible ? 1 : 0, y: visible ? 0 : 16, duration: 0.4, overwrite: true });
-      }
+      captions.forEach(({ el, from, to }) => {
+        const visible = self.progress >= from && self.progress < to;
+        gsap.to(el, { autoAlpha: visible ? 1 : 0, y: visible ? 0 : 16, duration: 0.4, overwrite: true });
+      });
     },
   });
   ownTriggers.push(trigger);

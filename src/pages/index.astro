@@ -103,9 +103,13 @@ const explodeCards = [
 
   <ScrollFrameSequence
     framePath="/frames/network/frame-{n}.jpg"
-    frameCount={90}
-    eyebrow="Our Network"
-    caption="Every deal starts with the right connection."
+    frameCount={80}
+    captions={[
+      { eyebrow: 'Our Network', text: 'Real founders. Real pitches.', from: 0.03, to: 0.28 },
+      { eyebrow: 'Our Network', text: 'A network that listens.', from: 0.28, to: 0.55 },
+      { eyebrow: 'Our Network', text: 'Ideas backed with capital.', from: 0.55, to: 0.8 },
+      { eyebrow: 'Our Network', text: 'Every deal starts with the right connection.', from: 0.8, to: 0.97 },
+    ]}
   />
 
   <section class="px-6 py-28">
