@@ -1,21 +1,46 @@
 ---
-// Visual design adapted from the ChatGPT UI export; data comes from the
-// existing live PSX endpoints (public/api/psx-*.php) — see market-pulse.ts.
-// No demo/placeholder values ship in this markup.
+// Visual design adapted from the ChatGPT UI export, merged with the site's
+// existing ticker marquee + stock search (both were part of the original
+// live Market Pulse and are preserved here). Data comes from the existing
+// live PSX endpoints (public/api/psx-*.php) — see market-pulse.ts.
 ---
 
-<section id="markets" class="bg-paper py-28 lg:py-36">
+<section id="markets" data-market class="bg-paper py-28 lg:py-36">
   <div class="wrap">
     <div class="section-intro">
       <div><p class="eyebrow text-ink">Live market intelligence</p><h2>See the market.<br /><em>Read the momentum.</em></h2></div>
       <p>Designed to make market movement instantly understandable, with the detail available when you need it.</p>
     </div>
 
-    <div data-market class="mt-16 grid overflow-hidden rounded-[24px] bg-deep text-white shadow-[0_35px_90px_rgba(7,27,42,.18)] lg:grid-cols-[320px_1fr]">
+    <!-- Ticker marquee -->
+    <div class="group relative mt-12 overflow-hidden">
+      <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-paper to-transparent"></div>
+      <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-paper to-transparent"></div>
+      <div data-market-ticker class="flex w-max gap-3 animate-market-marquee group-hover:[animation-play-state:paused]">
+        <p class="rounded-xl border border-ink/10 px-5 py-3 text-sm text-muted">Loading live prices&hellip;</p>
+      </div>
+    </div>
+
+    <div class="mt-10 grid overflow-hidden rounded-[24px] bg-deep text-white shadow-[0_35px_90px_rgba(7,27,42,.18)] lg:grid-cols-[320px_1fr]">
       <div class="border-white/10 lg:border-r">
         <div class="flex h-[58px] items-center justify-between border-b border-white/10 px-5 text-[9px] font-bold tracking-[.15em] text-white/45">
           <span>PSX MARKET PULSE</span><i data-market-live class="rounded-full bg-emerald-400/10 px-2 py-1 not-italic text-emerald-300">LIVE</i>
         </div>
+
+        <div class="relative border-b border-white/10 p-3" data-market-search-root>
+          <input
+            type="text"
+            placeholder="Search a stock — e.g. LUCK, HBL"
+            data-market-search
+            autocomplete="off"
+            class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-xs text-white placeholder:text-white/35 outline-none transition-colors focus:border-cta"
+          />
+          <div
+            data-market-search-results
+            class="hidden absolute inset-x-3 top-[calc(100%-4px)] z-30 max-h-64 overflow-auto rounded-xl border border-white/10 bg-[#0d1220] p-1.5 shadow-2xl shadow-black/40"
+          ></div>
+        </div>
+
         <div data-market-list>
           <p class="px-5 py-6 text-xs text-white/40">Loading live prices&hellip;</p>
         </div>
@@ -61,4 +86,15 @@
 
 <style>
   .chart-grid { background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px); background-size:100% 25%,12.5% 100%; }
+
+  @keyframes market-marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .animate-market-marquee {
+    animation: market-marquee 32s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-market-marquee { animation: none; }
+  }
 </style>

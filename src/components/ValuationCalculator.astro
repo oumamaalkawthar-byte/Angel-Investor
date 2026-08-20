@@ -1,0 +1,171 @@
+---
+// The real, validated valuation calculator (Berkus for pre-revenue,
+// Revenue Multiple for revenue-stage) — shared between the dedicated
+// /valuation-calculator page and the homepage so both stay byte-identical
+// in behavior. Logic lives in src/scripts/valuation-calculator.ts, which
+// finds this markup via [data-valuation-calculator].
+import FormField from './form/FormField.astro';
+import RadioCardGroup from './form/RadioCardGroup.astro';
+
+const sectors = ['SaaS', 'FinTech', 'HealthTech', 'DeepTech / AI', 'EdTech', 'AgriTech', 'CleanTech', 'Logistics', 'E-commerce', 'Other'];
+const teamSizes = ['Solo founder', '2–5', '6–10', '11–25', '25+'];
+const marketSizes = ['Under PKR 1B', 'PKR 1B – 10B', 'PKR 10B – 50B', 'PKR 50B – 200B', 'PKR 200B+'];
+
+const stageOptions = [
+  { value: 'Pre-Revenue', title: 'Pre-Revenue', desc: 'Idea, MVP, or pre-launch' },
+  { value: 'Early Revenue', title: 'Early Revenue', desc: 'First paying customers' },
+  { value: 'Growth', title: 'Growth', desc: 'Consistent, scaling revenue' },
+];
+
+const berkusFactors = [
+  { key: 'sound_idea', label: 'Sound idea', hint: 'Basic value — the strength of the core concept' },
+  { key: 'prototype', label: 'Prototype / MVP', hint: 'Reduces technology risk' },
+  { key: 'team_quality', label: 'Quality of management team', hint: 'Reduces execution risk' },
+  { key: 'strategic_relationships', label: 'Strategic relationships', hint: 'Reduces market risk' },
+  { key: 'early_traction', label: 'Early traction / sales', hint: 'Reduces production/go-to-market risk' },
+];
+
+interface Props {
+  heading?: string;
+  headingTag?: 'h1' | 'h2';
+}
+const { heading = "What could your startup be worth?", headingTag: Heading = 'h1' } = Astro.props;
+---
+
+<section class="px-6 py-16" data-valuation-calculator>
+  <div class="mx-auto max-w-3xl">
+    <div data-form-view>
+      <p data-reveal class="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-accent">Valuation Calculator</p>
+      <Heading data-reveal class="font-display text-4xl font-semibold sm:text-5xl">{heading}</Heading>
+      <p data-reveal class="mt-4 text-paper/60">
+        A quick, illustrative estimate using established early-stage frameworks — not a formal
+        valuation. Useful as a starting point before a real conversation with investors.
+      </p>
+
+      <form class="mt-10 space-y-8">
+        <RadioCardGroup label="What stage is your startup at?" name="stage" options={stageOptions} required />
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          <FormField label="Sector" name="sector" type="select" required options={sectors} />
+          <FormField label="Team size" name="team_size" type="select" required options={teamSizes} />
+        </div>
+        <FormField label="Total addressable market (TAM)" name="market_size" type="select" required options={marketSizes} />
+
+        <div data-section="pre-revenue" class="space-y-5 rounded-2xl border border-line/60 bg-white/[0.02] p-6">
+          <p class="text-sm font-medium text-paper">Score each factor from 0 (not present) to 5 (excellent)</p>
+          {berkusFactors.map((f) => (
+            <div>
+              <div class="mb-1.5 flex items-baseline justify-between">
+                <label for={f.key} class="text-sm text-paper/80">{f.label}</label>
+                <span class="font-mono text-sm text-accent" data-berkus-output={f.key}>0</span>
+              </div>
+              <input
+                id={f.key}
+                name={f.key}
+                type="range"
+                min="0"
+                max="5"
+                step="1"
+                value="0"
+                data-berkus-slider
+                class="w-full accent-accent"
+              />
+              <p class="mt-1 text-xs text-paper/40">{f.hint}</p>
+            </div>
+          ))}
+        </div>
+
+        <div data-section="revenue" class="hidden grid gap-5 sm:grid-cols-2">
+          <FormField label="Annual revenue (ARR)" name="arr" type="text" placeholder="e.g. 5000000" hint="In PKR" />
+          <FormField label="YoY growth rate" name="growth_rate" type="text" placeholder="e.g. 80" hint="As a percentage, e.g. 80 for 80%" />
+        </div>
+
+        <button
+          type="submit"
+          data-magnetic
+          class="w-full rounded-full bg-cta px-8 py-4 text-center font-medium text-ink transition-shadow hover:shadow-[0_0_40px_-8px_var(--color-cta)] sm:w-auto"
+        >
+          Calculate Valuation
+        </button>
+      </form>
+    </div>
+
+    <div data-results-view class="hidden">
+      <p class="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-accent">Your Estimate</p>
+      <h2 class="font-display text-3xl font-semibold sm:text-4xl">Here's where your startup likely stands.</h2>
+
+      <div class="mt-10 grid gap-4 sm:grid-cols-3">
+        <div class="rounded-2xl border border-line/60 bg-white/[0.02] p-6">
+          <p class="text-xs uppercase tracking-wide text-paper/40">Low</p>
+          <p class="mt-2 font-mono text-2xl font-semibold text-paper" data-result-low>PKR 0</p>
+        </div>
+        <div class="rounded-2xl border border-accent/50 bg-accent/10 p-6">
+          <p class="text-xs uppercase tracking-wide text-accent">Estimated</p>
+          <p class="mt-2 font-mono text-3xl font-semibold text-paper" data-result-mid>PKR 0</p>
+        </div>
+        <div class="rounded-2xl border border-line/60 bg-white/[0.02] p-6">
+          <p class="text-xs uppercase tracking-wide text-paper/40">High</p>
+          <p class="mt-2 font-mono text-2xl font-semibold text-paper" data-result-high>PKR 0</p>
+        </div>
+      </div>
+
+      <div data-result-multiple-wrap class="hidden mt-4 rounded-xl border border-line/60 bg-white/[0.02] px-5 py-3 text-sm text-paper/70">
+        Implied revenue multiple: <span class="font-mono text-paper" data-result-multiple>0x</span>
+      </div>
+
+      <div class="mt-8">
+        <div class="relative h-2 overflow-hidden rounded-full bg-white/5">
+          <div data-range-fill class="h-full w-0 rounded-full bg-gradient-to-r from-accent/40 via-accent to-cta"></div>
+          <div data-range-marker class="absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-ink bg-paper shadow" style="left: 0%"></div>
+        </div>
+        <div class="mt-2 flex justify-between text-xs text-paper/40">
+          <span>Low</span>
+          <span>High</span>
+        </div>
+      </div>
+
+      <p data-method-note class="mt-6 text-sm text-paper/60"></p>
+
+      <div class="mt-8 rounded-2xl border border-line/60 bg-white/[0.02] p-6">
+        <p class="mb-4 text-sm font-medium text-paper">How this was calculated</p>
+
+        <div data-chart-stacked class="hidden">
+          <p class="mb-2 text-xs uppercase tracking-wide text-paper/40">Contribution by factor</p>
+          <div data-stacked-bar class="flex h-4 w-full overflow-hidden rounded-full bg-white/5"></div>
+          <div data-stacked-legend class="mt-4"></div>
+        </div>
+
+        <div data-chart-diverging class="hidden">
+          <p class="mb-4 text-xs uppercase tracking-wide text-paper/40">Adjustment vs. base multiple</p>
+          <div data-diverging-bars class="space-y-3"></div>
+          <div data-breakdown-list class="mt-6 border-t border-line/60 pt-2"></div>
+        </div>
+      </div>
+
+      <p class="mt-6 text-xs text-paper/40">
+        This is an illustrative estimate for early conversations only — not a formal valuation,
+        audit, or investment offer. Actual valuation depends on due diligence, negotiation, and
+        market conditions at the time of raising.
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a
+          href="/apply-as-startup"
+          data-magnetic
+          class="inline-block rounded-full bg-cta px-8 py-4 font-medium text-ink transition-shadow hover:shadow-[0_0_40px_-8px_var(--color-cta)]"
+        >
+          Apply for Funding
+        </a>
+        <button
+          type="button"
+          data-recalculate
+          class="inline-block rounded-full border border-paper/20 px-8 py-4 font-medium text-paper transition-colors hover:border-paper/50"
+        >
+          Recalculate
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="../scripts/valuation-calculator.ts"></script>
