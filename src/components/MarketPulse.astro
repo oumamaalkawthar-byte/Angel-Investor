@@ -1,0 +1,64 @@
+---
+// Visual design adapted from the ChatGPT UI export; data comes from the
+// existing live PSX endpoints (public/api/psx-*.php) — see market-pulse.ts.
+// No demo/placeholder values ship in this markup.
+---
+
+<section id="markets" class="bg-paper py-28 lg:py-36">
+  <div class="wrap">
+    <div class="section-intro">
+      <div><p class="eyebrow text-ink">Live market intelligence</p><h2>See the market.<br /><em>Read the momentum.</em></h2></div>
+      <p>Designed to make market movement instantly understandable, with the detail available when you need it.</p>
+    </div>
+
+    <div data-market class="mt-16 grid overflow-hidden rounded-[24px] bg-deep text-white shadow-[0_35px_90px_rgba(7,27,42,.18)] lg:grid-cols-[320px_1fr]">
+      <div class="border-white/10 lg:border-r">
+        <div class="flex h-[58px] items-center justify-between border-b border-white/10 px-5 text-[9px] font-bold tracking-[.15em] text-white/45">
+          <span>PSX MARKET PULSE</span><i data-market-live class="rounded-full bg-emerald-400/10 px-2 py-1 not-italic text-emerald-300">LIVE</i>
+        </div>
+        <div data-market-list>
+          <p class="px-5 py-6 text-xs text-white/40">Loading live prices&hellip;</p>
+        </div>
+      </div>
+
+      <div class="p-6 md:p-9">
+        <div class="flex flex-wrap items-start justify-between gap-5">
+          <div>
+            <small data-market-symbol class="block text-[8px] font-bold tracking-[.15em] text-white/35">&mdash;</small>
+            <strong data-market-value class="mt-2 block text-[clamp(34px,4vw,54px)] tracking-[-.06em]">&mdash;</strong>
+            <span data-market-change class="text-xs text-white/40"></span>
+          </div>
+          <div class="flex rounded-full bg-white/[.06] p-1" role="group" aria-label="Chart range">
+            {['1W', '1M', '3M', '1Y'].map((range, index) => (
+              <button data-range={range} class:list={["rounded-full px-3 py-2 text-[9px] text-white/45 transition", index === 1 && "active bg-cta text-deep"]}>{range}</button>
+            ))}
+          </div>
+        </div>
+
+        <div class="chart-grid relative mt-8 h-[280px] overflow-hidden rounded-xl">
+          <svg data-market-svg class="absolute inset-0 h-full w-full" viewBox="0 0 760 280" preserveAspectRatio="none" aria-label="Selected stock market trend">
+            <defs><linearGradient id="marketFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fcbd17" stop-opacity=".35"/><stop offset="1" stop-color="#fcbd17" stop-opacity="0"/></linearGradient></defs>
+            <path data-market-area fill="url(#marketFill)" d="" />
+            <path data-market-line fill="none" stroke="#fcbd17" stroke-width="3" vector-effect="non-scaling-stroke" d="" />
+            <circle data-market-dot cx="0" cy="0" r="6" fill="#fcbd17" stroke="#fff" stroke-width="3" style="display:none" />
+          </svg>
+          <p data-market-chart-empty class="absolute inset-0 hidden items-center justify-center text-xs text-white/30">Chart unavailable right now.</p>
+        </div>
+
+        <div class="grid grid-cols-2 border-t border-white/10 pt-5 text-[9px] md:grid-cols-4">
+          <div><small class="text-white/30">OPEN</small><b data-market-open class="mt-1 block text-xs">&mdash;</b></div>
+          <div><small class="text-white/30">DAY HIGH</small><b data-market-high class="mt-1 block text-xs">&mdash;</b></div>
+          <div><small class="text-white/30">DAY LOW</small><b data-market-low class="mt-1 block text-xs">&mdash;</b></div>
+          <div><small class="text-white/30">VOLUME</small><b data-market-volume class="mt-1 block text-xs">&mdash;</b></div>
+        </div>
+      </div>
+    </div>
+    <p class="mt-4 text-[10px] text-muted">Live data from the Pakistan Stock Exchange trading board, refreshed every few minutes. For informational purposes only — not investment advice.</p>
+  </div>
+</section>
+
+<script src="../scripts/market-pulse.ts"></script>
+
+<style>
+  .chart-grid { background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px); background-size:100% 25%,12.5% 100%; }
+</style>

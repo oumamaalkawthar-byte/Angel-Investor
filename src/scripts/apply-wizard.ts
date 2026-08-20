@@ -30,9 +30,9 @@ function initApplyWizard() {
   }
 
   function populateReview() {
-    const review = wizard.querySelector<HTMLElement>('[data-review-summary]');
+    const review = wizard!.querySelector<HTMLElement>('[data-review-summary]');
     if (!review) return;
-    const data = new FormData(form);
+    const data = new FormData(form!);
     const get = (key: string) => (data.get(key) as string)?.trim() || '—';
     const rows: [string, string][] = [
       ['Founder', get('founder_name')],
@@ -65,7 +65,7 @@ function initApplyWizard() {
     if (stepLabel) stepLabel.textContent = `Step ${n} of ${totalSteps}`;
     if (n === totalSteps) populateReview();
     current = n;
-    wizard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    wizard!.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   wizard.querySelectorAll<HTMLElement>('[data-next]').forEach((btn) => {

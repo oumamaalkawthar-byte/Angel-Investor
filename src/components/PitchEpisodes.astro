@@ -1,0 +1,121 @@
+---
+const episodes = [
+  { ep: "07", id: "ytiuJ1nhh0g", title: "Can They Agree?", startup: "Ezee Insure", terms: "PKR 25M for 4% equity", tag: "InsurTech" },
+  { ep: "06", id: "TUVOdzD6O80", title: "Did The Pitch Impress Them?", startup: "BlockLease", terms: "PKR 7M for 5% equity", tag: "PropTech" },
+  { ep: "05", id: "pWoLe8wa2NA", title: "Will They Make A Deal?", startup: "Fulflit", terms: "$50,000 for 10% equity", tag: "Logistics" },
+  { ep: "04", id: "zvIE2FzfHoI", title: "Investors Said Yes", startup: "Confidential", terms: "PKR 15M for 20% equity", tag: "Consumer" },
+  { ep: "03", id: "8zPS9dMvkjY", title: "Will They Invest?", startup: "Agrogen Realis Nitro", terms: "PKR 5 crore investment ask", tag: "AgriTech" },
+];
+const first = episodes[0];
+---
+
+<section id="episodes" data-episodes class="overflow-clip bg-[#061b2a] py-28 text-white lg:py-36">
+  <div class="wrap mb-20 grid items-end gap-10 lg:grid-cols-2">
+    <p class="eyebrow lg:col-span-2">Proof in public</p>
+    <h2 class="text-[clamp(50px,6.5vw,88px)] font-bold leading-[.92] tracking-[-.06em]">Real founders.<br /><em class="font-serif font-normal">Real conversations.</em></h2>
+    <p class="max-w-[470px] leading-7 text-white/50">Watch entrepreneurs present their ideas, answer hard questions and negotiate with investors. Every episode gives the next founder a clearer view of the process.</p>
+  </div>
+
+  <div class="wrap grid items-start gap-16 lg:grid-cols-[minmax(0,1.45fr)_minmax(300px,.55fr)]">
+    <div class="sticky top-[104px] z-10 bg-[#061b2a] pb-3">
+      <div data-episode-media class="relative h-[min(52vw,490px)] min-h-[330px] overflow-hidden rounded-[24px] bg-navy shadow-[0_35px_100px_rgba(0,0,0,.4)]">
+        <img data-episode-image src={`https://i.ytimg.com/vi/${first.id}/maxresdefault.jpg`} alt={`${first.startup} pitch episode`} class="h-full w-full object-cover" />
+        <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,20,32,.08),rgba(5,20,32,.78)),linear-gradient(90deg,rgba(5,20,32,.6),transparent_60%)]"></div>
+        <a data-episode-link href={`https://www.youtube.com/watch?v=${first.id}`} target="_blank" rel="noreferrer" class="absolute bottom-8 left-8 flex items-center gap-4 text-[10px] font-bold tracking-[.15em]">
+          <span class="flex h-14 w-14 items-center justify-center rounded-full bg-cta pl-1 text-lg text-deep shadow-[0_0_0_12px_rgba(255,189,31,.12)]">▶</span> WATCH EPISODE
+        </a>
+        <div class="absolute right-7 top-6 text-right"><span class="block text-[8px] tracking-[.2em] text-white/50">EPISODE</span><strong data-episode-number class="text-7xl leading-none tracking-[-.08em]">{first.ep}</strong></div>
+        <div class="absolute left-6 top-6 rounded-full border border-white/15 bg-deep/70 px-3 py-2 text-[8px] tracking-[.14em] backdrop-blur-lg"><i class="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-rose-400"></i> REAL PITCH</div>
+      </div>
+
+      <div class="grid grid-cols-2 border-b border-white/10 py-5 md:grid-cols-[1fr_.8fr_1.25fr]">
+        <div class="border-r border-white/10 pr-4"><small class="block text-[7px] tracking-[.15em] text-white/30">STARTUP</small><strong data-episode-startup class="mt-2 block text-xs">{first.startup}</strong></div>
+        <div class="border-r border-white/10 px-4"><small class="block text-[7px] tracking-[.15em] text-white/30">SECTOR</small><strong data-episode-tag class="mt-2 block text-xs">{first.tag}</strong></div>
+        <div class="hidden pl-4 md:block"><small class="block text-[7px] tracking-[.15em] text-white/30">PITCH TERMS</small><strong data-episode-terms class="mt-2 block text-xs">{first.terms}</strong></div>
+      </div>
+
+      <div class="mt-5 flex gap-2">
+        {episodes.map((episode, index) => <button data-episode-nav data-index={index} class:list={["flex-1 text-left text-[9px] transition", index ? "text-white/25" : "text-white"]}><span class:list={["mb-2 block h-0.5", index ? "bg-white/10" : "bg-cta"]}></span><b>{episode.ep}</b></button>)}
+      </div>
+    </div>
+
+    <div>
+      {episodes.map((episode, index) => (
+        <article data-episode-step data-index={index} data-id={episode.id} data-ep={episode.ep} data-title={episode.title} data-startup={episode.startup} data-terms={episode.terms} data-tag={episode.tag} class:list={["flex min-h-[72vh] flex-col justify-center py-[12vh] transition", index ? "opacity-20" : "opacity-100"]}>
+          <span class="text-[9px] font-bold tracking-[.18em] text-cta">EPISODE {episode.ep}</span>
+          <h3 class="my-5 text-[clamp(36px,4vw,55px)] font-bold leading-[.98] tracking-[-.05em]">{episode.title}</h3>
+          <p class="text-sm leading-7 text-white/45"><b class="text-white">{episode.startup}</b> enters with a live pitch and a clear investment ask. Follow the questions, decisions and negotiation as they happen.</p>
+          <a class="mt-6 text-xs font-bold text-cta" href={`https://www.youtube.com/watch?v=${episode.id}`} target="_blank" rel="noreferrer">Watch the full pitch ↗</a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import ScrollTrigger from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initEpisodes() {
+    const root = document.querySelector<HTMLElement>("[data-episodes]");
+    if (!root) return;
+
+    const steps = [...root.querySelectorAll<HTMLElement>("[data-episode-step]")];
+    const nav = [...root.querySelectorAll<HTMLButtonElement>("[data-episode-nav]")];
+    const media = root.querySelector<HTMLElement>("[data-episode-media]");
+    const image = root.querySelector<HTMLImageElement>("[data-episode-image]");
+    const link = root.querySelector<HTMLAnchorElement>("[data-episode-link]");
+    const number = root.querySelector<HTMLElement>("[data-episode-number]");
+    const startup = root.querySelector<HTMLElement>("[data-episode-startup]");
+    const tag = root.querySelector<HTMLElement>("[data-episode-tag]");
+    const terms = root.querySelector<HTMLElement>("[data-episode-terms]");
+    let active = -1;
+
+    const activate = (index: number) => {
+      if (index === active) return;
+      active = index;
+      const step = steps[index];
+      const id = step.dataset.id ?? "";
+      if (image) { image.src = `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`; image.alt = `${step.dataset.startup} pitch episode`; }
+      if (link) link.href = `https://www.youtube.com/watch?v=${id}`;
+      if (number) number.textContent = step.dataset.ep ?? "";
+      if (startup) startup.textContent = step.dataset.startup ?? "";
+      if (tag) tag.textContent = step.dataset.tag ?? "";
+      if (terms) terms.textContent = step.dataset.terms ?? "";
+      gsap.fromTo(media, { opacity: .5, scale: .985 }, { opacity: 1, scale: 1, duration: .52, ease: "power2.out" });
+      steps.forEach((item, i) => gsap.to(item, { opacity: i === index ? 1 : .2, duration: .3 }));
+      nav.forEach((button, i) => {
+        button.className = `flex-1 text-left text-[9px] transition ${i === index ? "text-white" : "text-white/25"}`;
+        const line = button.querySelector("span");
+        if (line) line.className = `mb-2 block h-0.5 ${i === index ? "bg-cta" : "bg-white/10"}`;
+      });
+    };
+
+    const triggers = steps.map((step, index) => ScrollTrigger.create({
+      trigger: step,
+      start: "top 55%",
+      end: "bottom 45%",
+      onEnter: () => activate(index),
+      onEnterBack: () => activate(index),
+    }));
+    activate(0);
+
+    const navHandlers = nav.map((button, index) => {
+      const handler = () => steps[index]?.scrollIntoView({ behavior: "smooth", block: "center" });
+      button.addEventListener("click", handler);
+      return { button, handler };
+    });
+
+    return () => {
+      triggers.forEach((t) => t.kill());
+      navHandlers.forEach(({ button, handler }) => button.removeEventListener("click", handler));
+    };
+  }
+
+  let cleanup: (() => void) | undefined;
+  document.addEventListener("astro:page-load", () => {
+    cleanup?.();
+    cleanup = initEpisodes();
+  });
+</script>

@@ -1,0 +1,150 @@
+---
+const highlights = [
+  { number: "42+", label: "Companies funded", copy: "Founders backed across high-potential sectors, from first conversation to measurable momentum." },
+  { number: "$18M+", label: "Capital deployed", copy: "Investment connected to ambitious businesses with the discipline and potential to scale." },
+  { number: "$250K", label: "Average cheque", copy: "Early-stage capital sized to help serious teams turn traction into their next stage of growth." },
+  { number: "96%", label: "Founder NPS", copy: "A founder experience built around clarity, access and a partnership that lasts beyond the cheque." },
+];
+---
+
+<section id="impact" data-impact class="impact-root tone-0 relative" style={`--steps:${highlights.length}`}>
+  <div data-impact-stage class="impact-stage grid h-svh min-h-[680px] grid-rows-[auto_1fr_auto] overflow-hidden px-[5vw] py-7">
+    <div class="flex items-center justify-between border-b border-current/55 pb-4 text-[9px] uppercase tracking-[.2em] opacity-70">
+      <p class="font-bold">Evidence, not promises</p><span>Angel Investor · Pakistan</span>
+    </div>
+
+    <div class="impact-frame relative grid min-h-0 grid-cols-[.55fr_1.45fr_.78fr] items-center gap-[3vw] max-lg:grid-cols-1">
+      <div class="impact-counter self-center max-lg:absolute max-lg:left-0 max-lg:top-[4vh]">
+        <small class="block text-[clamp(13px,1.35vw,20px)] font-bold">Impact Highlights</small>
+        <div class="flex items-baseline gap-2 text-[clamp(20px,2.1vw,32px)] font-bold">
+          <strong data-impact-index>01</strong><span>• {String(highlights.length).padStart(2, "0")}</span>
+        </div>
+      </div>
+
+      <div data-impact-window class="impact-window relative z-10 h-[min(49vh,430px)] min-h-[320px] w-full max-w-[680px] justify-self-center overflow-hidden rounded-full max-lg:h-[min(45vh,390px)] max-lg:min-h-[290px] max-lg:w-[min(78vw,620px)] max-sm:h-[35vh] max-sm:min-h-[245px] max-sm:w-full" aria-live="polite">
+        <div class="absolute inset-0 rounded-full bg-[linear-gradient(145deg,#fff_0%,#f9fafb_50%,#eef1f3_100%)] shadow-[inset_0_-18px_32px_rgba(13,45,65,.06),0_38px_90px_rgba(7,27,42,.23)]"></div>
+        <div class="absolute inset-0 overflow-hidden rounded-full [perspective:1000px] [transform-style:preserve-3d]">
+          {highlights.map((item, index) => (
+            <div data-impact-number data-index={index} class="impact-number absolute left-1/2 top-1/2 z-10 w-full -translate-x-1/2 -translate-y-1/2 text-center text-[clamp(78px,10.5vw,160px)] font-extrabold leading-[.82] tracking-[-.09em] text-navy opacity-0">
+              {item.number}
+            </div>
+          ))}
+        </div>
+        <span data-impact-label class="absolute bottom-5 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap text-[8px] font-bold uppercase tracking-[.18em] text-[#89949b]">{highlights[0].label}</span>
+      </div>
+
+      <div class="relative min-h-[220px] self-center max-lg:absolute max-lg:bottom-[8vh] max-lg:right-0 max-lg:max-w-[52%] max-sm:static max-sm:max-w-[86%]">
+        {highlights.map((item, index) => (
+          <article data-impact-copy data-index={index} class:list={["impact-copy absolute inset-0 flex flex-col justify-center", index ? "opacity-0" : "opacity-100"]}>
+            <p class="mb-5 text-[10px] font-bold uppercase tracking-[.18em]">{item.label}</p>
+            <h2 class="text-[clamp(22px,2.3vw,34px)] font-medium leading-[1.18] tracking-[-.04em]">{item.copy}</h2>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <div class="flex gap-2">
+      {highlights.map((item, index) => (
+        <button data-impact-nav data-index={index} class:list={["group flex-1 border-0 bg-transparent pt-2 text-left text-current transition", index ? "opacity-25" : "opacity-100"]} aria-label={`Show ${item.label}`}>
+          <span class="mb-2 block h-px origin-left bg-current transition-transform group-[.active]:scale-x-100"></span>
+          <b class="text-[8px] tracking-[.12em]">{String(index + 1).padStart(2, "0")}</b>
+        </button>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import ScrollTrigger from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initImpact() {
+    const root = document.querySelector<HTMLElement>("[data-impact]");
+    if (!root) return;
+
+    const stage = root.querySelector<HTMLElement>("[data-impact-stage]");
+    const numbers = [...root.querySelectorAll<HTMLElement>("[data-impact-number]")];
+    const copies = [...root.querySelectorAll<HTMLElement>("[data-impact-copy]")];
+    const nav = [...root.querySelectorAll<HTMLButtonElement>("[data-impact-nav]")];
+    const counter = root.querySelector<HTMLElement>("[data-impact-index]");
+    const label = root.querySelector<HTMLElement>("[data-impact-label]");
+    const count = numbers.length;
+    let active = -1;
+
+    const setActive = (next: number, immediate = false) => {
+      if (next === active || next < 0 || next >= count) return;
+      active = next;
+      root.className = root.className.replace(/tone-\d/g, `tone-${next}`);
+      if (counter) counter.textContent = String(next + 1).padStart(2, "0");
+      if (label) label.textContent = copies[next]?.querySelector("p")?.textContent ?? "";
+
+      numbers.forEach((number, index) => {
+        const delta = index - next;
+        gsap.to(number, {
+          y: delta === 0 ? 0 : delta < 0 ? -205 : 205,
+          rotationX: delta === 0 ? -3 : delta < 0 ? 30 : -30,
+          z: delta === 0 ? 95 : -45,
+          scale: delta === 0 ? 1.03 : .84,
+          opacity: delta === 0 ? 1 : Math.abs(delta) === 1 ? .2 : 0,
+          filter: delta === 0 ? "drop-shadow(0 20px 12px rgba(7,27,42,.18))" : "none",
+          duration: immediate ? 0 : .78,
+          ease: "power3.out",
+        });
+      });
+
+      copies.forEach((copy, index) => gsap.to(copy, {
+        autoAlpha: index === next ? 1 : 0,
+        y: index === next ? 0 : 18,
+        duration: immediate ? 0 : .42,
+        ease: "power2.out",
+      }));
+      nav.forEach((button, index) => button.classList.toggle("active", index === next));
+      nav.forEach((button, index) => button.style.opacity = index === next ? "1" : ".25");
+    };
+
+    setActive(0, true);
+
+    const trigger = ScrollTrigger.create({
+      trigger: root,
+      start: "top top",
+      end: () => `+=${Math.max(1, count - 1) * window.innerHeight}`,
+      pin: stage,
+      pinSpacing: false,
+      invalidateOnRefresh: true,
+      onUpdate: self => setActive(Math.round(self.progress * (count - 1))),
+    });
+
+    nav.forEach((button, index) => button.addEventListener("click", () => {
+      const distance = Math.max(1, count - 1) * window.innerHeight;
+      window.scrollTo({ top: root.offsetTop + distance * (index / Math.max(1, count - 1)), behavior: "smooth" });
+    }));
+
+    return () => trigger.kill();
+  }
+
+  let cleanup: (() => void) | undefined;
+  document.addEventListener("astro:page-load", () => {
+    cleanup?.();
+    cleanup = initImpact();
+  });
+</script>
+
+<style>
+  .impact-root { height: calc(var(--steps) * 100svh); transition: background-color .65s ease, color .65s ease; }
+  .tone-0 { background:#ffbd1f; color:#071b2a; }
+  .tone-1 { background:#071b2a; color:#fff; }
+  .tone-2 { background:#f6f4ee; color:#0b2940; }
+  .tone-3 { background:#17435d; color:#fff; }
+  .impact-number { transform-style: preserve-3d; will-change: transform, opacity; }
+  [data-impact-nav] span { transform: scaleX(.15); }
+  [data-impact-nav].active span { transform: scaleX(1); }
+  @media (max-width: 640px) {
+    .impact-stage { padding-inline:20px; }
+    .impact-frame { padding-block:9vh 8vh; }
+    .impact-number { font-size:clamp(68px,23vw,108px); }
+    .impact-copy { position:relative; min-height:150px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .impact-root { transition:none; } }
+</style>
