@@ -32,12 +32,6 @@ const explodeCards = [
 
 <BaseLayout title="Home">
   <section class="relative flex min-h-[90vh] flex-col justify-center overflow-hidden px-6" data-hero-explode>
-    <img
-      src="/video/hero-bts-poster.jpg"
-      alt=""
-      aria-hidden="true"
-      class="absolute inset-0 -z-30 h-full w-full scale-110 object-cover opacity-60 blur-3xl"
-    />
     <video
       src="/video/hero-bts.mp4"
       poster="/video/hero-bts-poster.jpg"
@@ -46,9 +40,9 @@ const explodeCards = [
       loop
       playsinline
       preload="auto"
-      class="absolute inset-0 -z-20 h-full w-full object-contain"
+      class="absolute inset-0 -z-20 h-full w-full object-cover"
     ></video>
-    <div class="absolute inset-0 -z-10 bg-ink/35"></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/10 to-ink/40"></div>
 
     <div class="pointer-events-none absolute inset-0 z-0 hidden lg:block" aria-hidden="true">
       {explodeCards.map((card) => (
@@ -63,14 +57,14 @@ const explodeCards = [
       <p data-hero-fade class="mb-6 font-mono text-xs uppercase tracking-[0.3em] text-accent">
         Early-stage capital &middot; Hands-on partnership
       </p>
-      <h1 class="max-w-4xl font-display text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
+      <h1 class="max-w-4xl font-display text-5xl font-semibold leading-[1.05] tracking-tight drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)] sm:text-6xl md:text-7xl">
         {headline.split(' ').map((word) => (
           <span class="inline-block overflow-hidden pb-2 align-bottom">
             <span data-hero-word class="inline-block">{word}&nbsp;</span>
           </span>
         ))}
       </h1>
-      <p data-hero-fade class="mt-8 max-w-xl text-lg text-paper/70">
+      <p data-hero-fade class="mt-8 max-w-xl text-lg text-paper/90 drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)]">
         We invest in early-stage startups with exceptional teams and big ideas —
         writing the first check and staying hands-on through every round after.
       </p>
