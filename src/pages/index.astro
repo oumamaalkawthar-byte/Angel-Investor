@@ -4,7 +4,6 @@ import HeroVideo from '../components/HeroVideo.astro';
 import ImpactHighlights from '../components/ImpactHighlights.astro';
 import MarketPulse from '../components/MarketPulse.astro';
 import PitchEpisodes from '../components/PitchEpisodes.astro';
-import PitchMatch from '../components/PitchMatch.astro';
 import ValuationCalculator from '../components/ValuationCalculator.astro';
 import ScrollySteps from '../components/ScrollySteps.astro';
 import StartupCTA from '../components/StartupCTA.astro';
@@ -49,8 +48,6 @@ const featured = portfolio.filter((p) => p.data.featured);
       </div>
     </div>
   </section>
-
-  <PitchMatch />
 
   <div class="border-t border-line/60 bg-ink">
     <ValuationCalculator headingTag="h2" />
