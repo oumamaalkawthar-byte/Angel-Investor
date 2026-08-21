@@ -5,7 +5,7 @@ import ImpactHighlights from '../components/ImpactHighlights.astro';
 import MarketPulse from '../components/MarketPulse.astro';
 import PitchEpisodes from '../components/PitchEpisodes.astro';
 import ValuationCalculator from '../components/ValuationCalculator.astro';
-import ScrollySteps from '../components/ScrollySteps.astro';
+import HowItWorks from '../components/sections/HowItWorks.astro';
 import StartupCTA from '../components/StartupCTA.astro';
 import { getCollection } from 'astro:content';
 
@@ -53,7 +53,7 @@ const featured = portfolio.filter((p) => p.data.featured);
     <ValuationCalculator headingTag="h2" />
   </div>
 
-  <ScrollySteps />
+  <HowItWorks />
 
   <StartupCTA />
 </BaseLayout>

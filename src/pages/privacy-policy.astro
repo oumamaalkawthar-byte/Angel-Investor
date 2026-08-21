@@ -1,68 +1,32 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalPage from '../components/legal/LegalPage.astro';
+import type { LegalSection } from '../components/legal/legal-types';
 
-const sections = [
-  {
-    title: 'Information We Collect',
-    body: 'When you apply for funding, join as an investor, or contact us, we may collect your name, email, phone number, organization details, startup or investment information, pitch decks, financial projections, and other information you choose to submit through our forms.',
-  },
-  {
-    title: 'How We Use Your Information',
-    body: 'We use submitted information to review applications, screen startups, onboard investors, coordinate mentorship, communicate with you, and conduct due diligence. We do not use your information for purposes unrelated to these activities without your consent.',
-  },
-  {
-    title: 'Confidentiality of Applications',
-    body: 'Startup applications, pitch decks, financial projections, and investor details are treated as confidential. Access is limited to authorized team members and stakeholders directly involved in evaluation and decision-making.',
-  },
-  {
-    title: 'Sharing of Information',
-    body: 'We do not sell personal or business information. Information may be shared only when necessary for application review, investor matching, due diligence, legal compliance, or platform operations.',
-  },
-  {
-    title: 'Data Security',
-    body: 'We take reasonable technical and organizational measures to protect submitted information from unauthorized access, misuse, or disclosure. No online system can be guaranteed completely secure, and we encourage you to avoid sharing sensitive information beyond what a form requests.',
-  },
-  {
-    title: 'Data Retention',
-    body: 'We retain submitted information for as long as necessary for application review, communication, compliance, and record-keeping. You may contact us to request correction or removal of your information, subject to legal or operational requirements.',
-  },
-  {
-    title: 'Cookies and Analytics',
-    body: 'Our website may use cookies or analytics tools to understand visitor behavior and improve site performance.',
-  },
-  {
-    title: 'Third-Party Links',
-    body: 'Our website may contain links to third-party websites. We are not responsible for the privacy practices or content of external websites.',
-  },
-  {
-    title: 'Changes to This Policy',
-    body: 'We may update this Privacy Policy from time to time. Any changes will be published on this page.',
-  },
-  {
-    title: 'Contact Us',
-    body: 'For privacy-related questions or data requests, please reach out through our Contact page.',
-  },
+const sections: LegalSection[] = [
+  { id: 'scope', number: '01', title: 'Scope of this policy', paragraphs: ["This Privacy Policy explains how Angel Investor by SISL collects, uses, shares and protects personal information when you visit our website, submit a startup or investor application, attend an event, contact us or use related services.", 'By using the platform or providing information, you acknowledge the practices described in this policy.'] },
+  { id: 'information-collected', number: '02', title: 'Information we collect', paragraphs: ['Information you provide may include your name, email address, telephone number, city, professional profile, company details, startup stage, sector, funding requirements, investor preferences, pitch materials, financial information and messages sent to our team.', 'We may also collect technical and usage information such as IP address, browser and device type, pages viewed, referral source, approximate location, form activity, cookie identifiers and security logs.'] },
+  { id: 'use', number: '03', title: 'How we use information', paragraphs: ['We use information to review applications, communicate with you, facilitate relevant introductions, operate events, provide requested tools and content, improve the platform, maintain security, prevent misuse, analyse performance and meet legal obligations.', 'We may also send relevant platform updates or opportunities where you have asked to receive them or where permitted by law. You may opt out of marketing messages at any time.'] },
+  { id: 'basis', number: '04', title: 'Basis for processing', paragraphs: ['Depending on the context and applicable law, we process information with your consent, to take steps at your request, to perform an agreement, to meet legal obligations or for legitimate interests such as operating and securing the platform.'] },
+  { id: 'sharing', number: '05', title: 'When information is shared', paragraphs: ['Information may be shared with authorised SISL and Al-Kawthar University teams, service providers supporting hosting, forms, analytics and communication, professional advisers, or authorities where required by law.', 'Startup or investor information may be shared with a potential counterpart only where reasonably connected to the service you requested. We do not sell personal information.'] },
+  { id: 'pitch-materials', number: '06', title: 'Pitch and business materials', paragraphs: ['Pitch decks and business information may be reviewed by our authorised team and, where appropriate, selected investors, mentors or evaluators. Please mark sensitive material clearly and avoid sending trade secrets before suitable confidentiality arrangements are in place.', 'Submitting material does not automatically create a confidentiality obligation beyond applicable law or a separate written agreement.'] },
+  { id: 'cookies', number: '07', title: 'Cookies and analytics', paragraphs: ['We may use necessary cookies to operate the site and optional analytics technologies to understand usage and improve performance. Browser settings may allow you to block or delete cookies, although parts of the website may not work as intended.'] },
+  { id: 'retention', number: '08', title: 'Data retention', paragraphs: ['We keep personal information only for as long as reasonably needed for the purpose collected, including application review, relationship management, record keeping, security and legal requirements. Retention periods vary according to the type and sensitivity of information.'] },
+  { id: 'security', number: '09', title: 'Information security', paragraphs: ['We use reasonable administrative, technical and organisational measures to protect information against unauthorised access, loss, misuse or alteration. No online service or transmission method is completely secure, so absolute security cannot be guaranteed.'] },
+  { id: 'international', number: '10', title: 'Service providers and locations', paragraphs: ['Some technology providers may process information outside Pakistan. Where this occurs, we take reasonable steps to use providers and safeguards appropriate to the information and applicable requirements.'] },
+  { id: 'rights', number: '11', title: 'Your choices and rights', paragraphs: ['Subject to applicable law, you may ask to access, correct or delete personal information, withdraw consent, object to certain processing or stop marketing communications. We may need to verify your identity before completing a request.', 'Some information may be retained where required for legal, security, fraud-prevention or record-keeping purposes.'] },
+  { id: 'children', number: '12', title: "Children's privacy", paragraphs: ['The platform is intended for adults and is not directed to children under 18. We do not knowingly collect personal information from children through startup or investor applications. Please contact us if you believe a child has provided information without appropriate authority.'] },
+  { id: 'external-links', number: '13', title: 'External links', paragraphs: ['Our website may contain links to third-party websites and platforms. Their privacy practices are governed by their own policies, and we encourage you to review them before providing information.'] },
+  { id: 'updates', number: '14', title: 'Updates and contact', paragraphs: ['We may update this policy when our services, technology or legal obligations change. The revised version will appear here with a new Last updated date.', 'Privacy questions or requests may be sent to info@angelinvestor.pk or to Angel Investor by SISL, Al-Kawthar University, Gulshan-e-Iqbal, Karachi, Pakistan.'] },
 ];
 ---
 
-<BaseLayout title="Privacy Policy" description="How we collect, use, and protect your information.">
-  <section class="px-6 py-28">
-    <div class="mx-auto max-w-3xl">
-      <p data-reveal class="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-accent">Legal</p>
-      <h1 data-reveal class="font-display text-4xl font-semibold sm:text-5xl">Privacy Policy</h1>
-      <p data-reveal class="mt-6 text-paper/70">
-        We respect your privacy and are committed to protecting the information shared through our
-        website, startup applications, investor forms, and communication channels.
-      </p>
-
-      <div class="mt-14 space-y-10">
-        {sections.map((section) => (
-          <div data-reveal>
-            <h2 class="font-display text-xl font-semibold">{section.title}</h2>
-            <p class="mt-3 text-sm leading-relaxed text-paper/60">{section.body}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+<LegalPage
+  metaTitle="Privacy Policy"
+  metaDescription="How Angel Investor by SISL collects, uses and protects personal information."
+  eyebrow="Information & trust"
+  title="Privacy Policy"
+  intro="A clear account of what we collect, why we use it and how we handle it responsibly."
+  documentNumber="02"
+  updated="21 August 2026"
+  sections={sections}
+/>

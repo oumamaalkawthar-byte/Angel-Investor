@@ -1,28 +1,119 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/blog-page.css';
 import { getCollection } from 'astro:content';
+
+const categories = ['All', 'Founder Playbook', 'Investment', 'Valuation', 'Market Insights', 'Ecosystem'];
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+const displayDate = (d: Date) => d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+const featured = posts[0];
 ---
 
-<BaseLayout title="Blog" description="Insights on founders, funding, and building early.">
-  <section class="px-6 py-28">
-    <div class="mx-auto max-w-4xl">
-      <p data-reveal class="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-accent">Blog</p>
-      <h1 data-reveal class="font-display text-4xl font-semibold sm:text-5xl">Insights</h1>
-      <div class="mt-16 divide-y divide-line/60">
-        {posts.map((post) => (
-          <a href={`/blog/${post.id}`} data-reveal class="block py-8">
-            <p class="font-mono text-xs text-paper/40">{post.data.pubDate.toDateString()}</p>
-            <p class="mt-2 font-display text-2xl font-semibold transition-colors hover:text-accent">
-              {post.data.title}
-            </p>
-            <p class="mt-2 text-paper/60">{post.data.description}</p>
+<BaseLayout title="Insights" description="Practical ideas on fundraising, valuation, investment readiness and Pakistan's startup ecosystem.">
+  <div class="ai-blog-page">
+    <section class="ai-blog-hero">
+      <div class="ai-blog-hero-grid"></div>
+      <div class="ai-wrap ai-blog-hero-inner">
+        <div class="ai-blog-hero-copy">
+          <p class="ai-eyebrow">Ideas &amp; intelligence</p>
+          <h1>Ideas worth<br /><em>building on.</em></h1>
+          <p>Practical thinking for founders and investors navigating fundraising, valuation and responsible growth.</p>
+          <a href="#blog-list">Explore all insights <span>&darr;</span></a>
+        </div>
+        {featured && (
+          <a class="ai-blog-featured" href={`/blog/${featured.id}`}>
+            <img src={featured.data.image ?? '/events/angel-investor-event-panel.JPG'} alt="" fetchpriority="high" />
+            <span class="ai-blog-featured-wash"></span>
+            <span class="ai-blog-featured-label"><span>FEATURED INSIGHT</span><b>01</b></span>
+            <span class="ai-blog-featured-copy">
+              <small>{featured.data.category} &middot; {featured.data.readTime}</small>
+              <strong>{featured.data.title}</strong>
+              <span>{featured.data.description} <b>&#8599;</b></span>
+            </span>
           </a>
-        ))}
+        )}
       </div>
-    </div>
-  </section>
+      <div class="ai-blog-ticker"><span>FOUNDER CLARITY</span><i></i><span>INVESTOR THINKING</span><i></i><span>MARKET SIGNALS</span><i></i><span>RESPONSIBLE GROWTH</span></div>
+    </section>
+
+    <section class="ai-blog-index" id="blog-list">
+      <div class="ai-wrap">
+        <div class="ai-blog-index-head">
+          <div><p class="ai-eyebrow dark">Insight index</p><h2>Read what moves<br /><em>decisions forward.</em></h2></div>
+          <p>Clear, useful perspectives from the conversations shaping Pakistan&apos;s founder and investor ecosystem.</p>
+        </div>
+
+        <div class="ai-blog-filters" role="group" aria-label="Filter articles by category">
+          {categories.map((category) => <button type="button" class:list={[category === "All" && "active"]} data-filter={category} aria-pressed={category === "All" ? "true" : "false"}>{category}</button>)}
+        </div>
+
+        <div class="ai-blog-results-meta"><span data-result-count>{String(posts.length).padStart(2, "0")} ARTICLES</span><span data-result-category>ALL</span></div>
+
+        <div class="ai-blog-grid">
+          {posts.map((post, index) => (
+            <article class="ai-blog-card" data-category={post.data.category}>
+              <a class:list={["ai-blog-card-art", `art-${post.data.art ?? 'photo'}`]} href={`/blog/${post.id}`} aria-label={`Read ${post.data.title}`}>
+                {(post.data.art ?? 'photo') === "photo" && <img src={post.data.image} alt="" loading="lazy" />}
+                {post.data.art === "valuation" && <span class="ai-value-art"><small>PRE-MONEY</small><strong>185<i>M</i></strong><b>+</b><small>POST-MONEY</small><strong>210<i>M</i></strong></span>}
+                {post.data.art === "traction" && <span class="ai-chart-art"><span><small>TRACTION SIGNAL</small><b>+127%</b></span><svg viewBox="0 0 500 190" preserveAspectRatio="none" aria-hidden="true"><path d="M0 165 C55 160 67 130 115 140 S182 92 232 112 S309 78 351 86 S430 34 500 24"></path><circle cx="500" cy="24" r="6"></circle></svg><small>REPEAT USERS &middot; RETENTION &middot; REVENUE</small></span>}
+                {post.data.art === "market" && <span class="ai-market-art"><i></i><small>KSE 100</small><strong>179,571</strong><b>+1.12%</b><span class="ai-bars">{[38,55,49,72,63,88,95].map(height => <i style={`height:${height}%`}></i>)}</span></span>}
+                {post.data.art === "terms" && <span class="ai-terms-art"><span><small>TERM SHEET</small><b>TS &middot; {String(index + 1).padStart(3, '0')}</b></span><p><span>Investment</span><strong>PKR 25M</strong></p><p><span>Equity</span><strong>11.9%</strong></p><p><span>Valuation</span><strong>PKR 185M</strong></p><i>TERMS<br />ALIGNED</i></span>}
+                <span class="ai-blog-card-index">{String(index + 1).padStart(2, '0')}</span>
+              </a>
+              <div class="ai-blog-card-body">
+                <div class="ai-blog-card-meta"><span>{post.data.category}</span><span>{post.data.readTime}</span></div>
+                <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
+                <p>{post.data.description}</p>
+                <div class="ai-blog-card-footer"><time datetime={post.data.pubDate.toISOString()}>{displayDate(post.data.pubDate)}</time><a href={`/blog/${post.id}`}>Read article &#8599;</a></div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="ai-blog-cta">
+      <div class="ai-blog-cta-orbit"><i></i><i></i></div>
+      <div class="ai-wrap"><p class="ai-eyebrow dark">Keep learning</p><h2>Better questions.<br /><em>Stronger decisions.</em></h2><p>Explore the thinking that helps founders prepare well and investors evaluate with greater clarity.</p><a class="ai-button" href="/#episodes">Watch founder pitches <span>&#8599;</span></a></div>
+    </section>
+  </div>
+
+  <script>
+    function initBlogFilters() {
+      const buttons = [...document.querySelectorAll<HTMLButtonElement>("[data-filter]")];
+      const cards = [...document.querySelectorAll<HTMLElement>(".ai-blog-card")];
+      const count = document.querySelector<HTMLElement>("[data-result-count]");
+      const label = document.querySelector<HTMLElement>("[data-result-category]");
+
+      buttons.forEach((button) => button.addEventListener("click", () => {
+        const category = button.dataset.filter ?? "All";
+        buttons.forEach((item) => { const selected = item === button; item.classList.toggle("active", selected); item.setAttribute("aria-pressed", String(selected)); });
+        let visible = 0;
+        cards.forEach((card) => { const show = category === "All" || card.dataset.category === category; card.hidden = !show; if (show) visible += 1; });
+        if (count) count.textContent = `${String(visible).padStart(2, "0")} ARTICLES`;
+        if (label) label.textContent = category.toUpperCase();
+      }));
+
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const observer = new IntersectionObserver((entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add("is-visible")), { threshold: 0.12 });
+        cards.forEach((card) => { card.classList.add("ai-reveal"); observer.observe(card); });
+      } else cards.forEach((card) => card.classList.add("is-visible"));
+    }
+
+    document.addEventListener('astro:page-load', initBlogFilters);
+  </script>
 </BaseLayout>
+
+<style>
+  /* The package's hero padding (145px) assumed its own bespoke fixed nav;
+     BaseLayout's shared Header already reserves that space via <main class="pt-20">,
+     so this page only needs its own extra breathing room on top of that. */
+  .ai-blog-hero {
+    padding-top: 40px;
+  }
+</style>

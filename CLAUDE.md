@@ -27,7 +27,7 @@ Copy `.env.example` to `.env` before running anything. Currently the only var is
 ### Pages & content collections
 
 - Pages live in `src/pages/**` (file-based routing, standard Astro). `astro.config.mjs` adds one redirect: `/apply` → `/apply-as-startup`.
-- Two Markdown content collections defined in `src/content.config.ts`: `portfolio` (`src/content/portfolio/*.md` — company, industry, stage, summary, `featured` flag) and `blog` (`src/content/blog/*.md`). The homepage's "Featured Portfolio" grid filters on `data.featured`. Currently only placeholder/example entries exist in both (`example-startup.md`, `welcome.md`) — real content needs to be added there before launch.
+- Two Markdown content collections defined in `src/content.config.ts`: `portfolio` (`src/content/portfolio/*.md` — company, industry, stage, summary, `featured` flag) and `blog` (`src/content/blog/*.md` — title, description, pubDate, author, plus optional `category`/`readTime`/`art`/`image` used by the blog index's card artwork). The homepage's "Featured Portfolio" grid filters on `data.featured`; `src/pages/blog/[slug].astro` renders any collection entry automatically. Portfolio still only has one placeholder entry (`example-startup.md`) — real companies need to be added before launch. The blog collection has 8 entries with real copy and (where `art: photo`) real event photos from `public/events/`, but the *articles themselves* are still placeholder/sample editorial content, not real published posts — see status section below.
 - `src/layouts/BaseLayout.astro` is the single shared layout: sets title/description, includes `Header`/`Footer`, wires up Astro's `ClientRouter` (view transitions), and loads `src/scripts/motion.ts` globally for scroll-reveal (`[data-reveal]`) animations via GSAP.
 - Client-side interactivity is plain TypeScript in `src/scripts/*.ts`, each attached via `document.addEventListener('astro:page-load', ...)` (so it re-runs correctly across Astro view-transition navigations, not just on first load) rather than any component framework.
 
@@ -65,14 +65,18 @@ Production host is cPanel with **no persistent Node runtime**, so the site is de
 Keep this section current — update it whenever a work session ends, so picking the project up on a different machine starts from an accurate picture instead of stale assumptions.
 
 **Done:**
-- Full homepage rebuild (hero video, Impact Highlights number reel, Market Pulse with ticker/search/chart, Pitch Episodes, Valuation Calculator, Featured Portfolio, Startup CTA) plus a redesigned About page with real event photography (`public/events/`).
+- Full homepage rebuild (hero video, Impact Highlights number reel, Market Pulse with ticker/search/chart, Pitch Episodes, How It Works pinned-card sequence, Valuation Calculator, Featured Portfolio, Startup CTA) plus a redesigned About page with real event photography (`public/events/`).
+- Blog: real `/blog` index (hero, category filters, artwork-per-post cards) and working `/blog/[slug]` detail pages, backed by 8 content-collection entries — see caveat below.
+- Privacy Policy and Terms and Conditions replaced with comprehensive, sectioned documents (`src/components/legal/LegalPage.astro`) — see caveat below.
 - Live PSX market data wired end-to-end (PHP proxy + client rendering).
 - Valuation calculator fully functional in both places it appears (dedicated page and homepage), sharing one component/script — no duplicated logic.
-- Real brand assets in use: logo (`public/logo-*.png`), gold/navy palette, real YouTube episode thumbnails, a compressed real BTS video in the hero.
+- Real brand assets in use: logo (`public/logo-*.png`), gold/navy palette, real YouTube episode thumbnails, a compressed real landscape event video in the hero.
 
 **Not done — don't assume otherwise:**
 - **Apply as Startup / Join as Investor / Contact forms do not submit anywhere.** They're UI-only stubs (see "Forms are UI-only stubs" above). Wiring a real backend for these is the biggest piece of remaining work before launch.
-- Portfolio and blog content collections only have placeholder/example entries — no real portfolio companies or blog posts yet.
+- **The 8 blog posts are sample/placeholder editorial content**, not real published articles — realistic-sounding startup/investment advice generated to fill out the design, not fact-checked or written by the team. Replace with real posts (or explicitly approve the sample copy) before launch.
+- **Privacy Policy and Terms and Conditions are an unreviewed draft.** Comprehensive and website-ready in structure, but per the package's own instruction: have qualified Pakistani legal counsel review the wording before public launch — don't treat it as final as-is.
+- Portfolio content collection still only has one placeholder entry — no real portfolio companies yet.
 - Site is `noindex` everywhere (`PUBLIC_ALLOW_INDEXING` unset) and `robots.txt` disallows everything — intentional pre-launch state, needs a deliberate flip before going live.
 
 ## Resuming this project on a new machine
@@ -90,5 +94,6 @@ Git identity / auth for this account (`oumamaalkawthar-byte`) is the same across
 ## Notes
 
 - Tailwind v4 is wired in purely via the `@tailwindcss/vite` plugin in `astro.config.mjs` (no `tailwind.config.js` — v4 uses CSS-based config; check `src/styles/global.css` for theme tokens).
-- GSAP (`gsap`) is the only animation dependency — used for scroll-reveals (`motion.ts`), the valuation calculator's animated counters/range bar, and scrolly-driven sections (`scrolly-steps.ts`, `episode-scroll.ts`, `impact-scroll.ts`).
+- GSAP (`gsap`) is the only animation dependency — used for scroll-reveals (`motion.ts`), the valuation calculator's animated counters/range bar, and scrolly-driven sections (`episode-scroll.ts`, `impact-scroll.ts`, and the inline pinned-card script in `HowItWorks.astro`).
+- The homepage, blog and legal pages were assembled by copying self-contained "handoff" packages (their own scoped CSS, `ai-`/`hiw-`/`legal-` prefixed classes) into the existing `BaseLayout`/`Header`/`Footer` shell rather than being hand-built against the site's own Tailwind tokens — that's why their color values and class-naming don't match the rest of the site. Don't "fix" that mismatch as a drive-by; it's how these were integrated on purpose.
 - `src/scripts/form-widgets.ts` is shared UI plumbing (custom radio-cards, chip groups, file upload widgets) used by all three form-bearing pages/components — check there first for any cross-form widget bug.

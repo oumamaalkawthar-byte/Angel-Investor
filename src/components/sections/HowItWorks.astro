@@ -1,0 +1,102 @@
+---
+import "./how-it-works.css";
+
+const steps = [
+  { number: "01", name: "Apply", title: "Put the opportunity in focus.", copy: "Share your pitch, traction and funding ask through a focused application. No cold introductions needed.", meta: "5 min application" },
+  { number: "02", name: "Review", title: "Let the strongest signals lead.", copy: "Our team reviews the market, model, founding team and traction before moving the opportunity forward.", meta: "Clear evaluation" },
+  { number: "03", name: "Connect", title: "Meet investors who fit the ask.", copy: "Relevant investors enter the conversation with the right sector interest, experience and cheque size.", meta: "Curated introductions" },
+];
+---
+
+<section class="hiw" id="how-it-works" data-step="1" aria-labelledby="hiw-title">
+  <div class="hiw-grid"></div>
+  <div class="hiw-wrap hiw-stage">
+    <div class="hiw-heading">
+      <p class="hiw-eyebrow">Three clear moves</p>
+      <h2 id="hiw-title">How it<br /><em>works.</em></h2>
+      <p>From application to an investor conversation, every stage keeps the opportunity focused and the next move clear.</p>
+      <div class="hiw-progress" aria-label="Process progress">
+        {steps.map((step, index) => <span class:list={[index === 0 && "active"]} data-hiw-progress><i></i><b>{step.number}</b></span>)}
+      </div>
+    </div>
+
+    <div class="hiw-stack">
+      {steps.map((step, index) => (
+        <article class:list={["hiw-card", `hiw-card-${index + 1}`]} data-hiw-card aria-hidden={index === 0 ? "false" : "true"}>
+          <div class="hiw-card-top"><span>STEP {step.number}</span><i>{index === 2 ? "↑" : "→"}</i></div>
+
+          <div class="hiw-card-visual">
+            {index === 0 && <div class="hiw-apply-ui"><span><small>COMPANY NAME</small><b>Fulflit</b></span><span><small>FUNDING ASK</small><b>PKR 14,000,000</b></span><p>Pitch deck attached · deck.pdf</p><strong>Submit application</strong></div>}
+            {index === 1 && <div class="hiw-review-ui"><div><small>INVESTMENT READINESS</small><strong>84<span>/100</span></strong><b>Strong signal</b></div><ul><li><span>Market</span><i style="--meter:92%"></i><b>92</b></li><li><span>Team</span><i style="--meter:88%"></i><b>88</b></li><li><span>Traction</span><i style="--meter:76%"></i><b>76</b></li></ul></div>}
+            {index === 2 && <div class="hiw-connect-ui"><div class="hiw-connect-core"><small>STARTUP</small><strong>AI</strong><span>94% MATCH</span></div><i class="hiw-line line-a"></i><i class="hiw-line line-b"></i><i class="hiw-line line-c"></i><div class="hiw-investor investor-a"><b>PKR 10M</b><small>FINTECH</small></div><div class="hiw-investor investor-b"><b>PKR 15M</b><small>SEED</small></div><div class="hiw-investor investor-c"><b>PKR 8M</b><small>GROWTH</small></div></div>}
+          </div>
+
+          <div class="hiw-card-copy">
+            <div><span>STEP {step.number}</span><small>{step.meta}</small></div>
+            <h3>{step.name}</h3><h4>{step.title}</h4><p>{step.copy}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="hiw-count"><strong data-hiw-count>01</strong><span> / 03</span></div>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import ScrollTrigger from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const section = document.querySelector<HTMLElement>(".hiw");
+  if (section) {
+    const cards = gsap.utils.toArray<HTMLElement>(section.querySelectorAll("[data-hiw-card]"));
+    const progress = [...section.querySelectorAll<HTMLElement>("[data-hiw-progress]")];
+    const count = section.querySelector<HTMLElement>("[data-hiw-count]");
+
+    const setStep = (index: number) => {
+      section.dataset.step = String(index + 1);
+      progress.forEach((item, itemIndex) => item.classList.toggle("active", itemIndex === index));
+      cards.forEach((card, cardIndex) => card.setAttribute("aria-hidden", String(cardIndex !== index)));
+      if (count) count.textContent = String(index + 1).padStart(2, "0");
+    };
+
+    const media = gsap.matchMedia();
+    media.add("(min-width: 781px)", () => {
+        gsap.set(cards[0], { xPercent: 115, opacity: 0, scale: .92 });
+        gsap.set(cards[1], { xPercent: 115, opacity: 0, scale: .92 });
+        gsap.set(cards[2], { yPercent: 115, opacity: 0, scale: .92 });
+
+        const timeline = gsap.timeline({
+          defaults: { ease: "power3.inOut" },
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "+=290%",
+            pin: true,
+            scrub: 1,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            onUpdate: self => setStep(Math.min(2, Math.floor(self.progress * 3))),
+          },
+        });
+
+        timeline
+          .to(cards[0], { xPercent: 0, opacity: 1, scale: 1, duration: .75 })
+          .to({}, { duration: .28 })
+          .to(cards[0], { xPercent: -34, yPercent: -12, opacity: 0, scale: .86, rotate: -3, duration: .7 })
+          .to(cards[1], { xPercent: 0, opacity: 1, scale: 1, duration: .75 }, "<")
+          .to({}, { duration: .28 })
+          .to(cards[1], { yPercent: -112, opacity: 0, scale: .88, duration: .72 })
+          .to(cards[2], { yPercent: 0, opacity: 1, scale: 1, duration: .78 }, "<")
+          .to({}, { duration: .65 });
+
+        return () => timeline.kill();
+      });
+    media.add("(max-width: 780px)", () => {
+        gsap.set(cards, { clearProps: "all" });
+        cards.forEach(card => card.setAttribute("aria-hidden", "false"));
+      });
+  }
+</script>

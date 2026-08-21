@@ -1,67 +1,34 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalPage from '../components/legal/LegalPage.astro';
+import type { LegalSection } from '../components/legal/legal-types';
 
-const sections = [
-  {
-    title: 'Acceptance of Terms',
-    body: 'By accessing or using this website, submitting a startup application, or registering as an investor, you agree to be bound by these Terms and Conditions.',
-  },
-  {
-    title: 'No Guarantee of Funding or Investment',
-    body: 'Submitting an application or joining our platform does not guarantee selection, mentorship, funding, investment, or business success. Final investment decisions depend on investor interest, independent due diligence, and evaluation.',
-  },
-  {
-    title: 'Not Financial Advice',
-    body: 'Content on this website is provided for general informational purposes only and does not constitute financial, legal, or investment advice. You should seek independent professional advice before making investment decisions.',
-  },
-  {
-    title: 'Accuracy of Information',
-    body: 'Applicants and investors are responsible for ensuring that the information they submit is accurate, complete, and kept up to date.',
-  },
-  {
-    title: 'Intellectual Property',
-    body: 'All content on this website, including text, graphics, and logos, is the property of Angel Investor or its licensors and may not be reproduced without permission.',
-  },
-  {
-    title: 'Limitation of Liability',
-    body: 'We are not liable for any direct, indirect, or consequential loss arising from the use of this website or reliance on any information provided through it, to the fullest extent permitted by law.',
-  },
-  {
-    title: 'Third-Party Links',
-    body: 'Our website may contain links to third-party websites or platforms. We are not responsible for the content, accuracy, or practices of external websites.',
-  },
-  {
-    title: 'Governing Law',
-    body: 'These Terms and Conditions are governed by the laws of Pakistan, and any disputes shall be subject to the exclusive jurisdiction of the courts of Pakistan.',
-  },
-  {
-    title: 'Changes to These Terms',
-    body: 'We may update these Terms and Conditions from time to time. Continued use of the website after changes are posted constitutes acceptance of the revised terms.',
-  },
-  {
-    title: 'Contact Us',
-    body: 'For questions about these Terms and Conditions, please reach out through our Contact page.',
-  },
+const sections: LegalSection[] = [
+  { id: 'acceptance', number: '01', title: 'Acceptance of these terms', paragraphs: ['By accessing or using the Angel Investor website, application forms, calculators, content or related services, you agree to these Terms and Conditions. If you do not agree, please do not use the platform.', 'The platform is operated as an initiative of the School of Islamic Scholars & Leaders at Al-Kawthar University. References to Angel Investor, we, us or our refer to the platform and its authorised team.'] },
+  { id: 'platform-purpose', number: '02', title: 'Platform purpose', paragraphs: ['Angel Investor connects founders, startups, investors, mentors and ecosystem participants. We may provide application review, introductions, educational content, market information, valuation tools, events and related support.', 'Access to the platform does not guarantee selection, an investor introduction, funding, commercial success or any particular outcome.'] },
+  { id: 'eligibility', number: '03', title: 'Eligibility and authority', paragraphs: ['You must be at least 18 years old and legally capable of accepting these terms. If you use the platform for a company or another organisation, you confirm that you have authority to act on its behalf.'] },
+  { id: 'information', number: '04', title: 'Information and submissions', paragraphs: ["You are responsible for ensuring that information, documents, claims and financial figures you submit are accurate, current and lawful. You must promptly correct any material information that becomes inaccurate.", "Do not submit confidential trade secrets, personal data you are not authorised to share or material that infringes another person's rights. A submission does not create a confidential, fiduciary, advisory or partnership relationship unless a separate written agreement states otherwise."] },
+  { id: 'investment-process', number: '05', title: 'Investment opportunities', paragraphs: ['Founders and investors make their own independent decisions. Any introduction, profile, pitch, score, estimate or discussion made available through the platform is informational and does not represent an endorsement, offer, solicitation or guarantee.', 'Investment terms are agreed directly by the relevant parties and may require separate legal documents, verification and regulatory compliance.'] },
+  { id: 'no-advice', number: '06', title: 'No financial, legal or tax advice', paragraphs: ['Content, market displays and calculator results are general information only. They do not constitute investment, financial, legal, accounting or tax advice. You should obtain advice from qualified professionals before making an investment or business decision.'] },
+  { id: 'risk', number: '07', title: 'Due diligence and risk', paragraphs: ['Startup investment involves substantial risk, including the possible loss of the full amount invested. Investors must conduct their own due diligence. Founders must assess prospective investors, proposed terms and legal obligations independently.', "We do not verify every statement made by platform users and are not responsible for a party's conduct, solvency, performance or compliance."] },
+  { id: 'acceptable-use', number: '08', title: 'Acceptable use', paragraphs: ['You must not use the platform to misrepresent identity or business information, distribute unlawful or harmful material, interfere with security, scrape data without permission, infringe intellectual property, contact users for unrelated solicitation or attempt unauthorised access.', 'We may restrict or suspend access where activity creates legal, security, reputational or operational risk.'] },
+  { id: 'intellectual-property', number: '09', title: 'Intellectual property', paragraphs: ['The website design, branding, text, graphics, videos, software and other platform materials belong to Angel Investor, Al-Kawthar University or their licensors. You may view and use them for personal or authorised business purposes, but may not reproduce, sell, modify or distribute them without written permission.', 'You retain ownership of material you submit. You grant us a limited licence to store, review, process and share that material as reasonably required to provide the services you request.'] },
+  { id: 'third-parties', number: '10', title: 'Third-party services', paragraphs: ['The platform may link to or use services operated by third parties, including video, analytics, forms and communication providers. Their own terms and privacy practices apply. We are not responsible for third-party content, availability or conduct.'] },
+  { id: 'disclaimers', number: '11', title: 'Availability and disclaimers', paragraphs: ['We aim to keep the platform useful and available, but do not promise uninterrupted, error-free or fully secure operation. Information may become outdated, and features may change or be withdrawn.', 'To the extent permitted by law, the platform and its content are provided on an as available basis without warranties of accuracy, fitness for a particular purpose or non-infringement.'] },
+  { id: 'liability', number: '12', title: 'Limitation of liability', paragraphs: ['To the extent permitted by applicable law, Angel Investor, SISL, Al-Kawthar University and their officers, employees and partners will not be liable for indirect, incidental, special or consequential loss arising from use of the platform, an investment decision, a user interaction or reliance on content.', 'Nothing in these terms excludes liability that cannot lawfully be excluded.'] },
+  { id: 'indemnity', number: '13', title: 'Your responsibility', paragraphs: ["You agree to be responsible for claims, losses or costs arising from your unlawful use of the platform, your breach of these terms, your submissions or your infringement of another party's rights, to the extent permitted by law."] },
+  { id: 'termination', number: '14', title: 'Suspension and termination', paragraphs: ['You may stop using the platform at any time. We may suspend or end access, remove content or decline an application where reasonably necessary to protect users, comply with law, enforce these terms or preserve platform integrity.'] },
+  { id: 'law', number: '15', title: 'Governing law and disputes', paragraphs: ['These terms are governed by the laws of Pakistan. Parties should first attempt to resolve a dispute through good-faith written discussion. If no resolution is reached, the courts of Karachi, Pakistan will have jurisdiction, subject to any mandatory law that applies.'] },
+  { id: 'changes', number: '16', title: 'Changes and contact', paragraphs: ['We may update these terms when the platform, law or our practices change. The revised version will be posted here with a new Last updated date. Continued use after an update means the revised terms apply.', 'Questions may be sent to info@angelinvestor.pk or to Angel Investor by SISL, Al-Kawthar University, Gulshan-e-Iqbal, Karachi, Pakistan.'] },
 ];
 ---
 
-<BaseLayout title="Terms and Conditions" description="The terms that govern use of our website and platform.">
-  <section class="px-6 py-28">
-    <div class="mx-auto max-w-3xl">
-      <p data-reveal class="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-accent">Legal</p>
-      <h1 data-reveal class="font-display text-4xl font-semibold sm:text-5xl">Terms and Conditions</h1>
-      <p data-reveal class="mt-6 text-paper/70">
-        Please read these terms carefully before using our website or submitting an application.
-      </p>
-
-      <div class="mt-14 space-y-10">
-        {sections.map((section) => (
-          <div data-reveal>
-            <h2 class="font-display text-xl font-semibold">{section.title}</h2>
-            <p class="mt-3 text-sm leading-relaxed text-paper/60">{section.body}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+<LegalPage
+  metaTitle="Terms and Conditions"
+  metaDescription="Terms governing use of the Angel Investor by SISL website and platform."
+  eyebrow="Platform terms"
+  title="Terms & Conditions"
+  intro="The principles and responsibilities that keep every interaction clear, responsible and fair."
+  documentNumber="01"
+  updated="21 August 2026"
+  sections={sections}
+/>

@@ -21,6 +21,10 @@ const blog = defineCollection({
     description: z.string(),
     pubDate: z.date(),
     author: z.string(),
+    category: z.string().optional(),
+    readTime: z.string().optional(),
+    art: z.enum(['photo', 'valuation', 'traction', 'market', 'terms']).optional(),
+    image: z.string().optional(),
   }),
 });
 

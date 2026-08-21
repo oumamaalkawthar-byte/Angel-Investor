@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import './legal-page.css';
+import type { LegalSection } from './legal-types';
+
+type Props = {
+  metaTitle: string;
+  metaDescription: string;
+  eyebrow: string;
+  title: string;
+  intro: string;
+  documentNumber: string;
+  updated: string;
+  sections: LegalSection[];
+};
+
+const { metaTitle, metaDescription, eyebrow, title, intro, documentNumber, updated, sections } = Astro.props;
+---
+
+<BaseLayout title={metaTitle} description={metaDescription}>
+  <div class="legal-page">
+    <section class="legal-hero">
+      <div class="legal-grid"></div><div class="legal-orbit"><i></i><i></i></div>
+      <div class="legal-wrap legal-hero-inner"><div><p class="legal-eyebrow">{eyebrow}</p><h1>{title}</h1><p>{intro}</p></div><div class="legal-document-mark"><small>DOCUMENT</small><strong>{documentNumber}</strong><span>ANGEL INVESTOR &middot; SISL</span></div></div>
+      <div class="legal-hero-meta"><span>LAST UPDATED</span><b>{updated}</b><a href="#legal-content">READ DOCUMENT &darr;</a></div>
+    </section>
+
+    <section class="legal-content" id="legal-content"><div class="legal-wrap legal-layout">
+      <aside class="legal-aside"><p>On this page</p><nav>{sections.map(section => <a href={`#${section.id}`}><span>{section.number}</span>{section.title}</a>)}</nav><div><small>QUESTIONS?</small><a href="mailto:info@angelinvestor.pk">info@angelinvestor.pk &#8599;</a></div></aside>
+      <div class="legal-copy"><div class="legal-intro-card"><span>{documentNumber}</span><p>Please read this document carefully. It explains the rules and responsibilities that apply when you use the Angel Investor website and related services.</p></div>
+        {sections.map(section => <article id={section.id}><div class="legal-section-number">{section.number}</div><div><h2>{section.title}</h2>{section.paragraphs.map(paragraph => <p>{paragraph}</p>)}</div></article>)}
+        <div class="legal-end"><span>END OF DOCUMENT</span><b>{documentNumber}</b></div>
+      </div>
+    </div></section>
+
+    <section class="legal-contact"><div class="legal-wrap"><div><p class="legal-eyebrow dark">Need clarification?</p><h2>Let&apos;s make it<br /><em>clear.</em></h2></div><div><p>For questions about these terms, privacy or the way the platform operates, contact the Angel Investor team.</p><a href="mailto:info@angelinvestor.pk">Contact us <span>&#8599;</span></a></div></div></section>
+  </div>
+</BaseLayout>
