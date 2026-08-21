@@ -27,11 +27,9 @@ function initAbout() {
     const startSlider = () => {
       if (reducedMotion) return;
       window.clearInterval(timer);
-      timer = window.setInterval(() => showSlide(currentSlide + 1), 5200);
+      timer = window.setInterval(() => showSlide(currentSlide + 1), 3000);
     };
     slideButtons.forEach((button) => button.addEventListener('click', () => { showSlide(Number(button.dataset.index)); startSlider(); }));
-    root.querySelector<HTMLButtonElement>('[data-previous-slide]')?.addEventListener('click', () => { showSlide(currentSlide - 1); startSlider(); });
-    root.querySelector<HTMLButtonElement>('[data-next-slide]')?.addEventListener('click', () => { showSlide(currentSlide + 1); startSlider(); });
     slider?.addEventListener('mouseenter', () => window.clearInterval(timer));
     slider?.addEventListener('mouseleave', startSlider);
     slider?.addEventListener('keydown', (event) => {

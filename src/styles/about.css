@@ -2,7 +2,7 @@
 .about-page .eyebrow.dark { color:var(--color-deep); }
 
 /* Full-width event banner hero */
-.about-hero { position:relative; height:100svh; min-height:760px; overflow:hidden; background:var(--color-deep); color:#fff; }
+.about-hero { position:relative; height:100svh; min-height:760px; margin-top:-80px; overflow:hidden; background:var(--color-deep); color:#fff; }
 .about-hero-inner { position:relative; z-index:4; display:flex; align-items:center; height:100%; padding-top:76px; pointer-events:none; }
 .about-hero-actions { pointer-events:auto; }
 .about-hero-copy { max-width:760px; }
@@ -22,13 +22,10 @@
 .about-banner-track figcaption small { padding-bottom:5px; color:var(--color-cta); font-size:8px; font-weight:700; letter-spacing:.17em; }
 .about-banner-track figcaption strong { font-size:clamp(25px,2.2vw,38px); line-height:1; letter-spacing:-.045em; }
 .about-banner-controls { position:absolute; z-index:5; right:5vw; bottom:55px; display:flex; align-items:center; justify-content:space-between; width:min(460px,42vw); }
-.banner-progress { display:flex; flex:1; gap:7px; margin-right:26px; }
+.banner-progress { display:flex; flex:1; gap:7px; }
 .banner-progress button { flex:1; height:22px; padding:10px 0; border:0; background:transparent; cursor:pointer; }
 .banner-progress span { display:block; height:2px; background:rgba(255,255,255,.38); transform-origin:left; }
-.banner-progress button.active span { background:var(--color-cta); animation:banner-progress 5.2s linear; }
-.banner-arrows { display:flex; gap:7px; }
-.banner-arrows button { width:42px; height:42px; border:1px solid rgba(255,255,255,.42); border-radius:50%; background:rgba(7,27,42,.28); color:#fff; font-size:18px; cursor:pointer; backdrop-filter:blur(10px); transition:.25s; }
-.banner-arrows button:hover,.banner-arrows button:focus-visible { border-color:var(--color-cta); background:var(--color-cta); color:var(--color-deep); }
+.banner-progress button.active span { background:var(--color-cta); animation:banner-progress 3s linear; }
 .about-marquee { position:absolute; z-index:4; right:0; bottom:0; left:0; display:flex; align-items:center; justify-content:space-around; height:50px; border-top:1px solid rgba(255,255,255,.12); color:rgba(255,255,255,.48); font-size:8px; letter-spacing:.18em; }
 .about-marquee i { width:5px; height:5px; border-radius:50%; background:var(--color-cta); }
 @keyframes banner-progress { from { transform:scaleX(0); } to { transform:scaleX(1); } }
@@ -169,8 +166,6 @@
   .about-banner-track figcaption { right:auto; bottom:90px; left:15px; }
   .about-banner-track figcaption strong { font-size:22px; }
   .about-banner-controls { right:15px; bottom:30px; left:15px; width:auto; }
-  .banner-progress { margin-right:14px; }
-  .banner-arrows button { width:36px; height:36px; }
   .about-marquee { display:none; }
   .about-purpose { padding:95px 0; }
   .about-purpose h2 { margin:45px 0 55px; font-size:43px; }

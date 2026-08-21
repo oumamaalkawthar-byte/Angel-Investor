@@ -40,10 +40,6 @@ const approachItems = [
           <div class="banner-progress" aria-label="Choose event image">
             {heroSlides.map((slide, index) => <button class:list={[index === 0 && "active"]} data-slide-button data-index={index} aria-label={`Show slide ${index + 1}: ${slide.label}`}><span></span></button>)}
           </div>
-          <div class="banner-arrows">
-            <button data-previous-slide aria-label="Previous event image">←</button>
-            <button data-next-slide aria-label="Next event image">→</button>
-          </div>
         </div>
       </div>
 
