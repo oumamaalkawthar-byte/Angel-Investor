@@ -1,48 +1,166 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import GradientBlob from '../components/GradientBlob.astro';
-import Icon from '../components/Icon.astro';
+import '../styles/about.css';
+
+const heroSlides = [
+  { src: "/events/angel-investor-event-panel.JPG", alt: "Angel Investor panel discussion at Al-Kawthar University", label: "Investor dialogue" },
+  { src: "/events/angel-investor-event-pitch.JPG", alt: "Startup founders presenting their solution on stage", label: "Founder pitches" },
+  { src: "/events/angel-investor-event-stage.JPG", alt: "Startup team presenting at the Angel Investor event", label: "Ideas in focus" },
+  { src: "/events/angel-investor-event-award.JPG", alt: "Founder receiving an investment commitment at the event", label: "Commitments made" },
+];
 
 const principles = [
-  { title: 'Founder-first', icon: 'users' as const, copy: 'Terms that respect the people building the company, not just the ones writing the check.' },
-  { title: 'Speed over process', icon: 'bolt' as const, copy: 'Decisions in days, not committee cycles measured in months.' },
-  { title: 'Long-term partner', icon: 'infinity' as const, copy: 'We stay involved from pre-seed through every follow-on round.' },
+  { n: "01", key: "Values first", title: "Ethical opportunity", description: "We look beyond momentum alone. The strongest opportunities combine commercial potential with responsible models and meaningful value." },
+  { n: "02", key: "Clear decisions", title: "Serious capital", description: "Startups meet investors who are prepared to evaluate, engage and invest with clarity, not passive audiences or empty exposure." },
+  { n: "03", key: "Beyond funding", title: "Enduring growth", description: "The relationship continues through insight, mentorship and access, giving founders more than a single financial transaction." },
+];
+
+const approachItems = [
+  { n: "01", key: "Discover", title: "Promising founders enter a focused platform.", description: "A clear starting point for ventures built around credible ideas and responsible ambition." },
+  { n: "02", key: "Evaluate", title: "Opportunities are reviewed with clear criteria.", description: "Commercial potential, founding strength and long-term value are considered with transparency." },
+  { n: "03", key: "Connect", title: "Relevant investors meet credible ventures.", description: "Focused introductions create better conversations between aligned founders and serious capital." },
+  { n: "04", key: "Grow", title: "Funding becomes momentum, guidance and access.", description: "The relationship moves forward through mentorship, networks and opportunities for continued growth." },
 ];
 ---
 
-<BaseLayout title="About" description="Our investment thesis and philosophy.">
-  <section class="relative overflow-hidden px-6 py-28">
-    <GradientBlob class="opacity-60" />
-    <div class="mx-auto max-w-4xl">
-      <p data-reveal class="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-accent">About</p>
-      <h1 data-reveal class="font-display text-4xl font-semibold leading-tight sm:text-5xl">
-        We back conviction, not consensus.
-      </h1>
-      <p data-reveal class="mt-6 max-w-2xl text-lg text-paper/70">
-        We're an early-stage investor writing first checks into founders solving problems
-        most people haven't noticed yet. Our thesis is simple: exceptional teams, unfair
-        insight, and a market big enough to matter.
-      </p>
-    </div>
-  </section>
-
-  <section class="border-t border-line/60 bg-white/[0.02] px-6 py-28">
-    <div class="mx-auto max-w-6xl">
-      <h2 data-reveal class="mb-14 font-display text-3xl font-semibold sm:text-4xl">
-        Investment Philosophy
-      </h2>
-      <div class="grid gap-10 md:grid-cols-3">
-        {principles.map((principle, i) => (
-          <div data-reveal>
-            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-accent/30 bg-accent/10 text-accent">
-              <Icon name={principle.icon} class="h-6 w-6" />
-            </div>
-            <span class="mt-4 block font-mono text-sm text-accent">0{i + 1}</span>
-            <h3 class="mt-1 font-display text-xl font-semibold">{principle.title}</h3>
-            <p class="mt-3 text-sm text-paper/60">{principle.copy}</p>
+<BaseLayout title="About" description="Ethical, values-driven angel investing — our purpose, principles and platform approach.">
+  <div class="about-page">
+    <section class="about-hero" id="top">
+      <div class="about-banner-slider" data-hero-slider tabindex="0" aria-label="Angel Investor event highlights">
+        <div class="about-banner-track">
+          {heroSlides.map((slide, index) => (
+            <figure class:list={[index === 0 && "active"]} data-slide aria-hidden={index !== 0 ? "true" : "false"}>
+              <img src={slide.src} alt={slide.alt} loading={index === 0 ? "eager" : "lazy"} fetchpriority={index === 0 ? "high" : "auto"} />
+              <div class="about-banner-shade"></div>
+              <figcaption><small>0{index + 1} / 04</small><strong>{slide.label}</strong></figcaption>
+            </figure>
+          ))}
+        </div>
+        <div class="about-banner-controls">
+          <div class="banner-progress" aria-label="Choose event image">
+            {heroSlides.map((slide, index) => <button class:list={[index === 0 && "active"]} data-slide-button data-index={index} aria-label={`Show slide ${index + 1}: ${slide.label}`}><span></span></button>)}
           </div>
-        ))}
+          <div class="banner-arrows">
+            <button data-previous-slide aria-label="Previous event image">←</button>
+            <button data-next-slide aria-label="Next event image">→</button>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
+
+      <div class="wrap about-hero-inner">
+        <div class="about-hero-copy">
+          <p class="eyebrow">About Angel Investor by SISL</p>
+          <h1>Built on values.<br />Backed by <em>action.</em></h1>
+          <p>We connect ethical startups with serious investors in an environment built for real decisions, responsible growth and lasting impact.</p>
+          <div class="about-hero-actions">
+            <a class="button primary" href="#our-purpose">Discover our purpose <span>↓</span></a>
+            <a class="about-text-link" href="/join-as-investor">Join as investor ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-marquee" aria-hidden="true">
+        <span>ETHICAL ENTREPRENEURSHIP</span><i></i>
+        <span>SERIOUS INVESTORS</span><i></i>
+        <span>MEANINGFUL GROWTH</span>
+      </div>
+    </section>
+
+    <section class="about-purpose reveal" id="our-purpose">
+      <div class="wrap">
+        <div class="about-purpose-label"><p class="eyebrow dark">Our purpose</p><span>01</span></div>
+        <h2>Capital should move more than a company forward. It should strengthen the ecosystem around it.</h2>
+        <div class="about-purpose-footer">
+          <p>Angel Investor by SISL brings innovation and values into the same conversation. We create a focused platform where responsible businesses can earn investor confidence and where capital can support outcomes that matter.</p>
+          <div class="purpose-mark"><span>AI</span><i>Purpose<br />meets<br />potential</i></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-vision">
+      <article class="vision-panel vision-yellow reveal">
+        <span>01 / 02</span><p class="eyebrow dark">Our vision</p>
+        <h2>A sustainable ecosystem of ethical entrepreneurship.</h2>
+        <p>One that contributes to economic growth while creating meaningful societal impact.</p>
+        <div class="vision-orbit"><i></i><i></i></div>
+      </article>
+      <article class="vision-panel vision-navy reveal">
+        <span>02 / 02</span><p class="eyebrow">Our mission</p>
+        <h2>Turn credible opportunities into real investment.</h2>
+        <p>Enable startup funding, promote responsible business models and strengthen the investor-founder ecosystem.</p>
+        <div class="vision-arrow">↗</div>
+      </article>
+    </section>
+
+    <section class="about-principles">
+      <div class="wrap about-principles-grid">
+        <div class="principle-stage">
+          <p class="eyebrow">What guides us</p>
+          <h2>Built for trust.<br /><em>Designed for action.</em></h2>
+          <div class="principle-object">
+            <div class="principle-core"><span data-principle-number>01</span><small data-principle-key>Values first</small></div>
+            <i></i><i></i><i></i>
+          </div>
+          <div class="principle-progress">
+            {principles.map((item, index) => <button class:list={[index === 0 && "active"]} data-principle-button data-index={index} aria-label={`Show ${item.key}`}><span></span><b>{item.n}</b></button>)}
+          </div>
+        </div>
+        <div class="principle-copy">
+          {principles.map((item, index) => (
+            <article class:list={[index === 0 && "active"]} data-principle data-index={index}>
+              <span>{item.n}</span><p>{item.key}</p><h3>{item.title}</h3><div></div><p>{item.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="about-approach">
+      <div class="wrap">
+        <div class="about-approach-head reveal">
+          <p class="eyebrow dark">Our platform approach</p>
+          <h2>Clarity at every<br /><em>connection.</em></h2>
+          <p>We replace uncertainty with a transparent environment focused on genuine opportunities, informed collaboration and long-term value.</p>
+        </div>
+
+        <div class="approach-experience">
+          <div class="approach-sticky">
+            <div class="approach-stage-meta"><small>PLATFORM APPROACH</small><div><strong data-approach-number>01</strong><span>• 04</span></div></div>
+            <div class="approach-card-stack">
+              {approachItems.map((item, index) => (
+                <article class:list={["approach-motion-card", index === 0 ? "active" : index === 1 ? "next" : "future"]} data-approach-card data-index={index}>
+                  <span>{item.n}</span><div><small>{item.key}</small><h3>{item.title}</h3><p>{item.description}</p></div><i>↗</i>
+                </article>
+              ))}
+            </div>
+            <div class="approach-motion-progress">
+              {approachItems.map((item, index) => <button class:list={[index === 0 && "active"]} data-approach-button data-index={index} aria-label={`Show ${item.key}`}><span></span><b>{item.n}</b></button>)}
+            </div>
+          </div>
+          <div class="approach-motion-triggers">
+            {approachItems.map((item, index) => <div data-approach-trigger data-index={index} aria-label={item.key}></div>)}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-institution">
+      <div class="institution-rings" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="wrap institution-inner reveal">
+        <div><p class="eyebrow">Our foundation</p><h2>An initiative of<br /><em>Al-Kawthar University.</em></h2></div>
+        <div><p>Rooted in the School of Islamic Scholars &amp; Leaders, Angel Investor brings an institutional commitment to ethics, leadership and service into the startup ecosystem.</p><p>That foundation shapes how opportunities are assessed, how relationships are built and how growth is understood.</p><span>SISL · AL-KAWTHAR UNIVERSITY · KARACHI</span></div>
+      </div>
+    </section>
+
+    <section class="about-cta" id="about-cta">
+      <div class="wrap reveal">
+        <p class="eyebrow dark">Ready to move forward?</p>
+        <h2>Bring the opportunity.<br />Meet the <em>right people.</em></h2>
+        <p>Whether you are building a responsible venture or looking for purposeful deal flow, the next conversation starts here.</p>
+        <div><a class="button dark-button" href="/apply-as-startup">Apply as startup <span>↗</span></a><a class="button outline-button" href="/join-as-investor">Apply as investor <span>↗</span></a></div>
+      </div>
+    </section>
+  </div>
 </BaseLayout>
+
+<script src="../scripts/about.ts"></script>
