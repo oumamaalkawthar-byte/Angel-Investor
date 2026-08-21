@@ -60,6 +60,21 @@ Production host is cPanel with **no persistent Node runtime**, so the site is de
 - `.cpanel.yml.template` is the template copied into that commit; its one deployment task copies everything to `/home/akuedu/public_html/new.angelinvestor.pk/`. It's a template on `main` (not itself deployed) — the real `.cpanel.yml` only exists on the `deploy` branch.
 - Because `public/api/*.php` is copied verbatim into `dist/`, the PHP endpoints deploy automatically as part of the same static payload — no separate backend deploy step.
 
+## Current status / outstanding work
+
+Keep this section current — update it whenever a work session ends, so picking the project up on a different machine starts from an accurate picture instead of stale assumptions.
+
+**Done:**
+- Full homepage rebuild (hero video, Impact Highlights number reel, Market Pulse with ticker/search/chart, Pitch Episodes, Valuation Calculator, Featured Portfolio, Startup CTA) plus a redesigned About page with real event photography (`public/events/`).
+- Live PSX market data wired end-to-end (PHP proxy + client rendering).
+- Valuation calculator fully functional in both places it appears (dedicated page and homepage), sharing one component/script — no duplicated logic.
+- Real brand assets in use: logo (`public/logo-*.png`), gold/navy palette, real YouTube episode thumbnails, a compressed real BTS video in the hero.
+
+**Not done — don't assume otherwise:**
+- **Apply as Startup / Join as Investor / Contact forms do not submit anywhere.** They're UI-only stubs (see "Forms are UI-only stubs" above). Wiring a real backend for these is the biggest piece of remaining work before launch.
+- Portfolio and blog content collections only have placeholder/example entries — no real portfolio companies or blog posts yet.
+- Site is `noindex` everywhere (`PUBLIC_ALLOW_INDEXING` unset) and `robots.txt` disallows everything — intentional pre-launch state, needs a deliberate flip before going live.
+
 ## Resuming this project on a new machine
 
 ```bash
