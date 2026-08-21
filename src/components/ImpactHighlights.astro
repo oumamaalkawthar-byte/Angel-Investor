@@ -14,7 +14,7 @@ const highlights = [
     </div>
 
     <div class="impact-frame relative grid min-h-0 grid-cols-[.55fr_1.45fr_.78fr] items-center gap-[3vw] max-lg:grid-cols-1">
-      <div class="impact-counter self-center max-lg:absolute max-lg:left-0 max-lg:top-[4vh]">
+      <div class="impact-counter self-center max-lg:absolute max-lg:left-0 max-lg:top-[4vh] max-sm:static max-sm:mb-4">
         <small class="block text-[clamp(13px,1.35vw,20px)] font-bold">Impact Highlights</small>
         <div class="flex items-baseline gap-2 text-[clamp(20px,2.1vw,32px)] font-bold">
           <strong data-impact-index>01</strong><span>• {String(highlights.length).padStart(2, "0")}</span>
@@ -33,7 +33,7 @@ const highlights = [
         <span data-impact-label class="absolute bottom-5 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap text-[8px] font-bold uppercase tracking-[.18em] text-[#89949b]">{highlights[0].label}</span>
       </div>
 
-      <div class="relative min-h-[220px] self-center max-lg:absolute max-lg:bottom-[8vh] max-lg:right-0 max-lg:max-w-[52%] max-sm:static max-sm:max-w-[86%]">
+      <div class="relative min-h-[220px] self-center max-lg:absolute max-lg:bottom-[8vh] max-lg:right-0 max-lg:max-w-[52%] max-sm:relative max-sm:mt-6 max-sm:max-w-[86%]">
         {highlights.map((item, index) => (
           <article data-impact-copy data-index={index} class:list={["impact-copy absolute inset-0 flex flex-col justify-center", index ? "opacity-0" : "opacity-100"]}>
             <p class="mb-5 text-[10px] font-bold uppercase tracking-[.18em]">{item.label}</p>
@@ -69,7 +69,6 @@ const highlights = [
     .impact-stage { padding-inline:20px; }
     .impact-frame { padding-block:9vh 8vh; }
     .impact-number { font-size:clamp(68px,23vw,108px); }
-    .impact-copy { position:relative; min-height:150px; }
   }
   @media (prefers-reduced-motion: reduce) { .impact-root { transition:none; } }
 </style>

@@ -30,7 +30,7 @@ function initImpact() {
         rotationX: delta === 0 ? -3 : delta < 0 ? 30 : -30,
         z: delta === 0 ? 95 : -45,
         scale: delta === 0 ? 1.03 : .84,
-        opacity: delta === 0 ? 1 : Math.abs(delta) === 1 ? .2 : 0,
+        opacity: delta === 0 ? 1 : 0,
         filter: delta === 0 ? 'drop-shadow(0 20px 12px rgba(7,27,42,.18))' : 'none',
         duration: immediate ? 0 : .78,
         ease: 'power3.out',
