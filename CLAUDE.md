@@ -64,6 +64,13 @@ Production host is cPanel with **no persistent Node runtime**, so the site is de
 
 Keep this section current — update it whenever a work session ends, so picking the project up on a different machine starts from an accurate picture instead of stale assumptions.
 
+**Site-wide audit (22 Aug 2026):** Ran a full responsiveness/breakage pass across all 20 routes at 375/768/1440px (3 parallel agents, Playwright). Zero console errors, zero horizontal overflow, zero broken images anywhere. Fixed the 3 real issues found:
+- Header nav was crammed against the "Apply as startup" button at exactly tablet width (768px) on every page — the desktop nav/CTA breakpoint moved from `md` (768px) to `lg` (1024px) in `Header.astro`, so tablet now gets the hamburger menu instead of a squeezed row.
+- `/blog/[slug].astro` never rendered the post's hero photo (only the `/blog` index card did) — added a conditional hero `<img>` using `post.data.image`.
+- `/terms-and-conditions` at 375px had its long intro paragraph crowding the decorative "DOCUMENT" badge label — hid that label at the same mobile breakpoint `.legal-document-mark span`/`small` already hides at (`legal-page.css`).
+
+Reviewed and left as-is (not bugs): a GSAP-pinned section's text can transiently show in the gaps around the floating pill-shaped header during mid-scroll — inherent to the header's intentional translucent floating-pill design (not full-width), not a z-index defect. The `/blog` index card grid renders blank in a synthetic full-page screenshot tool that doesn't simulate real scrolling (IntersectionObserver-driven reveal) — confirmed via incremental-scroll test that real users always see the cards; not a fix candidate.
+
 **Done:**
 - Full homepage rebuild (hero video, Impact Highlights number reel, Market Pulse with ticker/search/chart, Pitch Episodes, How It Works pinned-card sequence, Valuation Calculator, Featured Portfolio, Startup CTA) plus a redesigned About page with real event photography (`public/events/`).
 - Blog: real `/blog` index (hero, category filters, artwork-per-post cards) and working `/blog/[slug]` detail pages, backed by 8 content-collection entries — see caveat below.
