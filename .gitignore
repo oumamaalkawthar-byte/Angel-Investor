@@ -25,3 +25,7 @@ pnpm-debug.log*
 
 # runtime cache written by public/api/*.php on the live server
 public/api/cache/
+
+# Decap CMS OAuth secret — belongs on the server one level above public_html,
+# never in this repo. See decap-oauth-secret.php.example.
+decap-oauth-secret.php

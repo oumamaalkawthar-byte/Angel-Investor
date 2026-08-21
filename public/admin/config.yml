@@ -1,0 +1,69 @@
+backend:
+  name: github
+  repo: oumamaalkawthar-byte/Angel-Investor
+  branch: main
+  base_url: https://new.angelinvestor.pk
+  auth_endpoint: api/decap-auth.php
+
+# Edits here commit straight to `main`. That's the Astro *source* branch —
+# it does NOT go live by itself. Someone still has to run
+# scripts/deploy-dist.sh and push the deploy branch, same as any other
+# code change on this project. The CMS makes editing content easy;
+# it doesn't change how deploys work.
+publish_mode: simple
+
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: blog
+    label: "Blog Posts"
+    label_singular: "Blog Post"
+    folder: src/content/blog
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    summary: "{{title}} — {{pubDate}}"
+    sortable_fields: ["pubDate", "title"]
+    fields:
+      - { label: "Title", name: title, widget: string }
+      - { label: "Description", name: description, widget: text, hint: "Shown on the blog index card and in search results." }
+      - { label: "Publish Date", name: pubDate, widget: datetime }
+      - { label: "Author", name: author, widget: string, default: "Angel Investor" }
+      - label: "Category"
+        name: category
+        widget: select
+        required: false
+        options: ["Founder Playbook", "Investment", "Valuation", "Market Insights", "Ecosystem"]
+      - { label: "Read Time", name: readTime, widget: string, required: false, hint: "e.g. \"5 min read\"" }
+      - label: "Card artwork style"
+        name: art
+        widget: select
+        required: false
+        default: photo
+        options: ["photo", "valuation", "traction", "market", "terms"]
+        hint: "\"photo\" needs an Image below. The others (valuation/traction/market/terms) draw a generated graphic instead and ignore the image."
+      - { label: "Image", name: image, widget: image, required: false, hint: "Used when artwork style is \"photo\"." }
+      - { label: "Body", name: body, widget: markdown }
+
+  - name: portfolio
+    label: "Portfolio Companies"
+    label_singular: "Portfolio Company"
+    folder: src/content/portfolio
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    summary: "{{company}} — {{industry}}"
+    fields:
+      - { label: "Company", name: company, widget: string }
+      - { label: "Logo", name: logo, widget: image, required: false }
+      - { label: "Industry", name: industry, widget: string }
+      - { label: "Stage", name: stage, widget: string, hint: "e.g. Pre-seed, Seed, Series A" }
+      - { label: "Website", name: website, widget: string, required: false }
+      - { label: "Summary", name: summary, widget: text }
+      - { label: "Featured on homepage", name: featured, widget: boolean, default: false }
+      - { label: "Case study body", name: body, widget: markdown, required: false }

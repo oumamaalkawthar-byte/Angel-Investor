@@ -60,6 +60,17 @@ Production host is cPanel with **no persistent Node runtime**, so the site is de
 - `.cpanel.yml.template` is the template copied into that commit; its one deployment task copies everything to `/home/akuedu/public_html/new.angelinvestor.pk/`. It's a template on `main` (not itself deployed) — the real `.cpanel.yml` only exists on the `deploy` branch.
 - Because `public/api/*.php` is copied verbatim into `dist/`, the PHP endpoints deploy automatically as part of the same static payload — no separate backend deploy step.
 
+### Content editing (Decap CMS) — makes blog posts & portfolio entries editable without touching code
+
+`public/admin/` is a self-hosted [Decap CMS](https://decapcms.org) admin UI (loaded from its CDN build, no build step of its own, not part of the Astro app) at `/admin`. It edits the `blog` and `portfolio` content collections directly as Markdown files and commits straight to the `main` branch on GitHub — same files `astro:content` already reads, so there's no second source of truth.
+
+- `public/admin/index.html` + `public/admin/config.yml` — the CMS UI and its collection/field definitions (kept in sync with `src/content.config.ts`'s Zod schemas by hand; if you add/change a field in one, update the other).
+- `public/api/decap-auth.php` + `public/api/decap-callback.php` — a small custom OAuth handshake with GitHub (Decap's `github` backend needs one), because there's no persistent Node server here to run the usual Netlify/Vercel/Cloudflare-function version. Mirrors the existing `public/api/psx-*.php` "tiny stateless PHP endpoint" pattern. Implements the exact `authorizing:github` / `authorization:github:success:{...}` postMessage handshake Decap's `decap-cms-lib-auth` expects (verified against its actual source, not guessed).
+- **The GitHub OAuth App itself has to be created by hand** — that's a one-time step only the account owner can do (needs a GitHub login to github.com/settings/developers). Homepage URL `https://new.angelinvestor.pk`, callback `https://new.angelinvestor.pk/api/decap-callback.php`.
+- **The Client ID/Secret are never committed to this repo** (the repo is on GitHub — anything in it is effectively public). They live in a file one level *above* `public_html` on the server (`~/decap-oauth-secret.php`, outside anything web-accessible, outside the git-deployed tree too). Copy `decap-oauth-secret.php.example` there and fill it in — full steps are in that file's own comments.
+- **Important limitation, not a bug:** saving in the CMS commits to `main` (the Astro *source*). It does **not** rebuild or redeploy the live site — that's still the same manual `scripts/deploy-dist.sh` + `git push origin deploy` step as any other code change. The CMS makes editing content easy; it doesn't change the deploy model.
+- Not yet wired into the CMS: the homepage's "Featured Portfolio" flag, the two legal pages (their content lives as hardcoded arrays in `.astro` files, not Markdown — out of scope for a first pass), and the three forms. Only `blog` and `portfolio` are editable collections right now.
+
 ## Current status / outstanding work
 
 Keep this section current — update it whenever a work session ends, so picking the project up on a different machine starts from an accurate picture instead of stale assumptions.
@@ -78,8 +89,10 @@ Reviewed and left as-is (not bugs): a GSAP-pinned section's text can transiently
 - Live PSX market data wired end-to-end (PHP proxy + client rendering).
 - Valuation calculator fully functional in both places it appears (dedicated page and homepage), sharing one component/script — no duplicated logic.
 - Real brand assets in use: logo (`public/logo-*.png`), gold/navy palette, real YouTube episode thumbnails, a compressed real landscape event video in the hero.
+- Decap CMS wired up for editing blog posts and portfolio entries at `/admin` (see "Content editing" above) — code-complete, but **needs the one manual GitHub OAuth App step before it actually works live**; untested end-to-end until that's done.
 
 **Not done — don't assume otherwise:**
+- **The GitHub OAuth App for Decap CMS hasn't been created yet.** `/admin` will show a server-side "not configured" message until someone creates the OAuth App and drops `~/decap-oauth-secret.php` onto the server — see "Content editing" above for the exact steps. Can't be done by Claude; needs the account owner's GitHub login.
 - **Apply as Startup / Join as Investor / Contact forms do not submit anywhere.** They're UI-only stubs (see "Forms are UI-only stubs" above). Wiring a real backend for these is the biggest piece of remaining work before launch.
 - **The 8 blog posts are sample/placeholder editorial content**, not real published articles — realistic-sounding startup/investment advice generated to fill out the design, not fact-checked or written by the team. Replace with real posts (or explicitly approve the sample copy) before launch.
 - **Privacy Policy and Terms and Conditions are an unreviewed draft.** Comprehensive and website-ready in structure, but per the package's own instruction: have qualified Pakistani legal counsel review the wording before public launch — don't treat it as final as-is.
