@@ -7,10 +7,6 @@ import PitchEpisodes from '../components/PitchEpisodes.astro';
 import ValuationCalculator from '../components/ValuationCalculator.astro';
 import HowItWorks from '../components/sections/HowItWorks.astro';
 import StartupCTA from '../components/StartupCTA.astro';
-import { getCollection } from 'astro:content';
-
-const portfolio = await getCollection('portfolio');
-const featured = portfolio.filter((p) => p.data.featured);
 ---
 
 <BaseLayout title="Home">
@@ -21,33 +17,6 @@ const featured = portfolio.filter((p) => p.data.featured);
   <MarketPulse />
 
   <PitchEpisodes />
-
-  <section class="bg-ink px-6 py-28">
-    <div class="mx-auto max-w-6xl">
-      <div data-reveal class="mb-14 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <h2 class="font-display text-3xl font-semibold sm:text-4xl">Featured Portfolio</h2>
-        <a href="/portfolio" class="text-sm text-accent transition-colors hover:text-paper">
-          View all companies &rarr;
-        </a>
-      </div>
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {featured.map((company) => (
-          <a
-            href={`/portfolio/${company.id}`}
-            data-reveal
-            class="group block rounded-2xl border border-line/60 bg-white/[0.02] p-8 transition-colors hover:border-accent/50"
-          >
-            <p class="font-display text-xl font-semibold">{company.data.company}</p>
-            <p class="mt-2 text-sm text-paper/50">{company.data.industry} &middot; {company.data.stage}</p>
-            <p class="mt-4 text-sm text-paper/70">{company.data.summary}</p>
-            <span class="mt-6 inline-block text-sm text-accent opacity-0 transition-opacity group-hover:opacity-100">
-              Read more &rarr;
-            </span>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
 
   <div class="border-t border-line/60 bg-ink">
     <ValuationCalculator headingTag="h2" />
