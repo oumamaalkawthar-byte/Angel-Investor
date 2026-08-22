@@ -22,9 +22,9 @@ const { page, title, eyebrow, description, marker, markerLabel, meta } = Astro.p
       <div class="ai-form-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="ai-wrap ai-form-hero-inner">
         <div class="ai-form-hero-copy">
-          <p class="ai-eyebrow">{eyebrow}</p>
+          <p class="ai-eyebrow max-sm:hidden">{eyebrow}</p>
           <h1><slot name="title" /></h1>
-          <p>{description}</p>
+          <p class="max-sm:hidden">{description}</p>
           <div class="ai-form-meta">
             {meta.map((item) => <div><strong>{item.value}</strong><span>{item.label}</span></div>)}
           </div>

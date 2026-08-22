@@ -35,9 +35,9 @@ const { heading = "What could your startup be worth?", headingTag: Heading = 'h1
 <section class="px-6 py-16" data-valuation-calculator>
   <div class="mx-auto max-w-3xl">
     <div data-form-view>
-      <p data-reveal class="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-accent">Valuation Calculator</p>
+      <p data-reveal class:list={["mb-4 font-mono text-xs uppercase tracking-[0.3em] text-accent", Heading === 'h1' && "max-sm:hidden"]}>Valuation Calculator</p>
       <Heading data-reveal class="font-display text-4xl font-semibold sm:text-5xl">{heading}</Heading>
-      <p data-reveal class="mt-4 text-paper/60">
+      <p data-reveal class:list={["mt-4 text-paper/60", Heading === 'h1' && "max-sm:hidden"]}>
         A quick, illustrative estimate using established early-stage frameworks — not a formal
         valuation. Useful as a starting point before a real conversation with investors.
       </p>
