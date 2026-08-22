@@ -40,6 +40,7 @@ function initAbout() {
 
     const principleArticles = [...root.querySelectorAll<HTMLElement>('[data-principle]')];
     const principleButtons = [...root.querySelectorAll<HTMLButtonElement>('[data-principle-button]')];
+    const principleNext = root.querySelector<HTMLButtonElement>('[data-principle-next]');
     const principleNumber = root.querySelector<HTMLElement>('[data-principle-number]');
     const principleKey = root.querySelector<HTMLElement>('[data-principle-key]');
     const principleData = [
@@ -47,7 +48,9 @@ function initAbout() {
       { number: '02', key: 'Clear decisions' },
       { number: '03', key: 'Beyond funding' },
     ];
+    let principleActive = 0;
     const setPrinciple = (active: number) => {
+      principleActive = active;
       principleArticles.forEach((item, index) => item.classList.toggle('active', index === active));
       principleButtons.forEach((item, index) => item.classList.toggle('active', index === active));
       if (principleNumber) principleNumber.textContent = principleData[active].number;
@@ -55,6 +58,7 @@ function initAbout() {
     };
     principleArticles.forEach((article, index) => ScrollTrigger.create({ trigger: article, start: 'top 58%', end: 'bottom 42%', onEnter: () => setPrinciple(index), onEnterBack: () => setPrinciple(index) }));
     principleButtons.forEach((button) => button.addEventListener('click', () => principleArticles[Number(button.dataset.index)]?.scrollIntoView({ behavior: 'smooth', block: 'center' })));
+    principleNext?.addEventListener('click', () => principleArticles[(principleActive + 1) % principleArticles.length]?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
 
     const approachCards = [...root.querySelectorAll<HTMLElement>('[data-approach-card]')];
     const approachTriggers = [...root.querySelectorAll<HTMLElement>('[data-approach-trigger]')];
