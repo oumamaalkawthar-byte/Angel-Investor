@@ -91,6 +91,7 @@
   .section-intro h2 em {
     font-family: var(--font-serif);
     font-weight: 400;
+    color: var(--color-accent);
   }
   .section-intro > p {
     max-width: 470px;
