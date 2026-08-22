@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/form-pages.css';
+
+interface Props {
+  page: 'investor' | 'startup' | 'contact';
+  title: string;
+  eyebrow: string;
+  description: string;
+  marker: string;
+  markerLabel: string;
+  meta: Array<{ value: string; label: string }>;
+}
+
+const { page, title, eyebrow, description, marker, markerLabel, meta } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class={`ai-form-page ai-page-${page}`}>
+    <section class="ai-form-hero">
+      <div class="ai-form-grid" aria-hidden="true"></div>
+      <div class="ai-form-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="ai-wrap ai-form-hero-inner">
+        <div class="ai-form-hero-copy">
+          <p class="ai-eyebrow">{eyebrow}</p>
+          <h1><slot name="title" /></h1>
+          <p>{description}</p>
+          <div class="ai-form-meta">
+            {meta.map((item) => <div><strong>{item.value}</strong><span>{item.label}</span></div>)}
+          </div>
+        </div>
+        <div class="ai-form-mark" aria-hidden="true">
+          <small>ANGEL INVESTOR</small><strong>{marker}</strong><span>{markerLabel}</span>
+        </div>
+      </div>
+      <a class="ai-scroll-note" href="#form-start"><span></span>SCROLL TO BEGIN</a>
+    </section>
+
+    <slot />
+  </div>
+</BaseLayout>
+
+<script>
+  import '../../scripts/form-pages';
+</script>

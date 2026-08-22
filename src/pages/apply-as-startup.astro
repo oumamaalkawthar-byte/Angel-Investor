@@ -1,225 +1,100 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import FormField from '../components/form/FormField.astro';
-import ChipGroup from '../components/form/ChipGroup.astro';
-import RadioCardGroup from '../components/form/RadioCardGroup.astro';
-import FileUpload from '../components/form/FileUpload.astro';
-import CheckLine from '../components/form/CheckLine.astro';
-
-const cities = ['Karachi', 'Lahore', 'Islamabad', 'Rawalpindi', 'Faisalabad', 'Peshawar', 'Multan', 'Other'];
-const sectors = ['HealthTech', 'FinTech', 'EdTech', 'AgriTech', 'E-commerce', 'SaaS', 'CleanTech', 'Logistics', 'DeepTech / AI', 'Other'];
-const registrationOptions = ['Registered (SECP)', 'Sole proprietor', 'Not yet registered'];
-const teamSizes = ['1–5', '6–10', '11–25', '25+'];
-const investmentRanges = ['Under PKR 2.5M', 'PKR 2.5M – 5M', 'PKR 5M – 10M', 'PKR 10M – 25M', 'PKR 25M+'];
-const equityRanges = ['Under 5%', '5% – 10%', '10% – 15%', '15% – 20%', '20%+'];
-
-const stageOptions = [
-  { value: 'Idea / MVP', title: 'Idea / MVP', desc: 'Building, no revenue yet' },
-  { value: 'Early revenue', title: 'Early revenue', desc: 'First paying customers' },
-  { value: 'Growth', title: 'Growth', desc: 'Consistent revenue, scaling' },
-];
-
-const stepList = [
-  { n: 1, label: 'Founder & contact' },
-  { n: 2, label: 'Startup basics' },
-  { n: 3, label: 'Pitch & investment ask' },
-  { n: 4, label: 'Review & declarations' },
+import FormShell from '../components/forms/FormShell.astro';
+const cities = ['Karachi','Lahore','Islamabad','Rawalpindi','Faisalabad','Peshawar','Multan','Other'];
+const sectors = ['HealthTech','FinTech','EdTech','AgriTech','E-commerce','SaaS','CleanTech','Logistics','DeepTech / AI','Other'];
+const steps = [
+  { title:'Founder & contact', copy:'Who is building this, and how do we reach you?' },
+  { title:'Startup basics', copy:'A focused view of the business and its current stage.' },
+  { title:'Pitch & investment ask', copy:'The opportunity, the ask and what the capital unlocks.' },
+  { title:'Review & declarations', copy:'Confirm the information before it enters screening.' },
 ];
 ---
 
-<BaseLayout title="Apply as Startup" description="Pitch your startup to Angel Investor by SISL — early-stage capital, backed by Al-Kawthar University.">
-  <section class="px-6 py-16" data-wizard>
-    <div class="mx-auto max-w-6xl">
-      <div data-form-view class="grid gap-8 lg:grid-cols-[320px_1fr]">
-        <!-- RAIL -->
-        <aside class="lg:sticky lg:top-28 lg:self-start">
-          <p class="font-mono text-xs uppercase tracking-[0.3em] text-accent">Apply</p>
-          <h1 class="mt-3 font-display text-2xl font-semibold leading-tight">Pitch your startup to real investors</h1>
-          <p class="mt-3 text-sm text-paper/60">
-            Takes ~10 minutes. You only need your pitch deck — detailed financials come later if you're shortlisted.
-          </p>
+<FormShell page="startup" title="Apply as Startup" eyebrow="Apply for investment" marker="04" markerLabel="FOCUSED STEPS" description="A focused application for founders ready to share the opportunity, answer serious questions and meet relevant investors." meta={[{value:'~10 min',label:'To complete'},{value:'4',label:'Focused steps'},{value:'5–7 days',label:'Initial screening'}]}>
+  <Fragment slot="title">Build the pitch.<br />Enter the <em>right room.</em></Fragment>
 
-          <ol class="mt-8 space-y-0">
-            {stepList.map((s) => (
-              <li data-step-item={s.n} data-state={s.n === 1 ? 'active' : 'pending'} class="flex items-center gap-3 py-2.5 text-sm text-paper/40 data-[state=active]:text-paper data-[state=active]:font-medium data-[state=done]:text-paper/60">
-                <span class="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border border-line/60 font-mono text-xs data-[state=active]:border-accent data-[state=active]:bg-accent data-[state=active]:text-ink data-[state=done]:border-accent/50 data-[state=done]:bg-accent/20 data-[state=done]:text-accent">
-                  {s.n}
-                </span>
-                {s.label}
-              </li>
-            ))}
-          </ol>
+  <section class="ai-form-content ai-startup-content" id="form-start">
+    <div class="ai-wrap ai-startup-layout" data-form-view>
+      <aside class="ai-step-rail">
+        <div class="ai-progress-head"><span>APPLICATION</span><b data-current-step>01 / 04</b></div>
+        <div class="ai-progress-line"><span data-progress-fill></span></div>
+        <nav class="ai-step-nav" aria-label="Application steps">
+          {steps.map((step,index) => <button type="button" data-step-target={index} data-title={step.title} data-copy={step.copy} class={index === 0 ? 'is-active' : ''}><span>{String(index+1).padStart(2,'0')}</span><div><strong>{step.title}</strong><small>{step.copy}</small></div></button>)}
+        </nav>
+        <div class="ai-rail-note"><small>YOUR DATA IS PROTECTED</small><p>Reviewed only by the SISL screening committee and backed by Al-Kawthar University.</p></div>
+      </aside>
 
-          <div class="mt-8 rounded-xl border border-dashed border-line/60 p-4 text-xs text-paper/50">
-            <p class="mb-2 font-mono uppercase tracking-wide text-paper/70">What happens next</p>
-            Screening (5–7 working days) → Shortlist &amp; diligence request → Mentorship → Live pitch to investors
+      <form class="ai-application ai-startup-form" id="startup-application-form" data-startup-form>
+        <header class="ai-application-intro"><div><p class="ai-eyebrow">Step <span data-current-step>01 / 04</span></p><h2 data-step-title>Founder & contact</h2></div><span data-step-copy>Who is building this, and how do we reach you?</span></header>
+
+        <section class="ai-step-panel is-active" data-step-panel="0">
+          <div class="ai-section-heading"><span>01</span><div><small>Founder</small><h2>Who is leading the opportunity?</h2><p>Give the investment team a clear way to understand and reach the founding team.</p></div></div>
+          <div class="ai-field-grid">
+            <label class="ai-field"><span>Full name *</span><input name="founder_name" type="text" placeholder="e.g. Ahmed Raza" required /></label>
+            <label class="ai-field"><span>Email address *</span><input name="founder_email" type="email" placeholder="name@company.com" required /></label>
+            <label class="ai-field"><span>WhatsApp / phone *</span><input name="founder_phone" type="tel" placeholder="+92 3XX XXXXXXX" required /></label>
+            <label class="ai-field"><span>City *</span><select name="founder_city" required><option value="" selected disabled>Select...</option>{cities.map(city => <option value={city}>{city}</option>)}</select></label>
+            <label class="ai-field ai-wide"><span>Your role & short bio * <small>2–3 lines</small></span><textarea name="founder_bio" rows="4" placeholder="CEO — 6 yrs in logistics, previously ops lead at…" required></textarea></label>
+            <label class="ai-field ai-wide"><span>LinkedIn or portfolio link <small>recommended</small></span><input name="founder_linkedin" type="url" placeholder="https://linkedin.com/in/…" /></label>
           </div>
+          <div class="ai-cofounders"><div data-cofounder-list></div><button type="button" class="ai-add-cofounder" data-add-cofounder>+ Add a co-founder</button></div>
+          <template id="cofounder-template"><div class="ai-cofounder-row"><span>CO-FOUNDER __INDEX__</span><input name="cofounder_name___INDEX__" placeholder="Name" /><input name="cofounder_role___INDEX__" placeholder="Role" /><input name="cofounder_linkedin___INDEX__" placeholder="LinkedIn" /></div></template>
+        </section>
 
-          <div class="mt-4 rounded-xl border border-line/60 bg-white/[0.02] p-4 text-xs text-paper/50">
-            <p class="mb-2 font-mono uppercase tracking-wide text-paper/70">Your data is protected</p>
-            <p>Reviewed only by the SISL screening committee</p>
-            <p class="mt-1">Backed by Al-Kawthar University</p>
+        <section class="ai-step-panel" data-step-panel="1" aria-hidden="true">
+          <div class="ai-section-heading"><span>02</span><div><small>Startup basics</small><h2>Make the business easy to grasp.</h2><p>A concise description and clear stage signal help reviewers understand the opportunity quickly.</p></div></div>
+          <div class="ai-field-grid">
+            <label class="ai-field"><span>Startup name *</span><input name="startup_name" type="text" required /></label>
+            <label class="ai-field"><span>Website / social <small>optional</small></span><input name="startup_website" type="url" placeholder="https://" /></label>
+            <label class="ai-field ai-wide"><span>One-line description * <small>max 120 chars</small></span><input name="one_liner" type="text" maxlength="120" placeholder="We help X do Y using Z" required /></label>
           </div>
-        </aside>
-
-        <!-- FORM -->
-        <div>
-          <div class="h-1.5 overflow-hidden rounded-full bg-white/5">
-            <div data-progress-bar class="h-full rounded-full bg-accent transition-[width] duration-300" style="width: 25%"></div>
+          <div class="ai-field ai-wide" data-choice-group><span>Sector *</span><input name="sector" type="hidden" required /><div class="ai-choice-pills">{sectors.map(sector => <button type="button" data-value={sector} aria-pressed="false">{sector}</button>)}</div></div>
+          <div class="ai-field ai-wide" data-choice-group><span>Stage *</span><input name="stage" type="hidden" required /><div class="ai-choice-cards"><button type="button" data-value="Idea / MVP" aria-pressed="false"><span>Idea / MVP</span><small>Building, no revenue yet</small></button><button type="button" data-value="Early revenue" aria-pressed="false"><span>Early revenue</span><small>First paying customers</small></button><button type="button" data-value="Growth" aria-pressed="false"><span>Growth</span><small>Consistent revenue, scaling</small></button></div></div>
+          <div class="ai-field-grid">
+            <label class="ai-field"><span>Registration status *</span><select name="registration_status" required><option value="" selected disabled>Select...</option><option>Registered (SECP)</option><option>Sole proprietor</option><option>Not yet registered</option></select></label>
+            <label class="ai-field"><span>Team size</span><select name="team_size"><option value="" selected disabled>Select...</option><option>1–5</option><option>6–10</option><option>11–25</option><option>25+</option></select></label>
           </div>
-          <p data-step-label class="mt-3 font-mono text-xs uppercase tracking-wide text-paper/40">Step 1 of 4</p>
+        </section>
 
-          <form class="mt-6">
-            <!-- STEP 1 -->
-            <div data-step="1">
-              <h2 class="font-display text-xl font-semibold">Founder &amp; contact information</h2>
-              <p class="mt-1 text-sm text-paper/50">Who is building this, and how do we reach you.</p>
+        <section class="ai-step-panel" data-step-panel="2" aria-hidden="true">
+          <div class="ai-section-heading"><span>03</span><div><small>Pitch & ask</small><h2>Show what the capital unlocks.</h2><p>Upload the core story, define the investment ask and connect the funds to clear priorities.</p></div></div>
+          <div class="ai-field ai-wide"><span>Pitch deck *</span><label class="ai-file-drop"><input name="pitch_deck" type="file" accept="application/pdf" required /><span>↑</span><strong>Drop your pitch deck here, or click to browse</strong><small>PDF, max 15MB — must cover Problem · Solution · Market · Business model · Traction</small><small class="ai-file-name" data-file-name>No file selected</small></label></div>
+          <div class="ai-field-grid">
+            <label class="ai-field"><span>Investment required (PKR) *</span><select name="investment_ask" required><option value="" selected disabled>Select...</option><option>Under PKR 2.5M</option><option>PKR 2.5M – 5M</option><option>PKR 5M – 10M</option><option>PKR 10M – 25M</option><option>PKR 25M+</option></select></label>
+            <label class="ai-field"><span>Equity offered *</span><select name="equity_offered" required><option value="" selected disabled>Select...</option><option>Under 5%</option><option>5% – 10%</option><option>10% – 15%</option><option>15% – 20%</option><option>20%+</option></select></label>
+            <label class="ai-field ai-wide"><span>Use of funds * <small>top 3 items</small></span><textarea name="use_of_funds" rows="4" placeholder="e.g. 50% product, 30% marketing, 20% team" required></textarea></label>
+            <label class="ai-field ai-wide"><span>Traction so far <small>revenue, users, LOIs</small></span><textarea name="traction" rows="4"></textarea></label>
+          </div>
+        </section>
 
-              <div class="mt-6 grid gap-5 sm:grid-cols-2">
-                <FormField label="Full name" name="founder_name" required placeholder="e.g. Ahmed Raza" />
-                <FormField label="Email address" name="founder_email" type="email" required placeholder="name@company.com" />
-                <FormField label="WhatsApp / phone" name="founder_phone" type="tel" required placeholder="+92 3XX XXXXXXX" />
-                <FormField label="City" name="founder_city" type="select" required options={cities} />
-              </div>
-              <div class="mt-5">
-                <FormField label="Your role & short bio" name="founder_bio" type="textarea" required rows={3} small="(2–3 lines)" placeholder="CEO — 6 yrs in logistics, previously ops lead at…" />
-              </div>
-              <div class="mt-5">
-                <FormField label="LinkedIn or portfolio link" name="founder_linkedin" type="url" small="(recommended)" placeholder="https://linkedin.com/in/…" />
-              </div>
+        <section class="ai-step-panel" data-step-panel="3" aria-hidden="true">
+          <div class="ai-section-heading"><span>04</span><div><small>Review</small><h2>One final confidence check.</h2><p>Confirm that the opportunity is authentic, ethical and ready for the SISL screening process.</p></div></div>
+          <div class="ai-review"><div><span>✓</span><div><strong>Founder & contact</strong><small>Ready for review</small></div><button type="button" data-step-target="0">Edit</button></div><div><span>✓</span><div><strong>Startup basics</strong><small>Ready for review</small></div><button type="button" data-step-target="1">Edit</button></div><div><span>✓</span><div><strong>Pitch & investment ask</strong><small>Ready for review</small></div><button type="button" data-step-target="2">Edit</button></div></div>
+          <div class="ai-declarations">
+            <label class="ai-declaration"><input name="declaration_authentic" type="checkbox" required /><span><strong>Declaration of authenticity</strong><small>I confirm all information provided is true and accurate.</small></span></label>
+            <label class="ai-declaration"><input name="declaration_ethical" type="checkbox" required /><span><strong>Ethical business declaration</strong><small>I confirm the business model is Halal and adheres to ethical standards.</small></span></label>
+            <label class="ai-declaration"><input name="declaration_consent" type="checkbox" required /><span><strong>Consent to screening</strong><small>I agree that SISL's screening committee may review my application and contact me. <a href="/privacy-policy/">Privacy policy</a></small></span></label>
+          </div>
+        </section>
 
-              <div class="mt-6" data-cofounder-list></div>
-              <button type="button" data-add-cofounder class="mt-2 inline-flex items-center gap-2 rounded-lg border border-dashed border-line/60 px-4 py-2.5 text-sm text-paper/60 transition-colors hover:border-accent/50 hover:text-paper">
-                + Add a co-founder
-              </button>
-              <p class="mt-1.5 text-xs text-paper/40">Up to 3. Nothing is shown until you click.</p>
-
-              <template data-cofounder-template>
-                <div data-cofounder-card class="mt-4 rounded-xl border border-line/60 bg-white/[0.02] p-4">
-                  <div class="mb-3 flex items-center justify-between">
-                    <p class="text-sm font-medium text-paper">Co-founder</p>
-                    <button type="button" data-remove-cofounder class="text-xs text-paper/40 hover:text-cta">Remove</button>
-                  </div>
-                  <div class="grid gap-3 sm:grid-cols-3">
-                    <input name="cofounder_name" placeholder="Name" class="rounded-lg border border-line/60 bg-white/[0.03] px-3 py-2 text-sm text-paper placeholder:text-paper/30 outline-none focus:border-accent" />
-                    <input name="cofounder_role" placeholder="Role" class="rounded-lg border border-line/60 bg-white/[0.03] px-3 py-2 text-sm text-paper placeholder:text-paper/30 outline-none focus:border-accent" />
-                    <input name="cofounder_linkedin" placeholder="LinkedIn" class="rounded-lg border border-line/60 bg-white/[0.03] px-3 py-2 text-sm text-paper placeholder:text-paper/30 outline-none focus:border-accent" />
-                  </div>
-                </div>
-              </template>
-
-              <div class="mt-8 flex justify-end border-t border-line/60 pt-6">
-                <button type="button" data-next class="rounded-full bg-cta px-8 py-3.5 text-sm font-medium text-ink transition-shadow hover:shadow-[0_0_40px_-8px_var(--color-cta)]">Continue →</button>
-              </div>
-            </div>
-
-            <!-- STEP 2 -->
-            <div data-step="2" class="hidden">
-              <h2 class="font-display text-xl font-semibold">Startup basics</h2>
-
-              <div class="mt-6 grid gap-5 sm:grid-cols-2">
-                <FormField label="Startup name" name="startup_name" required />
-                <FormField label="Website / social" name="startup_website" type="url" placeholder="https://" small="(optional)" />
-              </div>
-              <div class="mt-5">
-                <FormField label="One-line description" name="one_liner" required maxlength={120} small="· max 120 chars" placeholder={'"We help X do Y using Z"'} />
-              </div>
-              <div class="mt-5">
-                <ChipGroup label="Sector" name="sector" options={sectors} required />
-              </div>
-              <div class="mt-5">
-                <RadioCardGroup label="Stage" name="stage" options={stageOptions} required />
-              </div>
-              <div class="mt-5 grid gap-5 sm:grid-cols-2">
-                <FormField label="Registration status" name="registration_status" type="select" required options={registrationOptions} />
-                <FormField label="Team size" name="team_size" type="select" options={teamSizes} />
-              </div>
-
-              <div class="mt-8 flex justify-between border-t border-line/60 pt-6">
-                <button type="button" data-back class="rounded-full border border-paper/20 px-6 py-3.5 text-sm font-medium text-paper/70 transition-colors hover:border-paper/50">← Back</button>
-                <button type="button" data-next class="rounded-full bg-cta px-8 py-3.5 text-sm font-medium text-ink transition-shadow hover:shadow-[0_0_40px_-8px_var(--color-cta)]">Continue →</button>
-              </div>
-            </div>
-
-            <!-- STEP 3 -->
-            <div data-step="3" class="hidden">
-              <h2 class="font-display text-xl font-semibold">Pitch &amp; investment ask</h2>
-
-              <div class="mt-6">
-                <FileUpload label="Pitch deck" name="pitch_deck" required hint="PDF, max 15MB — must cover Problem · Solution · Market · Business model · Traction" />
-              </div>
-              <div class="mt-5 grid gap-5 sm:grid-cols-2">
-                <FormField label="Investment required (PKR)" name="investment_ask" type="select" required options={investmentRanges} />
-                <FormField label="Equity offered" name="equity_offered" type="select" required options={equityRanges} />
-              </div>
-              <div class="mt-5">
-                <FormField label="Use of funds" name="use_of_funds" type="textarea" required rows={3} small="(top 3 items)" placeholder="e.g. 50% product, 30% marketing, 20% team" />
-              </div>
-              <div class="mt-5">
-                <FormField label="Traction so far" name="traction" type="textarea" rows={3} small="(numbers if you have them — revenue, users, LOIs)" />
-              </div>
-
-              <div class="mt-8 flex justify-between border-t border-line/60 pt-6">
-                <button type="button" data-back class="rounded-full border border-paper/20 px-6 py-3.5 text-sm font-medium text-paper/70 transition-colors hover:border-paper/50">← Back</button>
-                <button type="button" data-next class="rounded-full bg-cta px-8 py-3.5 text-sm font-medium text-ink transition-shadow hover:shadow-[0_0_40px_-8px_var(--color-cta)]">Continue →</button>
-              </div>
-            </div>
-
-            <!-- STEP 4 -->
-            <div data-step="4" class="hidden">
-              <h2 class="font-display text-xl font-semibold">Review your application</h2>
-              <p class="mt-1 text-sm text-paper/50">Check everything before you submit.</p>
-
-              <div data-review-summary class="mt-6 rounded-xl border border-line/60 bg-white/[0.02] p-5"></div>
-
-              <div class="mt-6 space-y-2.5">
-                <CheckLine
-                  name="declaration_authentic"
-                  required
-                  title="Declaration of authenticity"
-                  desc="I confirm all information provided is true and accurate."
-                />
-                <CheckLine
-                  name="declaration_ethical"
-                  required
-                  title="Ethical business declaration"
-                  desc="I confirm the business model is Halal and adheres to ethical standards."
-                />
-                <CheckLine
-                  name="declaration_consent"
-                  required
-                  title="Consent to screening"
-                  desc="I agree that SISL's screening committee may review my application and contact me."
-                  link={{ label: 'Privacy policy', href: '/privacy-policy' }}
-                />
-              </div>
-
-              <div class="mt-8 flex justify-between border-t border-line/60 pt-6">
-                <button type="button" data-back class="rounded-full border border-paper/20 px-6 py-3.5 text-sm font-medium text-paper/70 transition-colors hover:border-paper/50">← Back</button>
-                <button type="submit" data-magnetic class="rounded-full bg-cta px-8 py-3.5 text-sm font-medium text-ink transition-shadow hover:shadow-[0_0_40px_-8px_var(--color-cta)]">Submit Application</button>
-              </div>
-            </div>
-          </form>
+        <div class="ai-step-actions">
+          <span data-step-action="0"></span><button type="button" class="ai-submit" data-next data-step-action="0">Continue <b>→</b></button>
+          <button type="button" class="ai-back" data-back data-step-action="1" hidden>← Back</button><button type="button" class="ai-submit" data-next data-step-action="1" hidden>Continue <b>→</b></button>
+          <button type="button" class="ai-back" data-back data-step-action="2" hidden>← Back</button><button type="button" class="ai-submit" data-next data-step-action="2" hidden>Continue <b>→</b></button>
+          <button type="button" class="ai-back" data-back data-step-action="3" hidden>← Back</button><button type="submit" class="ai-submit" data-step-action="3" hidden>Submit application <b>↗</b></button>
         </div>
-      </div>
+      </form>
+    </div>
 
-      <!-- SUCCESS VIEW -->
-      <div data-success-view class="hidden">
-        <div class="mx-auto max-w-xl rounded-2xl border border-line/60 bg-white/[0.02] p-10 text-center">
-          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-accent/50 bg-accent/10 text-2xl text-accent">✓</div>
-          <h2 class="mt-5 font-display text-2xl font-semibold">Application received</h2>
-          <p class="mt-3 text-sm text-paper/60">
-            Reference no. <span data-ref-number class="font-mono text-paper"></span> · Confirmation email sent.
-            Our screening committee reviews applications every week — expect a response within 5–7 working days.
-            Shortlisted startups will be asked for registration documents and financials at that stage.
-          </p>
-          <a href="/" class="mt-6 inline-block rounded-full border border-paper/20 px-6 py-3 text-sm font-medium text-paper transition-colors hover:border-paper/50">
-            Back to home
-          </a>
+    <div class="ai-success" data-success-view hidden>
+      <div class="ai-wrap">
+        <div class="ai-success-card">
+          <div class="ai-success-icon">✓</div>
+          <h2>Application received</h2>
+          <p>Reference no. <span class="ai-success-ref" data-ref-number></span> · Confirmation email sent. Our screening committee reviews applications every week — expect a response within 5–7 working days. Shortlisted startups will be asked for registration documents and financials at that stage.</p>
+          <a href="/">Back to home</a>
         </div>
       </div>
     </div>
   </section>
-
-  <script src="../scripts/apply-wizard.ts"></script>
-</BaseLayout>
+</FormShell>

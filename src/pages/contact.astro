@@ -1,38 +1,44 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-
-const inputClass =
-  'w-full rounded-lg border border-line/60 bg-white/[0.03] px-4 py-3 text-paper placeholder:text-paper/30 outline-none transition-colors focus:border-accent';
-const labelClass = 'text-sm text-paper/70';
+import FormShell from '../components/forms/FormShell.astro';
 ---
 
-<BaseLayout title="Contact" description="Get in touch.">
-  <section class="px-6 py-28">
-    <div class="mx-auto max-w-2xl">
-      <p data-reveal class="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-accent">Contact</p>
-      <h1 data-reveal class="font-display text-4xl font-semibold sm:text-5xl">Get in Touch</h1>
+<FormShell page="contact" title="Contact" eyebrow="Start a conversation" marker="↗" markerLabel="LET'S TALK" description="Whether you are building, investing or exploring a partnership, reach the right team through one clear conversation." meta={[{value:'Karachi',label:'Based in Pakistan'},{value:'1–2 days',label:'Typical response'}]}>
+  <Fragment slot="title">The next move<br />starts with <em>hello.</em></Fragment>
 
-      <form method="post" data-reveal class="mt-12 space-y-6">
-        <label class={`flex flex-col gap-2 ${labelClass}`}>
-          Name
-          <input type="text" name="name" required class={inputClass} />
-        </label>
-        <label class={`flex flex-col gap-2 ${labelClass}`}>
-          Email
-          <input type="email" name="email" required class={inputClass} />
-        </label>
-        <label class={`flex flex-col gap-2 ${labelClass}`}>
-          Message
-          <textarea name="message" required rows="5" class={inputClass}></textarea>
-        </label>
-        <button
-          type="submit"
-          data-magnetic
-          class="inline-block rounded-full bg-cta px-8 py-4 font-medium text-ink transition-shadow hover:shadow-[0_0_40px_-8px_var(--color-cta)]"
-        >
-          Send Message
-        </button>
+  <section class="ai-contact-experience" id="form-start">
+    <div class="ai-wrap ai-contact-grid" data-form-view>
+      <div class="ai-contact-story">
+        <p class="ai-eyebrow" style="color:var(--ai-ink)">Angel Investor by SISL</p>
+        <h2>Bring the question.<br /><em>We’ll find the path.</em></h2>
+        <p>Talk to us about startup applications, investor access, partnership opportunities or the Angel Investor platform.</p>
+        <div class="ai-contact-details">
+          <a href="mailto:info@angelinvestor.pk"><span>01</span><div><small>EMAIL</small><strong>info@angelinvestor.pk</strong></div><b>↗</b></a>
+          <a href="tel:+923717576025"><span>02</span><div><small>PHONE / WHATSAPP</small><strong>+92 371 7576025</strong></div><b>↗</b></a>
+          <div><span>03</span><div><small>VISIT</small><strong>Al-Kawthar University, Gulshan-e-Iqbal, Karachi</strong></div></div>
+        </div>
+      </div>
+
+      <form class="ai-contact-card" id="contact-form">
+        <header class="ai-contact-head"><span>MESSAGE THE TEAM</span><b>↗</b></header>
+        <label><span>Name</span><input name="name" type="text" autocomplete="name" required /></label>
+        <label><span>Email</span><input name="email" type="email" autocomplete="email" required /></label>
+        <label><span>Message</span><textarea name="message" rows="7" required></textarea></label>
+        <button class="ai-submit" type="submit">Send message <b>↗</b></button>
+        <p>By sending this message, you agree to our <a href="/privacy-policy/">privacy policy</a>.</p>
       </form>
     </div>
+
+    <div class="ai-success" data-success-view hidden>
+      <div class="ai-wrap">
+        <div class="ai-success-card">
+          <div class="ai-success-icon">✓</div>
+          <h2>Message sent</h2>
+          <p>Thanks for reaching out — we typically reply within 1–2 working days.</p>
+          <a href="/">Back to home</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-contact-marquee"><span>FOUNDERS</span><i></i><span>INVESTORS</span><i></i><span>PARTNERS</span><i></i><span>BUILDERS</span></div>
   </section>
-</BaseLayout>
+</FormShell>
